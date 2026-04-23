@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>kchor.dev</title>
+<title>Kchor.dev</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -134,35 +134,43 @@
     gap: 20px;
   }
 
+  /* 3D tilt wrapper — perspective lives here */
+  .card-wrap {
+    perspective: 900px;
+    border-radius: 16px;
+  }
+
   .card {
     position: relative; border-radius: 16px; overflow: hidden;
     cursor: pointer; background: var(--surface);
     border: 1px solid var(--border);
-    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), border-color 0.3s;
     height: var(--card-h);
-    group: '';
+    transform-style: preserve-3d;
+    transition: transform 0.12s ease, border-color 0.3s, box-shadow 0.3s;
+    will-change: transform;
   }
-  .card:hover { transform: translateY(-6px); border-color: rgba(124,109,250,0.3); }
+  .card:hover { border-color: rgba(124,109,250,0.45); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
 
-  .card-thumb {
-    width: 100%; height: 210px; object-fit: cover;
-    display: block;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    transition: transform 0.6s cubic-bezier(.2,.8,.3,1);
+  /* shine overlay */
+  .card-shine {
+    position: absolute; inset: 0; z-index: 10; border-radius: 16px;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 65%);
+    opacity: 0; transition: opacity 0.3s;
   }
-  .card:hover .card-thumb { transform: scale(1.04); }
+  .card:hover .card-shine { opacity: 1; }
 
   .card-thumb-placeholder {
     width: 100%; height: 210px;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
+    transition: transform 0.12s ease;
   }
   .card-thumb-placeholder::after {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(124,109,250,0.2), transparent 60%);
+    background: radial-gradient(circle at 30% 50%, rgba(124,109,250,0.18), transparent 60%);
   }
-  .placeholder-icon { font-size: 40px; opacity: 0.2; }
+  .placeholder-icon { font-size: 44px; opacity: 0.22; transform: translateZ(30px); display: block; }
 
   .card-body { padding: 18px 20px 20px; }
   .card-tag {
@@ -182,7 +190,7 @@
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transform: scale(0.8) rotate(-45deg);
     transition: opacity 0.3s, transform 0.3s;
-    font-size: 14px;
+    font-size: 14px; z-index: 11;
   }
   .card:hover .card-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
 
@@ -324,13 +332,13 @@
 
 <!-- LOADER -->
 <div id="loader">
-  <span>Kenny.dev</span>
+  <span>Kchor.dev</span>
   <div class="bar"><div class="bar-fill"></div></div>
 </div>
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="logo">Kenny<span>.</span>dev</div>
+  <div class="logo">Kchor<span>.</span>dev</div>
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
@@ -342,7 +350,7 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-eyebrow">Roblox Developer</div>
-  <h1>Hi, I'm<br><em>Kenny.</em></h1>
+  <h1>Hi, I'm<br><em>Kchor.</em></h1>
   <p>I build immersive Roblox experiences — from advanced game mechanics to polished systems and visuals.</p>
   <a href="#work" class="hero-cta">View my work ↓</a>
   <div class="scroll-hint">Scroll</div>
@@ -362,7 +370,7 @@
   <h2 class="section-title">Who I am</h2>
   <div class="about-grid">
     <div class="about-text fade-in">
-      <p>I'm Kenny, an independent Roblox game developer focused on building tight, polished game systems. I work across scripting, architecture, and design to create experiences that feel great to play.</p>
+      <p>I'm Kchor, an independent Roblox game developer focused on building tight, polished game systems. I work across scripting, architecture, and design to create experiences that feel great to play.</p>
       <p>My current project is a survival game featuring a dynamic catastrophe system, custom NPC enemies, and a full boat system. Every system I write is modular, maintainable, and built to scale.</p>
       <div class="skills-list">
         <span class="skill-chip">Lua / Luau</span>
@@ -400,7 +408,7 @@
 </section>
 
 <footer>
-  <p>© 2025 Kenny.dev — Independent Roblox Developer</p>
+  <p>© 2025 Kchor.dev — Independent Roblox Developer</p>
   <div class="footer-links">
     <a href="#">Twitter</a>
     <a href="#">Discord</a>
