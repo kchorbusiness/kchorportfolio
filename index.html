@@ -2,232 +2,589 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kenny Dev Portfolio</title>
+<title>Kenny.dev</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #07070d;
-  color: white;
-  overflow: hidden;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* LOADING SCREEN */
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  font-size: 24px;
-  animation: fadeOut 1s ease forwards;
-  animation-delay: 2s;
-}
+  :root {
+    --bg: #080810;
+    --bg2: #0e0e1a;
+    --surface: #13131f;
+    --border: rgba(255,255,255,0.07);
+    --accent: #7c6dfa;
+    --accent2: #c084fc;
+    --text: #f0eeff;
+    --muted: #7a7894;
+    --card-h: 320px;
+  }
 
-@keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-/* NAV */
-nav {
-  position: fixed;
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-}
+  /* ── LOADER ── */
+  #loader {
+    position: fixed; inset: 0; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; flex-direction: column; gap: 16px;
+    animation: loaderOut 0.6s ease 2s forwards;
+  }
+  #loader .bar {
+    width: 180px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+  }
+  #loader .bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    animation: barFill 1.8s ease forwards;
+  }
+  #loader span { font-family: 'Syne', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  @keyframes barFill { from { width: 0 } to { width: 100% } }
+  @keyframes loaderOut { to { opacity: 0; pointer-events: none; } }
 
-nav h1 {
-  color: #a855f7;
-}
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(8,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-color: var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
 
-/* HERO */
-.hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s;
-}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 0 48px; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(124,109,250,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 70%, rgba(192,132,252,0.07) 0%, transparent 60%);
+  }
+  .hero-eyebrow {
+    font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(52px, 8vw, 100px); line-height: 1;
+    letter-spacing: -0.04em; margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: normal; color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25); }
+  .hero p { font-size: 17px; color: var(--muted); max-width: 420px; line-height: 1.7; margin-bottom: 40px; }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; border-radius: 100px;
+    background: var(--accent); color: #fff;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 14px;
+    text-decoration: none; transition: opacity 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 48px;
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scroll-hint::after {
+    content: ''; display: block; width: 1px; height: 32px;
+    background: var(--muted); animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-.blur {
-  filter: blur(10px);
-  transform: scale(1.1);
-}
+  /* ── SECTION ── */
+  .section { padding: 100px 48px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: ''; display: block; width: 18px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.03em;
+    margin-bottom: 56px;
+  }
 
-/* PROJECTS */
-.projects {
-  padding: 100px 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
+  /* ── PROJECT GRID ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
 
-.card {
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: 0.3s;
-}
+  .card {
+    position: relative; border-radius: 16px; overflow: hidden;
+    cursor: pointer; background: var(--surface);
+    border: 1px solid var(--border);
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), border-color 0.3s;
+    height: var(--card-h);
+    group: '';
+  }
+  .card:hover { transform: translateY(-6px); border-color: rgba(124,109,250,0.3); }
 
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
+  .card-thumb {
+    width: 100%; height: 210px; object-fit: cover;
+    display: block;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    transition: transform 0.6s cubic-bezier(.2,.8,.3,1);
+  }
+  .card:hover .card-thumb { transform: scale(1.04); }
 
-.card:hover {
-  transform: scale(1.05);
-}
+  .card-thumb-placeholder {
+    width: 100%; height: 210px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .card-thumb-placeholder::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(124,109,250,0.2), transparent 60%);
+  }
+  .placeholder-icon { font-size: 40px; opacity: 0.2; }
 
-.card h3 {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-}
+  .card-body { padding: 18px 20px 20px; }
+  .card-tag {
+    display: inline-block; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px;
+    letter-spacing: -0.02em; margin-bottom: 4px;
+  }
+  .card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-/* PROJECT VIEW */
-.project-view {
-  position: fixed;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  background: #07070d;
-  transition: 0.6s;
-}
+  .card-arrow {
+    position: absolute; top: 18px; right: 18px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(0.8) rotate(-45deg);
+    transition: opacity 0.3s, transform 0.3s;
+    font-size: 14px;
+  }
+  .card:hover .card-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
 
-.project-view.active {
-  left: 0;
-}
+  /* ── OVERLAY BACKDROP ── */
+  #overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(4,4,12,0.7);
+    backdrop-filter: blur(18px) saturate(0.7);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s ease;
+  }
+  #overlay.active { opacity: 1; pointer-events: auto; }
 
-.video {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  /* ── PROJECT PANEL ── */
+  #panel {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 300;
+    width: min(860px, 92vw);
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.55s cubic-bezier(.3,.9,.4,1);
+    overflow: hidden;
+  }
+  #panel.active { transform: translateX(0); }
 
-.video video {
-  width: 90%;
-  border-radius: 10px;
-}
+  .panel-close {
+    position: absolute; top: 20px; right: 24px; z-index: 10;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--muted);
+    transition: background 0.2s, color 0.2s;
+  }
+  .panel-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
 
-.info {
-  width: 50%;
-  padding: 40px;
-}
+  .panel-inner {
+    display: flex; flex-direction: column; height: 100%; overflow-y: auto;
+  }
 
-.close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  cursor: pointer;
-  color: #a855f7;
-}
+  .panel-video-wrap {
+    position: relative; background: #000; flex-shrink: 0;
+    aspect-ratio: 16/9;
+  }
+  .panel-video-wrap video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .panel-video-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0d0d1a, #12122a);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .panel-video-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(124,109,250,0.15) 0%, transparent 70%);
+  }
+  .play-btn {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(124,109,250,0.2);
+    border: 1.5px solid rgba(124,109,250,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; position: relative; z-index: 1;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .panel-content { padding: 36px 40px 48px; flex: 1; }
+
+  .panel-eyebrow {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-eyebrow::before { content: ''; display: block; width: 14px; height: 1px; background: var(--accent); }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.03em;
+    margin-bottom: 16px; line-height: 1.1;
+  }
+
+  .panel-desc { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+
+  .panel-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .tag {
+    font-size: 11px; padding: 5px 12px; border-radius: 100px;
+    background: rgba(124,109,250,0.1); color: var(--accent);
+    border: 1px solid rgba(124,109,250,0.2); letter-spacing: 0.05em;
+  }
+
+  .panel-divider { height: 1px; background: var(--border); margin-bottom: 28px; }
+
+  .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+  .stat-item { }
+  .stat-value {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 26px;
+    letter-spacing: -0.03em; margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .about-text p { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+  .skills-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .skill-chip {
+    font-size: 12px; padding: 6px 14px; border-radius: 100px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 48px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 13px; color: var(--muted); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+
+  /* ── TRANSITIONS ── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 680px) {
+    nav { padding: 16px 20px; }
+    .hero, .section { padding-left: 20px; padding-right: 20px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    #panel { width: 100vw; }
+    .panel-content { padding: 24px 20px 36px; }
+    .scroll-hint { left: 20px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
 </style>
 </head>
-
 <body>
 
-<div id="loader">Loading Kenny.dev...</div>
+<!-- LOADER -->
+<div id="loader">
+  <span>Kenny.dev</span>
+  <div class="bar"><div class="bar-fill"></div></div>
+</div>
 
-<nav>
-  <h1>Kenny.dev</h1>
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo">Kenny<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:hey@kenny.dev">Contact</a></li>
+  </ul>
 </nav>
 
-<div id="mainContent">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">Roblox Developer</div>
+  <h1>Hi, I'm<br><em>Kenny.</em></h1>
+  <p>I build immersive Roblox experiences — from advanced game mechanics to polished systems and visuals.</p>
+  <a href="#work" class="hero-cta">View my work ↓</a>
+  <div class="scroll-hint">Scroll</div>
+</section>
 
-<div class="hero" id="hero">
-  <h2>Hi, I'm <span style="color:#a855f7;">Kenny</span></h2>
-  <p>Roblox Developer • Scripter • Designer</p>
+<!-- PROJECTS -->
+<section class="section" id="work">
+  <div class="section-label">Selected Projects</div>
+  <h2 class="section-title">Things I've built</h2>
+
+  <div class="projects-grid">
+
+    <div class="card fade-in" onclick="openPanel('p1')" style="transition-delay:0s">
+      <div class="card-arrow">↗</div>
+      <div class="card-thumb-placeholder">
+        <div class="placeholder-icon">⛵</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Vehicles · Gameplay</div>
+        <div class="card-title">Boat System</div>
+        <div class="card-desc">Captain roles, naval combat mechanics, and smooth water physics.</div>
+      </div>
+    </div>
+
+    <div class="card fade-in" onclick="openPanel('p2')" style="transition-delay:0.1s">
+      <div class="card-arrow">↗</div>
+      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #1a2e1a, #213e16)">
+        <div class="placeholder-icon">📦</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">UI · Rewards</div>
+        <div class="card-title">Airdrop System</div>
+        <div class="card-desc">Timed supply drops with animated UI and randomised loot rewards.</div>
+      </div>
+    </div>
+
+    <div class="card fade-in" onclick="openPanel('p3')" style="transition-delay:0.2s">
+      <div class="card-arrow">↗</div>
+      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #1a1428, #2a1040)">
+        <div class="placeholder-icon">🌊</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Events · Survival</div>
+        <div class="card-title">Tsunami Mechanic</div>
+        <div class="card-desc">Dynamic wave generation with client-side VFX and player flood logic.</div>
+      </div>
+    </div>
+
+    <div class="card fade-in" onclick="openPanel('p4')" style="transition-delay:0.3s">
+      <div class="card-arrow">↗</div>
+      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #2e1a1a, #3e1616)">
+        <div class="placeholder-icon">⛈️</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Weather · Systems</div>
+        <div class="card-title">Catastrophe System</div>
+        <div class="card-desc">Pre-round weather events — tornado, blizzard, thunderstorm — with slot-machine warning UI.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">Who I am</h2>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>I'm Kenny, an independent Roblox game developer focused on building tight, polished game systems. I work across scripting, architecture, and design to create experiences that feel great to play.</p>
+      <p>My current project is a survival game featuring a dynamic catastrophe system, custom NPC enemies, and a full boat system. Every system I write is modular, maintainable, and built to scale.</p>
+      <div class="skills-list">
+        <span class="skill-chip">Lua / Luau</span>
+        <span class="skill-chip">Client–Server Architecture</span>
+        <span class="skill-chip">TweenService</span>
+        <span class="skill-chip">RemoteEvents</span>
+        <span class="skill-chip">RunService</span>
+        <span class="skill-chip">VFX Systems</span>
+        <span class="skill-chip">Module Architecture</span>
+        <span class="skill-chip">Spring Physics</span>
+      </div>
+    </div>
+    <div class="fade-in" style="transition-delay:0.15s">
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px;">
+        <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px;">At a glance</div>
+        <div style="display: grid; gap: 18px;">
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">4+</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:2px;">Years building on Roblox</div>
+          </div>
+          <div style="height:1px;background:var(--border)"></div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">10+</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:2px;">Complex systems shipped</div>
+          </div>
+          <div style="height:1px;background:var(--border)"></div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">1</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:2px;">Active survival game in dev</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Kenny.dev — Independent Roblox Developer</p>
+  <div class="footer-links">
+    <a href="#">Twitter</a>
+    <a href="#">Discord</a>
+    <a href="mailto:hey@kenny.dev">Email</a>
+  </div>
+</footer>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closePanel()"></div>
+
+<!-- PANEL -->
+<div id="panel">
+  <button class="panel-close" onclick="closePanel()">✕</button>
+  <div class="panel-inner" id="panelInner"></div>
 </div>
 
-<div class="projects">
-  <div class="card" onclick="openProject('p1')">
-    <img src="https://via.placeholder.com/400x200">
-    <h3>Boat System</h3>
-  </div>
-
-  <div class="card" onclick="openProject('p2')">
-    <img src="https://via.placeholder.com/400x200">
-    <h3>Airdrop System</h3>
-  </div>
-</div>
-
-</div>
-
-<!-- PROJECT -->
-<div id="p1" class="project-view">
-  <div class="close" onclick="closeProject()">✕</div>
-  <div class="video">
-    <video controls>
-      <source src="your-video.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div class="info">
-    <h1>Boat System</h1>
-    <p>Advanced Roblox system with captain roles and mechanics.</p>
-  </div>
-</div>
-
-<div id="p2" class="project-view">
-  <div class="close" onclick="closeProject()">✕</div>
-  <div class="video">
-    <video controls>
-      <source src="your-video2.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div class="info">
-    <h1>Airdrop System</h1>
-    <p>Reward drop system with UI and effects.</p>
-  </div>
-</div>
-
-<audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
-
+<!-- PROJECT DATA -->
 <script>
-const hero = document.getElementById("hero");
-const sound = document.getElementById("clickSound");
-
-function openProject(id) {
-  sound.play();
-  hero.classList.add("blur");
-  document.getElementById(id).classList.add("active");
-  history.pushState(null, "", "#" + id);
-}
-
-function closeProject() {
-  hero.classList.remove("blur");
-  document.querySelectorAll(".project-view").forEach(p => {
-    p.classList.remove("active");
-  });
-  history.pushState("", document.title, window.location.pathname);
-}
-
-// HANDLE BACK BUTTON / URL
-window.onpopstate = () => {
-  closeProject();
-};
-
-// AUTO OPEN IF URL HAS #
-window.onload = () => {
-  const hash = window.location.hash.replace("#", "");
-  if (hash) {
-    openProject(hash);
+const projects = {
+  p1: {
+    tag: 'Vehicles · Gameplay',
+    title: 'Boat System',
+    desc: 'A fully-featured naval system built for a Roblox survival game. Features captain role assignment, boat controls with realistic water physics via VectorForce, passenger seating, and a custom HUD showing speed and heading. The system uses a modular architecture separating movement, roles, and UI into clean service scripts.',
+    tags: ['Lua', 'VectorForce', 'WeldConstraint', 'RemoteEvents', 'TweenService'],
+    stats: [
+      { v: '3', l: 'Boat Sizes' },
+      { v: '120+', l: 'Lines of Code' },
+      { v: '60fps', l: 'Target Perf' },
+    ],
+    video: '',
+    thumb: ''
+  },
+  p2: {
+    tag: 'UI · Rewards',
+    title: 'Airdrop System',
+    desc: 'A timed supply drop system that spawns crates at randomised map positions. Features a signal flare effect, animated drop animation with parachute physics, looting UI with grid-based inventory, and RNG weighted loot tables. The client-side VFX and server logic are fully decoupled.',
+    tags: ['Lua', 'TweenService', 'RunService', 'ScreenGui', 'Loot Tables'],
+    stats: [
+      { v: '5', l: 'Rarity Tiers' },
+      { v: '30s', l: 'Drop Timer' },
+      { v: '12', l: 'Unique Items' },
+    ],
+    video: '',
+    thumb: ''
+  },
+  p3: {
+    tag: 'Events · Survival',
+    title: 'Tsunami Mechanic',
+    desc: 'A dynamic tsunami event that triggers during survival rounds. A massive wave mesh is procedurally scaled and animated toward the map, with real-time flood detection — players standing in water take damage and experience movement slowdown. Client-side particle systems and screen effects tie the VFX together.',
+    tags: ['Lua', 'CFrame', 'AssemblyLinearVelocity', 'LocalScript VFX', 'Heartbeat'],
+    stats: [
+      { v: '3', l: 'Wave Phases' },
+      { v: '~200m', l: 'Wave Width' },
+      { v: '2', l: 'VFX Scripts' },
+    ],
+    video: '',
+    thumb: ''
+  },
+  p4: {
+    tag: 'Weather · Systems',
+    title: 'Catastrophe System',
+    desc: 'A pre-round weather event framework that randomly selects a catastrophe and plays a slot-machine style announcement UI. Currently implements three catastrophes — Tornado, Blizzard, and Thunderstorm — each with a dedicated server module and client VFX LocalScript. Built for extensibility; new catastrophes drop in as standalone modules.',
+    tags: ['Lua', 'ModuleScript', 'TweenService', 'Sound', 'RemoteEvents'],
+    stats: [
+      { v: '3', l: 'Catastrophes' },
+      { v: '1', l: 'Shared Framework' },
+      { v: '6', l: 'Scripts Total' },
+    ],
+    video: '',
+    thumb: ''
   }
 };
-</script>
 
+const panel = document.getElementById('panel');
+const overlay = document.getElementById('overlay');
+const panelInner = document.getElementById('panelInner');
+
+function openPanel(id) {
+  const p = projects[id];
+  if (!p) return;
+
+  const statsHtml = p.stats.map(s => `
+    <div class="stat-item">
+      <div class="stat-value">${s.v}</div>
+      <div class="stat-label">${s.l}</div>
+    </div>`).join('');
+
+  const tagsHtml = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  const mediaHtml = p.video
+    ? `<video controls autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"><source src="${p.video}" type="video/mp4"></video>`
+    : `<div class="panel-video-placeholder"><div class="play-btn">▶</div></div>`;
+
+  panelInner.innerHTML = `
+    <div class="panel-video-wrap">${mediaHtml}</div>
+    <div class="panel-content">
+      <div class="panel-eyebrow">${p.tag}</div>
+      <div class="panel-title">${p.title}</div>
+      <p class="panel-desc">${p.desc}</p>
+      <div class="panel-tags">${tagsHtml}</div>
+      <div class="panel-divider"></div>
+      <div class="panel-stats">${statsHtml}</div>
+    </div>`;
+
+  panel.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  history.pushState(null, '', '#' + id);
+}
+
+function closePanel() {
+  panel.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  history.pushState('', document.title, window.location.pathname);
+}
+
+window.onpopstate = closePanel;
+window.onload = () => {
+  const hash = location.hash.replace('#', '');
+  if (hash && projects[hash]) openPanel(hash);
+};
+
+// Nav scroll style
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 30);
+});
+
+// Intersection observer for fade-ins
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
