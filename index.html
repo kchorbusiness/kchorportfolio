@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kenny Dev Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #0a0a0f;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100%;
+}
+
+nav h1 {
+  color: #a855f7;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: white;
+  transition: 0.2s;
+}
+
+nav a:hover {
+  color: #a855f7;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.hero h2 {
+  font-size: 50px;
+}
+
+.hero span {
+  color: #a855f7;
+}
+
+/* PROJECT GRID */
+.projects {
+  padding: 100px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #111118;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #222;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  border-color: #a855f7;
+}
+
+/* PROJECT VIEW */
+.project-view {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0f;
+  display: flex;
+  transition: 0.5s;
+}
+
+.project-view.active {
+  left: 0;
+}
+
+.video {
+  width: 50%;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video video {
+  width: 90%;
+  border-radius: 10px;
+}
+
+.info {
+  width: 50%;
+  padding: 40px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #a855f7;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <h1>Kenny.dev</h1>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Projects</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h2>Hi, I'm <span>Kenny</span></h2>
+  <p>Roblox Developer • Scripter • Designer</p>
+</div>
+
+<div class="projects">
+  <div class="card" onclick="openProject('proj1')">
+    <h3>🚤 Boat System</h3>
+    <p>Click to view</p>
+  </div>
+
+  <div class="card" onclick="openProject('proj2')">
+    <h3>📦 Airdrop System</h3>
+    <p>Click to view</p>
+  </div>
+</div>
+
+<!-- PROJECT 1 -->
+<div id="proj1" class="project-view">
+  <div class="close" onclick="closeProject()">✕</div>
+
+  <div class="video">
+    <video controls>
+      <source src="your-video.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="info">
+    <h1>Boat System</h1>
+    <p>Advanced captain system with speed control, roles, and UI.</p>
+  </div>
+</div>
+
+<!-- PROJECT 2 -->
+<div id="proj2" class="project-view">
+  <div class="close" onclick="closeProject()">✕</div>
+
+  <div class="video">
+    <video controls>
+      <source src="your-video2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="info">
+    <h1>Airdrop System</h1>
+    <p>Reward system with animations and UI interactions.</p>
+  </div>
+</div>
+
+<script>
+function openProject(id) {
+  document.getElementById(id).classList.add("active");
+}
+
+function closeProject() {
+  document.querySelectorAll(".project-view").forEach(p => {
+    p.classList.remove("active");
+  });
+}
+</script>
+
+</body>
+</html>
