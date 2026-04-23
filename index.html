@@ -9,34 +9,42 @@
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background: #0a0a0f;
+  background: #07070d;
   color: white;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-/* NAVBAR */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
+/* LOADING SCREEN */
+#loader {
   position: fixed;
   width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  font-size: 24px;
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 2s;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
 }
 
 nav h1 {
-  color: #a855f7;
-}
-
-nav a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: white;
-  transition: 0.2s;
-}
-
-nav a:hover {
   color: #a855f7;
 }
 
@@ -44,20 +52,18 @@ nav a:hover {
 .hero {
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
 }
 
-.hero h2 {
-  font-size: 50px;
+.blur {
+  filter: blur(10px);
+  transform: scale(1.1);
 }
 
-.hero span {
-  color: #a855f7;
-}
-
-/* PROJECT GRID */
+/* PROJECTS */
 .projects {
   padding: 100px 40px;
   display: grid;
@@ -66,17 +72,27 @@ nav a:hover {
 }
 
 .card {
-  background: #111118;
-  padding: 20px;
-  border-radius: 12px;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
   cursor: pointer;
   transition: 0.3s;
-  border: 1px solid #222;
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
 .card:hover {
   transform: scale(1.05);
-  border-color: #a855f7;
+}
+
+.card h3 {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
 }
 
 /* PROJECT VIEW */
@@ -86,9 +102,9 @@ nav a:hover {
   left: 100%;
   width: 100%;
   height: 100%;
-  background: #0a0a0f;
   display: flex;
-  transition: 0.5s;
+  background: #07070d;
+  transition: 0.6s;
 }
 
 .project-view.active {
@@ -97,10 +113,9 @@ nav a:hover {
 
 .video {
   width: 50%;
-  background: black;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .video video {
@@ -118,7 +133,6 @@ nav a:hover {
   top: 20px;
   right: 30px;
   cursor: pointer;
-  font-size: 20px;
   color: #a855f7;
 }
 </style>
@@ -126,73 +140,93 @@ nav a:hover {
 
 <body>
 
+<div id="loader">Loading Kenny.dev...</div>
+
 <nav>
   <h1>Kenny.dev</h1>
-  <div>
-    <a href="#">Home</a>
-    <a href="#">Projects</a>
-  </div>
 </nav>
 
-<div class="hero">
-  <h2>Hi, I'm <span>Kenny</span></h2>
+<div id="mainContent">
+
+<div class="hero" id="hero">
+  <h2>Hi, I'm <span style="color:#a855f7;">Kenny</span></h2>
   <p>Roblox Developer • Scripter • Designer</p>
 </div>
 
 <div class="projects">
-  <div class="card" onclick="openProject('proj1')">
-    <h3>🚤 Boat System</h3>
-    <p>Click to view</p>
+  <div class="card" onclick="openProject('p1')">
+    <img src="https://via.placeholder.com/400x200">
+    <h3>Boat System</h3>
   </div>
 
-  <div class="card" onclick="openProject('proj2')">
-    <h3>📦 Airdrop System</h3>
-    <p>Click to view</p>
+  <div class="card" onclick="openProject('p2')">
+    <img src="https://via.placeholder.com/400x200">
+    <h3>Airdrop System</h3>
   </div>
 </div>
 
-<!-- PROJECT 1 -->
-<div id="proj1" class="project-view">
-  <div class="close" onclick="closeProject()">✕</div>
+</div>
 
+<!-- PROJECT -->
+<div id="p1" class="project-view">
+  <div class="close" onclick="closeProject()">✕</div>
   <div class="video">
     <video controls>
       <source src="your-video.mp4" type="video/mp4">
     </video>
   </div>
-
   <div class="info">
     <h1>Boat System</h1>
-    <p>Advanced captain system with speed control, roles, and UI.</p>
+    <p>Advanced Roblox system with captain roles and mechanics.</p>
   </div>
 </div>
 
-<!-- PROJECT 2 -->
-<div id="proj2" class="project-view">
+<div id="p2" class="project-view">
   <div class="close" onclick="closeProject()">✕</div>
-
   <div class="video">
     <video controls>
       <source src="your-video2.mp4" type="video/mp4">
     </video>
   </div>
-
   <div class="info">
     <h1>Airdrop System</h1>
-    <p>Reward system with animations and UI interactions.</p>
+    <p>Reward drop system with UI and effects.</p>
   </div>
 </div>
 
+<audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
+
 <script>
+const hero = document.getElementById("hero");
+const sound = document.getElementById("clickSound");
+
 function openProject(id) {
+  sound.play();
+  hero.classList.add("blur");
   document.getElementById(id).classList.add("active");
+  history.pushState(null, "", "#" + id);
 }
 
 function closeProject() {
+  hero.classList.remove("blur");
   document.querySelectorAll(".project-view").forEach(p => {
     p.classList.remove("active");
   });
+  history.pushState("", document.title, window.location.pathname);
 }
+
+// HANDLE BACK BUTTON / URL
+window.onpopstate = () => {
+  closeProject();
+};
+
+// AUTO OPEN IF URL HAS #
+window.onload = () => {
+  const hash = window.location.hash.replace("#", "");
+  if (hash) {
+    openProject(hash);
+  }
+};
 </script>
 
 </body>
