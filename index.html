@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | SYSTEM_OVERRIDE</title>
+<title>KCHOR.EXE | OS v1.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
@@ -17,7 +17,6 @@
   --win-red: #d17a8a;
   --win-gray: #e8e8e8;
   --win-pink: #e4a1b0;
-  --win-purple: #b4a1e4;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -32,208 +31,192 @@ body {
   overflow: hidden; 
 }
 
-/* --- DESKTOP ICONS --- */
+/* --- LOGIN / BOOT SCREEN --- */
+#boot-screen {
+    position: fixed; inset: 0; background: #000; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.login-box {
+    background: var(--win-gray); border: var(--border-thick) solid #000;
+    padding: 30px; box-shadow: 10px 10px 0 #333; width: 100%; max-width: 400px;
+}
+
+/* --- MAIN LAYOUT --- */
+#main-ui { display: none; }
+
 .desktop-icons {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 5;
+  position: absolute; top: 20px; left: 20px;
+  display: flex; flex-direction: column; gap: 15px;
 }
 
-.icon {
-  width: 80px;
-  text-align: center;
-  cursor: pointer;
-}
+.icon { width: 80px; text-align: center; cursor: pointer; }
+.icon-graphic { width: 40px; height: 40px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 3px 3px 0 #000; }
+.icon span { font-size: 14px; background: #000; color: #fff; padding: 0 4px; }
 
-.icon-graphic {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  border: var(--border-thick) solid #000;
-  background: #fff;
-  box-shadow: 3px 3px 0 #000;
-}
-
-.icon span {
-  font-size: 14px;
-  background: #000;
-  color: #fff;
-  padding: 0 4px;
-}
-
-/* --- WORKSPACE --- */
 .workspace {
-  margin-left: 110px;
-  padding: 20px;
-  height: calc(100vh - 45px);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  margin-left: 110px; margin-right: 320px;
+  padding: 20px; height: calc(100vh - 45px); overflow-y: auto;
 }
 
-/* --- WINDOW DESIGN --- */
+/* --- SIDEBAR (ABOUT ME) --- */
+.sidebar-right {
+    position: fixed; top: 20px; right: 20px; width: 280px;
+    bottom: 60px; display: flex; flex-direction: column; gap: 20px;
+}
+
+/* --- WINDOWS --- */
 .window {
-  background: #fff;
-  border: var(--border-thick) solid #000;
-  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000;
-  width: 100%;
-  max-width: 1000px;
+  background: #fff; border: var(--border-thick) solid #000;
+  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; margin-bottom: 25px;
 }
 
 .title-bar {
-  padding: 6px 12px;
-  border-bottom: var(--border-thick) solid #000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
+  padding: 6px 12px; border-bottom: var(--border-thick) solid #000;
+  display: flex; justify-content: space-between; font-weight: bold;
 }
 
-.win-btns { display: flex; gap: 5px; }
-.win-dot { width: 10px; height: 10px; border: 2px solid #000; border-radius: 50%; background: #fff; }
-
-/* --- SYSTEM GRID --- */
 .system-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
-  padding: 20px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px; padding: 15px;
 }
 
 .sys-item {
-  border: 2px solid #000;
-  padding: 10px;
-  text-align: center;
-  background: var(--win-gray);
-  cursor: help;
+  border: 2px solid #000; padding: 8px; text-align: center;
+  background: var(--win-gray); cursor: pointer; font-size: 14px;
 }
 
-.sys-item:hover { background: #fff; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #000; }
+.sys-item:hover { background: var(--win-yellow); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 #000; }
 
-/* --- REVIEW SECTION --- */
-.review-box {
-  padding: 20px;
-  background: #fff;
-}
-
-.star-rating {
-  font-size: 30px;
-  color: var(--win-yellow);
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.star-rating span:hover, .star-rating span.active { color: orange; }
-
-textarea {
-  width: 100%;
-  height: 80px;
-  border: 2px solid #000;
-  font-family: inherit;
-  padding: 10px;
-  font-size: 18px;
-  resize: none;
-}
+/* --- REVIEW SYSTEM --- */
+.review-input-area { padding: 15px; border-bottom: 2px dashed #000; }
+.stars { font-size: 30px; color: #ccc; cursor: pointer; margin-bottom: 5px; }
+.stars span.active { color: #f1c40f; }
+.review-list { max-height: 200px; overflow-y: auto; padding: 15px; background: #f9f9f9; }
+.review-entry { border-bottom: 1px solid #ddd; margin-bottom: 10px; padding-bottom: 5px; }
+.review-entry b { color: var(--win-red); }
 
 /* --- TASKBAR --- */
 .taskbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 40px;
-  background: var(--win-gray);
-  border-top: var(--border-thick) solid #000;
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  z-index: 100;
+  position: fixed; bottom: 0; width: 100%; height: 40px;
+  background: var(--win-gray); border-top: var(--border-thick) solid #000;
+  display: flex; align-items: center; padding: 0 15px; z-index: 100;
 }
 
-.btn-start {
-  background: var(--win-red);
-  border: 2px solid #000;
-  padding: 2px 10px;
-  font-family: inherit;
-  font-weight: bold;
-  margin-right: 15px;
-  box-shadow: 2px 2px 0 #000;
+.btn-pixel {
+  background: var(--win-blue); border: 2px solid #000;
+  padding: 4px 10px; font-family: inherit; cursor: pointer; box-shadow: 2px 2px 0 #000;
 }
 
 /* --- MODAL --- */
-#overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: none; z-index: 1000; }
-#modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 3px solid #000; width: 400px; display: none; z-index: 1001; padding: 20px; box-shadow: 10px 10px 0 #000;}
-
+#overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
+#video-modal { 
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    background: #fff; border: 3px solid #000; width: 90%; max-width: 600px; 
+    display: none; z-index: 1001; padding: 20px; box-shadow: 15px 15px 0 #000;
+}
+video { width: 100%; border: 3px solid #000; background: #000; }
 </style>
 </head>
 <body>
 
-<div class="desktop-icons">
-  <div class="icon"><div class="icon-graphic" style="background:var(--win-blue)"></div><span>DRIVE_C</span></div>
-  <div class="icon"><div class="icon-graphic" style="background:var(--win-purple)"></div><span>TRASH</span></div>
-  <div class="icon"><div class="icon-graphic" style="background:var(--win-pink)"></div><span>DEV_LOG</span></div>
+<div id="boot-screen">
+    <div class="login-box">
+        <h2 style="margin-bottom: 10px;">SYSTEM_LOGIN.EXE</h2>
+        <input type="text" id="username-input" style="width:100%; padding:10px; border:3px solid #000; font-family:inherit; font-size:20px; margin-bottom:10px;" placeholder="Your Name...">
+        <div style="display:flex; gap:10px;">
+            <button class="btn-pixel" style="background:var(--win-yellow)" onclick="randomizeName()">RANDOM</button>
+            <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="login()">LOGIN</button>
+        </div>
+    </div>
 </div>
 
-<div class="workspace">
-  
-  <div class="window">
-    <div class="title-bar" style="background: var(--win-yellow);">
-      <span>KCHOR_INTRO.EXE</span>
-      <div class="win-btns"><div class="win-dot"></div><div class="win-dot" style="background:var(--win-red)"></div></div>
+<div id="main-ui">
+    <div class="desktop-icons">
+        <div class="icon"><div class="icon-graphic" style="background:var(--win-blue)"></div><span>DRIVE_C</span></div>
+        <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)"></div><span>LOGOUT</span></div>
     </div>
-    <div style="padding: 20px; display: flex; align-items: center; gap: 20px;">
-        <div style="width: 80px; height: 80px; border: 3px solid #000; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 40px;">K</div>
-        <div>
-            <h1>KCHOR SYSTEMS v1.0</h1>
-            <p style="font-size: 20px;">Building robust, chaotic, and scalable Roblox engines.</p>
+
+    <div class="workspace">
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-blue);">
+                <span>WELCOME.SYS</span>
+                <span>[X]</span>
+            </div>
+            <div style="padding: 20px;">
+                <h1 id="welcome-msg">WELCOME</h1>
+                <p style="font-size: 20px;">All systems operational. Click a folder to view system mechanics.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-yellow);">
+                <span>SYSTEM_DIRECTORY (/root/modules)</span>
+                <span>[X]</span>
+            </div>
+            <div class="system-grid" id="sysGrid"></div>
+        </div>
+
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-green);">
+                <span>PUBLIC_REVIEWS.EXE</span>
+                <span>[X]</span>
+            </div>
+            <div class="review-input-area">
+                <div class="stars" id="star-rating">
+                    <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
+                </div>
+                <textarea id="rev-text" style="width:100%; height:60px; border:2px solid #000; margin-bottom:10px; padding:8px; font-family:inherit; font-size:18px;" placeholder="Write a review..."></textarea>
+                <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-yellow)">SUBMIT_REVIEW</button>
+            </div>
+            <div class="review-list" id="review-list">
+                <p id="no-reviews"><i>No logs found. Add the first review!</i></p>
+            </div>
         </div>
     </div>
-  </div>
 
-  <div class="window">
-    <div class="title-bar" style="background: var(--win-blue);">
-      <span>SYSTEM_DIRECTORY (/root/systems)</span>
-      <div class="win-btns"><div class="win-dot"></div><div class="win-dot"></div></div>
-    </div>
-    <div class="system-grid" id="sysGrid"></div>
-  </div>
-
-  <div class="window">
-    <div class="title-bar" style="background: var(--win-green);">
-      <span>USER_FEEDBACK.EXE</span>
-      <div class="win-btns"><div class="win-dot"></div><div class="win-dot"></div></div>
-    </div>
-    <div class="review-box">
-        <h3>SUBMIT A REVIEW</h3>
-        <div class="star-rating" id="stars">
-            <span data-v="1">☆</span><span data-v="2">☆</span><span data-v="3">☆</span><span data-v="4">☆</span><span data-v="5">☆</span>
+    <div class="sidebar-right">
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-pink);">
+                <span>USER_PROFILE</span>
+            </div>
+            <div style="padding: 15px;">
+                <div style="width:60px; height:60px; border:3px solid #000; background:var(--win-blue); float:left; margin-right:10px; font-size:30px; display:flex; align-items:center; justify-content:center;">K</div>
+                <strong>KCHOR</strong><br>
+                <span>Lead Architect</span><br style="clear:both"><br>
+                <p>Specializing in Luau-based high-concurrency systems and chaos engineering.</p>
+            </div>
         </div>
-        <textarea placeholder="Type your thoughts here..."></textarea>
-        <button class="btn-start" style="margin-top: 10px; background: var(--win-yellow); cursor: pointer;">POST_REVIEW</button>
-        
-        <div id="reviewList" style="margin-top: 20px; border-top: 2px dashed #000; padding-top: 10px;">
-            <p><i>No reviews yet. Be the first!</i></p>
+
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-gray);">
+                <span>RESOURCES</span>
+            </div>
+            <div style="padding: 10px; font-size: 16px;">
+                SERVER_LOAD: <span style="color:green">3%</span><br>
+                DATA_STATE: <span style="color:green">SYNCED</span><br>
+                ACTIVE_SYSTEMS: 19/19
+            </div>
         </div>
     </div>
-  </div>
 
-</div>
-
-<div class="taskbar">
-  <button class="btn-start">START</button>
-  <div style="flex-grow: 1; font-size: 18px;">KCHOR_OS // Active</div>
-  <div id="clock">00:00</div>
+    <div class="taskbar">
+        <button class="btn-pixel" style="background:var(--win-red)">START</button>
+        <div style="flex-grow: 1; margin-left: 15px;" id="taskbar-user">User: Guest</div>
+        <div id="clock">00:00</div>
+    </div>
 </div>
 
 <div id="overlay" onclick="closeModal()"></div>
-<div id="modal">
-    <h2 id="mTitle"></h2>
-    <p id="mDesc" style="font-size: 20px; margin: 15px 0;"></p>
-    <button class="btn-start" onclick="closeModal()">CLOSE</button>
+<div id="video-modal">
+    <div class="title-bar" id="vHeader">
+        <span id="vTitle">VIDEO_PLAYER</span>
+        <span onclick="closeModal()" style="cursor:pointer">[X]</span>
+    </div>
+    <div style="padding: 15px;">
+        <video id="player" controls></video>
+        <p id="vDesc" style="margin-top:10px; font-size: 20px;"></p>
+    </div>
 </div>
 
 <script>
@@ -245,43 +228,88 @@ const systems = [
     "Movement System", "Weapon Choose", "NPC Behavior"
 ];
 
+const randomNames = ["Dev_Pulse", "Script_Lord", "Roblox_Pro", "Pixel_Master", "Core_Coder"];
+let currentUser = "Guest";
+let currentRating = 0;
+
+function randomizeName() {
+    document.getElementById('username-input').value = randomNames[Math.floor(Math.random() * randomNames.length)];
+}
+
+function login() {
+    const val = document.getElementById('username-input').value;
+    currentUser = val || "Guest_" + Math.floor(Math.random()*999);
+    document.getElementById('boot-screen').style.display = 'none';
+    document.getElementById('main-ui').style.display = 'block';
+    document.getElementById('welcome-msg').innerText = "WELCOME, " + currentUser.toUpperCase();
+    document.getElementById('taskbar-user').innerText = "User: " + currentUser;
+}
+
+// System Grid Logic
 const grid = document.getElementById('sysGrid');
 systems.forEach(s => {
     const div = document.createElement('div');
     div.className = 'sys-item';
-    div.innerHTML = `<strong>${s}</strong><br><small>Ready.bin</small>`;
+    div.innerHTML = `<strong>${s}</strong><br><small>MP4_STREAM</small>`;
     div.onclick = () => {
-        document.getElementById('mTitle').innerText = s;
-        document.getElementById('mDesc').innerText = `Detailed documentation for the ${s} module. Optimized for high-concurrency server environments.`;
+        document.getElementById('vTitle').innerText = s + ".MP4";
+        document.getElementById('vDesc').innerText = "Running visual diagnostics on " + s + ". No errors found.";
         document.getElementById('overlay').style.display = 'block';
-        document.getElementById('modal').style.display = 'block';
+        document.getElementById('video-modal').style.display = 'block';
+        // Add your video src here: document.getElementById('player').src = "link_to_video.mp4";
     };
     grid.appendChild(div);
 });
 
-// Star Rating Logic
-const stars = document.querySelectorAll('#stars span');
-stars.forEach(star => {
-    star.onclick = () => {
-        const val = star.getAttribute('data-v');
-        stars.forEach(s => {
-            s.innerText = s.getAttribute('data-v') <= val ? '★' : '☆';
-            s.classList.toggle('active', s.getAttribute('data-v') <= val);
+// Star Rating Interaction
+const stars = document.querySelectorAll('#star-rating span');
+stars.forEach(s => {
+    s.onclick = () => {
+        currentRating = s.getAttribute('data-value');
+        stars.forEach(star => {
+            star.innerText = star.getAttribute('data-value') <= currentRating ? '★' : '☆';
+            star.classList.toggle('active', star.getAttribute('data-value') <= currentRating);
         });
     };
 });
 
-function closeModal() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('modal').style.display = 'none';
+// Functional Review Logic
+function submitReview() {
+    const text = document.getElementById('rev-text').value;
+    if(!text || currentRating === 0) {
+        alert("Please select stars and write a message!");
+        return;
+    }
+
+    const list = document.getElementById('review-list');
+    const noRev = document.getElementById('no-reviews');
+    if(noRev) noRev.remove();
+
+    const entry = document.createElement('div');
+    entry.className = 'review-entry';
+    let starsDisplay = '★'.repeat(currentRating) + '☆'.repeat(5 - currentRating);
+    
+    entry.innerHTML = `
+        <b>${currentUser}</b> <span style="color:orange">${starsDisplay}</span><br>
+        <p>${text}</p>
+    `;
+    list.prepend(entry);
+    
+    // Clear inputs
+    document.getElementById('rev-text').value = "";
+    currentRating = 0;
+    stars.forEach(star => { star.innerText = '☆'; star.classList.remove('active'); });
 }
 
-function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+function closeModal() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('video-modal').style.display = 'none';
+    document.getElementById('player').pause();
 }
-setInterval(updateClock, 1000);
-updateClock();
+
+setInterval(() => {
+    document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}, 1000);
 </script>
 
 </body>
