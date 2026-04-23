@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | OS v1.3</title>
+<title>KCHOR.EXE | OS v1.5</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
 <style>
 :root {
   --bg-main: #d8e4e9;
-  --border-thick: 3px;
-  --shadow-block: 6px;
+  --border-thick: 4px;
+  --shadow-block: 8px;
   --win-blue: #88c0d8;
   --win-green: #a3cc8d;
   --win-yellow: #f1c37d;
@@ -23,235 +23,268 @@
 
 body {
   background-color: var(--bg-main);
-  background-image: radial-gradient(#adb5bd 1px, transparent 1px);
-  background-size: 25px 25px;
+  background-image: radial-gradient(#adb5bd 1.5px, transparent 1.5px);
+  background-size: 30px 30px;
   font-family: 'VT323', monospace;
-  color: #1a1a1a;
   height: 100vh;
   overflow: hidden; 
 }
 
-/* --- LOGIN --- */
-#boot-screen {
-    position: fixed; inset: 0; background: #000; z-index: 9999;
-    display: flex; align-items: center; justify-content: center;
+/* --- LOGIN SCREEN --- */
+#boot-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.login-box { background: var(--win-gray); border: var(--border-thick) solid #000; padding: 30px; width: 400px; box-shadow: 10px 10px 0 #333; }
+
+/* --- GRID LAYOUT --- */
+#main-ui { 
+    display: none; 
+    grid-template-columns: 100px 1fr 450px; /* Left Icons | Center Content | Right Video Panel */
+    grid-template-rows: 1fr 40px; 
+    height: 100vh;
 }
-.login-box { background: var(--win-gray); border: var(--border-thick) solid #000; padding: 30px; width: 100%; max-width: 400px; }
 
-/* --- MAIN UI --- */
-#main-ui { display: none; display: grid; grid-template-columns: 100px 1fr 300px; height: calc(100vh - 40px); opacity: 0; }
+/* --- LEFT ICONS --- */
+.desktop-icons { padding: 20px; display: flex; flex-direction: column; gap: 20px; border-right: 2px dashed #000; }
+.icon { text-align: center; cursor: pointer; }
+.icon-graphic { width: 50px; height: 50px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 4px 4px 0 #000; display:flex; align-items:center; justify-content:center; font-size: 24px;}
+.icon span { font-size: 14px; background: #000; color: #fff; padding: 0 4px; margin-top: 5px; display: inline-block;}
 
-.desktop-icons { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-.icon { text-align: center; cursor: pointer; margin-bottom: 10px; }
-.icon-graphic { width: 45px; height: 45px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 3px 3px 0 #000; display:flex; align-items:center; justify-content:center; font-weight:bold;}
-.icon span { font-size: 14px; background: #000; color: #fff; padding: 0 4px; }
+/* --- CENTER WORKSPACE --- */
+.workspace { padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 25px; }
 
-.workspace { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+/* --- WINDOW DESIGN --- */
+.window { background: #fff; border: var(--border-thick) solid #000; box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; display: flex; flex-direction: column;}
+.title-bar { padding: 8px 12px; border-bottom: var(--border-thick) solid #000; display: flex; justify-content: space-between; font-weight: bold; font-size: 20px;}
 
-/* --- WINDOWS --- */
-.window { background: #fff; border: var(--border-thick) solid #000; box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink: 0; }
-.title-bar { padding: 6px 12px; border-bottom: var(--border-thick) solid #000; display: flex; justify-content: space-between; font-weight: bold; }
+/* --- PROFILE --- */
+.profile-content { display: flex; gap: 25px; padding: 25px; align-items: center; }
+.profile-img { width: 100px; height: 100px; border: 4px solid #000; background: var(--win-blue); display: flex; align-items: center; justify-content: center; font-size: 60px; box-shadow: 6px 6px 0 #000; }
+.profile-text h1 { font-size: 48px; line-height: 1; }
 
-/* --- BIG PROFILE WINDOW --- */
-.profile-content { display: flex; gap: 25px; padding: 30px; align-items: center; }
-.profile-img { width: 120px; height: 120px; border: 4px solid #000; background: var(--win-blue); display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; box-shadow: 6px 6px 0 #000; }
-.profile-text h1 { font-size: 50px; line-height: 0.9; margin-bottom: 10px; }
-.profile-text p { font-size: 24px; color: #333; }
+/* --- SCROLLABLE DIRECTORY --- */
+.sys-dir-container { height: 280px; overflow-y: scroll; padding: 15px; background: #f0f0f0; border-top: 2px solid #000; }
+.system-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.sys-item { border: 2px solid #000; padding: 12px; text-align: center; background: #fff; cursor: pointer; transition: transform 0.1s; }
+.sys-item:hover { background: var(--win-yellow); transform: translateY(-3px); box-shadow: 4px 4px 0 #000; }
+.sys-item.active { background: var(--win-blue); color: white; border-color: #000; }
 
-/* --- SCROLLABLE SYSTEM DIRECTORY --- */
-.sys-dir-container { height: 250px; overflow-y: scroll; padding: 15px; border: 2px inset #eee; background: #f0f0f0; }
-/* Custom Scrollbar */
-.sys-dir-container::-webkit-scrollbar { width: 15px; }
-.sys-dir-container::-webkit-scrollbar-track { background: #ddd; border-left: 2px solid #000; }
-.sys-dir-container::-webkit-scrollbar-thumb { background: var(--win-gray); border: 2px solid #000; }
-
-.system-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-.sys-item { border: 2px solid #000; padding: 10px; text-align: center; background: #fff; cursor: pointer; transition: 0.1s; font-size: 14px; }
-.sys-item:hover { background: var(--win-yellow); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 #000; }
+/* --- RIGHT PANEL (THE VIDEO & DESCRIPTION) --- */
+.inspector-panel { padding: 25px; display: flex; flex-direction: column; gap: 20px; border-left: 2px dashed #000; background: rgba(255,255,255,0.3); }
+.video-preview-box { background: #000; border: var(--border-thick) solid #000; aspect-ratio: 16/9; position: relative; overflow: hidden; box-shadow: 8px 8px 0 #000;}
+video { width: 100%; height: 100%; object-fit: cover; }
+.detail-box { padding: 15px; background: #fff; border: 3px solid #000; box-shadow: 5px 5px 0 #000; flex-grow: 1; overflow-y: auto;}
 
 /* --- REVIEWS --- */
 .review-area { padding: 15px; }
-.review-list { max-height: 200px; overflow-y: auto; margin-top: 10px; border-top: 2px dashed #000; padding-top: 10px; }
-
-/* --- SIDEBAR (RIGHT) --- */
-.sidebar-right { padding: 20px; border-left: 2px dashed #000; display: flex; flex-direction: column; gap: 20px; }
+.review-list { max-height: 250px; overflow-y: auto; margin-top: 10px; border-top: 2px dashed #000; padding-top: 10px; }
+.review-entry { border-bottom: 1px solid #ddd; padding: 10px 0; }
+.review-pic { max-width: 100px; border: 2px solid #000; margin-top: 5px; cursor: zoom-in;}
 
 /* --- TASKBAR --- */
-.taskbar { position: fixed; bottom: 0; width: 100%; height: 40px; background: var(--win-gray); border-top: var(--border-thick) solid #000; display: flex; align-items: center; padding: 0 15px; z-index: 100; }
+.taskbar { grid-column: span 3; background: var(--win-gray); border-top: var(--border-thick) solid #000; display: flex; align-items: center; padding: 0 20px; font-size: 20px; }
+.btn-pixel { background: var(--win-blue); border: 2px solid #000; padding: 4px 12px; font-family: inherit; cursor: pointer; box-shadow: 3px 3px 0 #000; margin-right: 10px; }
 
-/* --- MODALS --- */
-#overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
-#video-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 3px solid #000; width: 90%; max-width: 600px; display: none; z-index: 1001; padding: 20px; box-shadow: 15px 15px 0 #000; }
-video { width: 100%; border: 3px solid #000; background: #000; }
-
-.btn-pixel { background: var(--win-blue); border: 2px solid #000; padding: 4px 10px; font-family: inherit; cursor: pointer; box-shadow: 2px 2px 0 #000; }
+/* Scrollbar Style */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #eee; }
+::-webkit-scrollbar-thumb { background: #000; border: 2px solid #eee; }
 </style>
 </head>
 <body>
 
 <div id="boot-screen">
     <div class="login-box">
-        <h2 style="margin-bottom: 10px;">SYSTEM_LOGIN.EXE</h2>
-        <input type="text" id="username-input" style="width:100%; padding:10px; border:3px solid #000; font-family:inherit; font-size:20px; margin-bottom:10px;" placeholder="Identify yourself...">
+        <h2>SYSTEM_LOGIN.EXE</h2>
+        <input type="text" id="username-input" style="width:100%; padding:10px; border:4px solid #000; font-family:inherit; font-size:22px; margin: 15px 0;" placeholder="User ID...">
         <div style="display:flex; gap:10px;">
             <button class="btn-pixel" style="background:var(--win-yellow)" onclick="randomizeName()">RANDOM</button>
-            <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="login()">ENTER_OS</button>
+            <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="login()">BOOT_SYSTEM</button>
         </div>
     </div>
 </div>
 
 <div id="main-ui">
     <div class="desktop-icons">
-        <div class="icon"><div class="icon-graphic" style="background:var(--win-blue)">C:</div><span>DRIVE_C</span></div>
-        <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">X</div><span>LOGOUT</span></div>
+        <div class="icon"><div class="icon-graphic" style="background:var(--win-blue)">💾</div><span>DISK_C</span></div>
+        <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span>REBOOT</span></div>
     </div>
 
     <div class="workspace">
         <div class="window">
-            <div class="title-bar" style="background: var(--win-pink);">
-                <span>USER_PROFILE.INF</span>
-                <span>[ - X ]</span>
-            </div>
+            <div class="title-bar" style="background: var(--win-pink);"><span>USER_PROFILE.INF</span><span>[ - X ]</span></div>
             <div class="profile-content">
                 <div class="profile-img">K</div>
                 <div class="profile-text">
-                    <h1 id="welcome-name">KCHOR</h1>
-                    <p>Roblox Systems Architect & Backend Developer</p>
-                    <p style="font-size: 18px; margin-top: 5px; color: #555;">Focusing on physics-based combat, secure datastores, and high-concurrency game loops.</p>
+                    <h1>KCHOR</h1>
+                    <p style="font-size: 24px;">Roblox Systems Architect</p>
                 </div>
             </div>
         </div>
 
-        <div class="window" style="max-width: 800px;">
-            <div class="title-bar" style="background: var(--win-yellow);">
-                <span>SYSTEM_DIRECTORY (/root/modules)</span>
-                <span>[ - X ]</span>
-            </div>
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-yellow);"><span>SYSTEM_DIRECTORY (/root/modules)</span><span>[ - X ]</span></div>
             <div class="sys-dir-container">
                 <div class="system-grid" id="sysGrid"></div>
             </div>
-            <div style="padding: 5px 15px; font-size: 12px; background: #eee; border-top: 2px solid #000;">
-                19 Files Found | Total Size: 1.4 MB
-            </div>
         </div>
 
-        <div class="window" style="max-width: 800px;">
-            <div class="title-bar" style="background: var(--win-green);">
-                <span>COMMUNITY_FEEDBACK.LOG</span>
-                <span>[ - X ]</span>
-            </div>
+        <div class="window">
+            <div class="title-bar" style="background: var(--win-green);"><span>COMMUNITY_FEEDBACK.LOG</span><span>[ - X ]</span></div>
             <div class="review-area">
                 <div id="star-rating" style="font-size: 30px; cursor: pointer; color: #ccc;">
                     <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
                 </div>
-                <textarea id="rev-text" style="width:100%; height:50px; border:2px solid #000; margin: 10px 0; padding: 10px; font-family: inherit; font-size: 18px; resize: none;" placeholder="Leave a review..."></textarea>
+                <div id="preview-wrap" style="display:none; margin: 10px 0; align-items:center; gap:10px;">
+                    <img id="img-preview" style="width:60px; height:60px; border:2px solid #000; object-fit:cover;">
+                    <button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">REMOVE</button>
+                </div>
+                <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; margin:10px 0; padding:10px; font-family:inherit; font-size:18px; resize:none;" placeholder="Write a review..."></textarea>
+                <button class="btn-pixel" onclick="document.getElementById('file-input').click()" style="background:var(--win-gray)">+ IMG</button>
+                <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
                 <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-blue)">POST_REVIEW</button>
-                <button id="admin-wipe" class="btn-pixel" onclick="clearAllReviews()" style="background:var(--win-red); font-size:12px; float:right; display:none;">WIPE_ALL</button>
+                <button id="admin-wipe" class="btn-pixel" onclick="clearAllReviews()" style="background:var(--win-red); float:right; display:none;">WIPE</button>
                 <div class="review-list" id="review-list"></div>
             </div>
         </div>
     </div>
 
-    <div class="sidebar-right">
+    <div class="inspector-panel">
         <div class="window">
-            <div class="title-bar" style="background: var(--win-blue);"><span>HARDWARE_STATS</span></div>
-            <div style="padding: 15px; font-size: 16px;">
-                CPU: <span style="color:green">Luau Runtime</span><br>
-                RAM: <span id="ram-usage">0MB</span> / 1024MB<br>
-                AUTH: <span id="auth-lvl" style="font-weight:bold;">GUEST</span>
+            <div class="title-bar" style="background: #000; color:#fff;"><span>LIVE_FEED.EXE</span></div>
+            <div class="video-preview-box">
+                <video id="main-player" controls autoplay muted loop>
+                    </video>
             </div>
         </div>
-        <div class="window" style="background: var(--win-yellow); padding: 10px; font-style: italic;">
-            "Chaos is just an unoptimized system."
+
+        <div class="window" style="flex-grow:1;">
+            <div class="title-bar" style="background: var(--win-blue);"><span>PROJECT_DETAILS</span></div>
+            <div class="detail-box" id="project-details">
+                <h2 id="det-title">Select a Module</h2>
+                <hr style="margin: 10px 0; border: 1px dashed #000;">
+                <p id="det-desc" style="font-size: 20px; line-height: 1.4;">Click on any system in the directory to initialize the visual stream and technical specifications.</p>
+            </div>
         </div>
     </div>
 
     <div class="taskbar">
-        <button class="btn-pixel" style="background: var(--win-red);">START</button>
-        <div style="flex-grow: 1; margin-left: 15px;" id="taskbar-user">User: Guest</div>
+        <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
+        <div style="flex-grow:1;" id="taskbar-user">USER: GUEST</div>
         <div id="clock">00:00</div>
     </div>
 </div>
 
-<div id="overlay" onclick="closeModal()"></div>
-<div id="video-modal">
-    <div class="title-bar"><span id="vTitle">VIDEO_PLAYER</span><span onclick="closeModal()" style="cursor:pointer">[ X ]</span></div>
-    <div style="padding: 15px;"><video id="player" controls></video></div>
-</div>
-
 <script>
-const systems = ["Round System", "Flower Generation", "Weather System", "Title System", "Backpack System", "Upgrade System", "Global Announcement", "Global Ban", "Bridge System", "Power System", "Generator System", "Combat System", "Dialogue System", "Shop System", "Killer/Captain", "Data Saving", "Movement System", "Weapon Choose", "NPC Behavior"];
-const randomNames = ["Script_Legend", "Blox_Master", "Dev_Phantom", "Void_Walker"];
-let currentUser = "Guest";
-let currentRating = 0;
+const systems = [
+    { name: "Round System", desc: "A robust core loop handling interludes, map voting, and player teleportation logic.", vid: "" },
+    { name: "Flower Generation", desc: "Procedural algorithm for spawning optimized interactable flora across terrain.", vid: "" },
+    { name: "Weather System", desc: "Dynamic atmosphere controller with localized particle effects and lighting transitions.", vid: "" },
+    { name: "Title System", desc: "Overhead UI framework with custom badge integration and rarity-based colors.", vid: "" },
+    { name: "Backpack System", desc: "Grid-based inventory with drag-and-drop support and server-side validation.", vid: "" },
+    { name: "Upgrade System", desc: "Tiered progression logic using exponential cost scaling and stat buffs.", vid: "" },
+    { name: "Global Announcement", desc: "Cross-server messaging system utilizing MessagingService for real-time alerts.", vid: "" },
+    { name: "Global Ban", desc: "Hard-coded security layer connected to an external moderation database.", vid: "" },
+    { name: "Bridge System", desc: "Physics-constrained pathing for modular environmental interaction.", vid: "" },
+    { name: "Power System", desc: "Resource management loop for machinery and base-building components.", vid: "" },
+    { name: "Generator System", desc: "Interactive object logic with proximity-based repair and refueling mechanics.", vid: "" },
+    { name: "Combat System", desc: "Hitbox-detection framework with raycasting and server-side sanity checks.", vid: "" },
+    { name: "Dialogue System", desc: "Node-based NPC interaction system with branching choices and camera focus.", vid: "" },
+    { name: "Shop System", desc: "UI-driven marketplace with secure currency exchange and purchase logging.", vid: "" },
+    { name: "Killer/Captain", desc: "Role-assignment logic for asymmetric multiplayer game modes.", vid: "" },
+    { name: "Data Saving", desc: "Reliable DataStore2/ProfileService wrapper with auto-backup and retry logic.", vid: "" },
+    { name: "Movement System", desc: "Custom character controller enhancements (vaulting, sliding, stamina).", vid: "" },
+    { name: "Weapon Choose", desc: "Loadout selector with stat previews and skin-attachment support.", vid: "" },
+    { name: "NPC Behavior", desc: "State-machine driven AI for hostile and neutral entities.", vid: "" }
+];
 
+let currentUser = "Guest", currentRating = 0, currentImageData = "";
+
+// --- LOGIN ---
 function login() {
     const val = document.getElementById('username-input').value;
     currentUser = val || "Guest_" + Math.floor(Math.random()*999);
     document.getElementById('boot-screen').style.display = 'none';
     document.getElementById('main-ui').style.display = 'grid';
-    document.getElementById('main-ui').style.opacity = '1';
-    document.getElementById('taskbar-user').innerText = "User: " + currentUser;
-    if(currentUser === "KCHOR_ADMIN") {
-        document.getElementById('admin-wipe').style.display = 'block';
-        document.getElementById('auth-lvl').innerText = "ADMIN";
-        document.getElementById('auth-lvl').style.color = "red";
-    }
+    document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
+    if(currentUser === "KCHOR_ADMIN") document.getElementById('admin-wipe').style.display = 'block';
     loadReviews();
 }
 
-function randomizeName() { document.getElementById('username-input').value = randomNames[Math.floor(Math.random() * randomNames.length)]; }
+function randomizeName() { document.getElementById('username-input').value = "Dev_" + Math.floor(Math.random()*999); }
 
-// Directory Loading
+// --- DIRECTORY & INSPECTOR ---
 const grid = document.getElementById('sysGrid');
-systems.forEach(s => {
+systems.forEach((s, index) => {
     const div = document.createElement('div');
     div.className = 'sys-item';
-    div.innerHTML = `<strong>${s}</strong><br><small>BOOT.EXE</small>`;
+    div.innerHTML = `<strong>${s.name}</strong><br><small>BOOT.EXE</small>`;
     div.onclick = () => {
-        document.getElementById('vTitle').innerText = s + ".MP4";
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('video-modal').style.display = 'block';
+        // Highlight active
+        document.querySelectorAll('.sys-item').forEach(i => i.classList.remove('active'));
+        div.classList.add('active');
+        
+        // Update Inspector
+        document.getElementById('det-title').innerText = s.name;
+        document.getElementById('det-desc').innerText = s.desc;
+        
+        // Update Video (Insert your URLs here)
+        const player = document.getElementById('main-player');
+        player.src = s.vid || ""; // Replace with your actual .mp4 links
+        player.play();
     };
     grid.appendChild(div);
 });
 
-// Review Logic
+// --- IMAGE HANDLING ---
+function handleImage(input) {
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            currentImageData = e.target.result;
+            document.getElementById('img-preview').src = currentImageData;
+            document.getElementById('preview-wrap').style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+function removeImage() { currentImageData = ""; document.getElementById('preview-wrap').style.display = 'none'; }
+
+// --- REVIEWS ---
 function submitReview() {
     const text = document.getElementById('rev-text').value;
-    if(!text || currentRating === 0) return alert("Select stars and write a comment!");
-    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
-    saved.push({ user: currentUser, rating: currentRating, text: text });
-    localStorage.setItem('kchor_logs', JSON.stringify(saved));
+    if(!text || currentRating === 0) return alert("Select stars and comment!");
+    const saved = JSON.parse(localStorage.getItem('kchor_v5_logs')) || [];
+    saved.push({ user: currentUser, rating: currentRating, text: text, img: currentImageData });
+    localStorage.setItem('kchor_v5_logs', JSON.stringify(saved));
     document.getElementById('rev-text').value = "";
+    removeImage();
     currentRating = 0;
     resetStars();
     loadReviews();
 }
 
 function loadReviews() {
-    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
+    const saved = JSON.parse(localStorage.getItem('kchor_v5_logs')) || [];
     const list = document.getElementById('review-list');
-    list.innerHTML = saved.length === 0 ? "<i>No reviews yet.</i>" : "";
-    saved.forEach((r, i) => {
+    list.innerHTML = saved.length === 0 ? "<i>No logs.</i>" : "";
+    saved.reverse().forEach((r) => {
         const div = document.createElement('div');
-        div.style.marginBottom = "10px";
-        div.innerHTML = `<b>${r.user}</b> <span style="color:orange">${'★'.repeat(r.rating)}</span><br>${r.text}`;
-        list.prepend(div);
+        div.className = 'review-entry';
+        const imgTag = r.img ? `<img src="${r.img}" class="review-pic">` : "";
+        div.innerHTML = `<b>${r.user}</b> <span style="color:orange">${'★'.repeat(r.rating)}</span><br>${r.text}${imgTag}`;
+        list.appendChild(div);
     });
 }
 
-function clearAllReviews() { if(confirm("Wipe logs?")) { localStorage.removeItem('kchor_logs'); loadReviews(); } }
-
 const stars = document.querySelectorAll('#star-rating span');
-stars.forEach(s => { s.onclick = () => {
+stars.forEach(s => s.onclick = () => {
     currentRating = s.getAttribute('data-value');
     stars.forEach(star => star.innerText = star.getAttribute('data-value') <= currentRating ? '★' : '☆');
-}});
+});
+
 function resetStars() { stars.forEach(s => s.innerText = '☆'); }
-function closeModal() { document.getElementById('overlay').style.display = 'none'; document.getElementById('video-modal').style.display = 'none'; }
-function randomizeRAM() { document.getElementById('ram-usage').innerText = Math.floor(Math.random() * 200 + 400) + "MB"; }
-setInterval(() => { randomizeRAM(); document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }, 2000);
+function clearAllReviews() { if(confirm("Wipe?")) { localStorage.removeItem('kchor_v5_logs'); loadReviews(); } }
+setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }, 1000);
 </script>
 </body>
 </html>
