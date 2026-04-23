@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | OS v1.7</title>
+<title>KCHOR.EXE | OS v1.9</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
@@ -30,48 +30,38 @@ body {
   overflow: hidden; 
 }
 
-/* --- LIGHTBOX (IMAGE POPUP) --- */
 #lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 10000; cursor: zoom-out; }
 #lightbox img { max-width: 90%; max-height: 90%; border: 4px solid #fff; box-shadow: 0 0 20px #000; }
 
-/* --- LOGIN --- */
 #boot-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 .login-box { background: var(--win-gray); border: var(--border-thick) solid #000; padding: 30px; width: 400px; box-shadow: 10px 10px 0 #333; }
 
-/* --- LAYOUT --- */
 #main-ui { display: none; grid-template-columns: 100px 1fr 450px; height: calc(100vh - 40px); }
 
-/* --- LEFT ICONS --- */
 .desktop-icons { padding: 20px; display: flex; flex-direction: column; gap: 20px; border-right: 2px dashed #000; }
 .icon { text-align: center; cursor: pointer; }
 .icon-graphic { width: 50px; height: 50px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 4px 4px 0 #000; display:flex; align-items:center; justify-content:center; font-size: 24px;}
 .icon span { font-size: 14px; background: #000; color: #fff; padding: 0 4px; display: inline-block; margin-top: 5px;}
 
-/* --- WORKSPACE (CENTER) --- */
 .workspace { padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 25px; }
 
-/* --- WINDOWS --- */
 .window { background: #fff; border: var(--border-thick) solid #000; box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; }
 .title-bar { padding: 8px 12px; border-bottom: var(--border-thick) solid #000; display: flex; justify-content: space-between; font-weight: bold; font-size: 20px;}
 
-/* --- DIRECTORY --- */
 .sys-dir-container { height: 280px; overflow-y: scroll; padding: 15px; background: #f0f0f0; border-top: 2px solid #000; }
 .system-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 .sys-item { border: 2px solid #000; padding: 12px; text-align: center; background: #fff; cursor: pointer; }
 .sys-item:hover { background: var(--win-yellow); }
 .sys-item.active { background: var(--win-blue); color: #fff; }
 
-/* --- INSPECTOR (RIGHT) --- */
 .inspector-panel { padding: 25px; display: flex; flex-direction: column; gap: 20px; border-left: 2px dashed #000; background: rgba(255,255,255,0.3); }
 #main-player { width: 100%; aspect-ratio: 16/9; border: var(--border-thick) solid #000; background: #000; }
 .detail-box { padding: 15px; background: #fff; border: 3px solid #000; flex-grow: 1; }
 
-/* --- REVIEWS --- */
 .review-entry { border-bottom: 2px solid #eee; padding: 15px 0; position: relative; display: flex; flex-direction: column; gap: 8px;}
-.review-pic { max-width: 200px; border: 3px solid #000; cursor: zoom-in; margin-top: 5px;}
+.review-pic { max-width: 250px; border: 3px solid #000; cursor: zoom-in; margin-top: 5px; box-shadow: 4px 4px 0 #000;}
 .del-btn { background: var(--win-red); color: white; border: 2px solid #000; padding: 2px 8px; cursor: pointer; position: absolute; right: 0; top: 15px; }
 
-/* --- TASKBAR --- */
 .taskbar { grid-column: span 3; position: fixed; bottom: 0; width: 100%; height: 40px; background: var(--win-gray); border-top: var(--border-thick) solid #000; display: flex; align-items: center; padding: 0 15px; z-index: 100; font-size: 18px;}
 .btn-pixel { background: var(--win-blue); border: 2px solid #000; padding: 4px 10px; font-family: inherit; cursor: pointer; box-shadow: 2px 2px 0 #000; }
 </style>
@@ -134,14 +124,14 @@ body {
     <div class="inspector-panel">
         <div class="window">
             <div class="title-bar" style="background:#000; color:#fff;"><span>LIVE_FEED.EXE</span></div>
-            <video id="main-player" controls autoplay muted loop></video>
+            <video id="main-player" controls preload="auto" autoplay muted loop></video>
         </div>
         <div class="window" style="flex-grow:1;">
             <div class="title-bar" style="background:var(--win-blue);"><span>PROJECT_SPECS</span></div>
             <div class="detail-box">
                 <h2 id="det-title" style="font-size:28px;">Select Module</h2>
                 <hr style="margin:10px 0; border:1px dashed #000;">
-                <p id="det-desc" style="font-size:20px; line-height:1.3;">Awaiting system selection for technical breakdown.</p>
+                <p id="det-desc" style="font-size:20px; line-height:1.3;">Awaiting system selection.</p>
             </div>
         </div>
     </div>
@@ -154,13 +144,11 @@ body {
 </div>
 
 <script>
-// --- CONFIGURE YOUR PROJECTS HERE ---
 const systems = [
-    { name: "Round System", desc: "Manages server-wide game loops, maps, and teleportation.", vid: "videos/Test1.mp4" },
-    { name: "Combat System", desc: "Raycast-based hit detection with server-side lag compensation.", vid: "" },
-    { name: "Weather System", desc: "Dynamic lighting and particle manipulation based on server time.", vid: "" },
-    { name: "Data Saving", desc: "ProfileService integration with fail-safe session locking.", vid: "" }
-    // Add more objects here...
+    { name: "Round System", desc: "Global loop handling intermissions and voting.", vid: "videos/Test1.mp4" },
+    { name: "Combat System", desc: "Raycast weapons with custom hitboxes.", vid: "" },
+    { name: "Weather System", desc: "Dynamic lighting manipulation.", vid: "" },
+    { name: "Data Saving", desc: "ProfileService integration.", vid: "" }
 ];
 
 let currentUser = "Guest", currentRating = 0, currentImageData = "";
@@ -179,6 +167,8 @@ function randomizeName() { document.getElementById('username-input').value = "De
 
 // --- UI GENERATION ---
 const grid = document.getElementById('sysGrid');
+const vPlayer = document.getElementById('main-player');
+
 systems.forEach(s => {
     const div = document.createElement('div');
     div.className = 'sys-item';
@@ -188,14 +178,25 @@ systems.forEach(s => {
         div.classList.add('active');
         document.getElementById('det-title').innerText = s.name;
         document.getElementById('det-desc').innerText = s.desc;
-        const v = document.getElementById('main-player');
-        v.src = s.vid;
-        if(s.vid) v.play();
+        
+        if(s.vid !== "") {
+            vPlayer.src = s.vid;
+            vPlayer.load();
+            vPlayer.play().catch(e => console.log("Auto-play prevented or file missing"));
+        } else {
+            vPlayer.src = "";
+        }
     };
     grid.appendChild(div);
 });
 
-// --- IMAGE & LIGHTBOX ---
+// --- ERROR LOGGING ---
+vPlayer.onerror = function() {
+    if(vPlayer.src && !vPlayer.src.includes('undefined')) {
+        alert("SYSTEM ERROR: Could not find video at " + vPlayer.src + "\nCheck if file name is exactly 'Test1.mp4' in the 'videos' folder.");
+    }
+};
+
 function handleImage(input) {
     const reader = new FileReader();
     reader.onload = (e) => { currentImageData = e.target.result; document.getElementById('img-preview').src = currentImageData; document.getElementById('preview-wrap').style.display = 'flex'; };
@@ -205,10 +206,9 @@ function removeImage() { currentImageData = ""; document.getElementById('preview
 function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').style.display = 'flex'; }
 function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
 
-// --- REVIEWS ---
 function submitReview() {
     const text = document.getElementById('rev-text').value;
-    if(!text || currentRating === 0) return alert("Select stars and write text!");
+    if(!text || currentRating === 0) return alert("Missing rating or comment!");
     const logs = JSON.parse(localStorage.getItem('kchor_v7')) || [];
     logs.push({ user: currentUser, rate: currentRating, msg: text, pic: currentImageData });
     localStorage.setItem('kchor_v7', JSON.stringify(logs));
