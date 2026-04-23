@@ -2,235 +2,315 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | WORK</title>
+<title>KCHOR.EXE | OS v1.0</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg-color: #ffffff;
-  --border-size: 3px;
-  --shadow-off: 6px;
-  /* Palette from your image */
+  --bg-main: #f0f4f7;
+  --border-thick: 3px;
+  --shadow-block: 6px;
+  /* Palette from your reference image */
   --win-blue: #88c0d8;
   --win-green: #a3cc8d;
   --win-yellow: #f1c37d;
   --win-red: #d17a8a;
   --win-gray: #e8e8e8;
+  --win-pink: #e4a1b0;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  background-color: #fcf9f2;
+  background-color: #d8e4e9;
+  /* Subtle dot pattern to fill "empty" space */
+  background-image: radial-gradient(#adb5bd 1px, transparent 1px);
+  background-size: 25px 25px;
   font-family: 'VT323', monospace;
-  color: #2b2b2b;
-  padding: 20px;
+  color: #1a1a1a;
+  height: 100vh;
+  overflow: hidden; /* Desktop feel */
 }
 
-/* TOP NAV */
-nav {
-  background: var(--win-blue);
-  border: var(--border-size) solid #000;
-  box-shadow: var(--shadow-off) var(--shadow-off) 0 #000;
-  padding: 10px 20px;
+/* --- DESKTOP ICONS (Left Sidebar) --- */
+.desktop-icons {
+  position: absolute;
+  top: 60px;
+  left: 20px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 25px;
+  z-index: 5;
+}
+
+.icon {
+  width: 70px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.icon:hover { transform: scale(1.1); }
+
+.icon-graphic {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 5px;
+  border: var(--border-thick) solid #000;
+  box-shadow: 3px 3px 0 #000;
+  display: flex;
   align-items: center;
-  margin-bottom: 40px;
+  justify-content: center;
+  font-weight: bold;
 }
 
-.logo { font-size: 24px; font-weight: bold; }
-.nav-links a { 
-  text-decoration: none; 
-  color: #000; 
-  margin-left: 20px; 
-  font-size: 22px;
-  border-bottom: 2px solid transparent;
-}
-.nav-links a:hover { border-bottom: 2px solid #000; }
-
-/* HERO WINDOW */
-.hero-window {
-  max-width: 800px;
-  margin: 0 auto 50px;
+.icon span {
+  display: block;
+  font-size: 16px;
   background: #fff;
-  border: var(--border-size) solid #000;
-  box-shadow: var(--shadow-off) var(--shadow-off) 0 #000;
+  border: 1px solid #000;
+  padding: 1px 4px;
+}
+
+/* --- MAIN WORKSPACE --- */
+.workspace {
+  margin-left: 100px;
+  padding: 40px;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+/* --- WINDOW COMPONENT --- */
+.window {
+  background: #fff;
+  border: var(--border-thick) solid #000;
+  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000;
+  margin-bottom: 40px;
+  max-width: 900px;
 }
 
 .title-bar {
-  background: var(--win-green);
-  border-bottom: var(--border-size) solid #000;
-  padding: 8px 15px;
+  padding: 8px 12px;
+  border-bottom: var(--border-thick) solid #000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.win-buttons { display: flex; gap: 6px; }
-.win-btn {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #000;
-  background: #fff;
-}
-
-.content-area { padding: 30px; text-align: center; }
-.content-area h1 { font-size: 48px; margin-bottom: 10px; }
-.content-area p { font-size: 24px; margin-bottom: 20px; color: #555; }
-
-/* PROJECT CARDS */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.project-card {
-  background: #fff;
-  border: var(--border-size) solid #000;
-  box-shadow: var(--shadow-off) var(--shadow-off) 0 #000;
-  transition: transform 0.1s;
-  cursor: pointer;
-}
-
-.project-card:active {
-  transform: translate(3px, 3px);
-  box-shadow: 3px 3px 0 #000;
-}
-
-.card-header {
-  padding: 6px 12px;
-  border-bottom: var(--border-size) solid #000;
   font-weight: bold;
   font-size: 18px;
-  display: flex;
-  justify-content: space-between;
 }
 
-.card-body { padding: 20px; }
-.card-body h3 { font-size: 28px; margin-bottom: 5px; }
-
-/* PANEL MODAL */
-#panel {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%; max-width: 500px;
+.controls { display: flex; gap: 8px; }
+.dot {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #000;
+  border-radius: 50%;
   background: #fff;
-  border: var(--border-size) solid #000;
-  box-shadow: 12px 12px 0 #000;
-  display: none;
-  z-index: 1001;
 }
 
+/* --- PROJECT GRID --- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #fff;
+  border: var(--border-thick) solid #000;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #000; }
+
+.card-header {
+  padding: 5px;
+  border-bottom: var(--border-thick) solid #000;
+  text-align: center;
+  font-size: 14px;
+}
+
+.card-content { padding: 15px; }
+
+/* --- STICKY NOTE --- */
+.sticky {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  width: 200px;
+  background: #fff9c4;
+  border: var(--border-thick) solid #000;
+  padding: 15px;
+  box-shadow: 5px 5px 0 #000;
+  transform: rotate(2deg);
+}
+
+/* --- TASKBAR --- */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: var(--win-gray);
+  border-top: var(--border-thick) solid #000;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 100;
+}
+
+.start-btn {
+  background: var(--win-green);
+  border: 2px solid #000;
+  padding: 2px 12px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 20px;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+}
+
+/* --- OVERLAY & MODAL --- */
 #overlay {
   position: fixed; inset: 0;
-  background: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.2);
   display: none; z-index: 1000;
 }
-
-.btn-main {
-  background: var(--win-yellow);
-  border: var(--border-size) solid #000;
-  padding: 8px 20px;
-  font-family: inherit;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 #000;
+#modal {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: var(--border-thick) solid #000;
+  box-shadow: 15px 15px 0 #000;
+  width: 90%; max-width: 500px;
+  display: none; z-index: 1001;
 }
-.btn-main:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+
+video { width: 100%; border: 2px solid #000; background: #000; }
 
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">KCHOR.SYS</div>
-  <div class="nav-links">
-    <a href="#">PROJECTS</a>
-    <a href="#">LOGS</a>
-    <a href="#">ABOUT</a>
+<div class="desktop-icons">
+  <div class="icon">
+    <div class="icon-graphic" style="background: var(--win-blue);">[ ]</div>
+    <span>MY_WORK</span>
   </div>
-</nav>
+  <div class="icon">
+    <div class="icon-graphic" style="background: var(--win-pink);">?</div>
+    <span>ABOUT.ME</span>
+  </div>
+  <div class="icon">
+    <div class="icon-graphic" style="background: var(--win-yellow);">!</div>
+    <span>README</span>
+  </div>
+</div>
 
-<section class="hero-window">
-  <div class="title-bar">
-    <span>SYSTEM_GREETING.EXE</span>
-    <div class="win-buttons">
-      <div class="win-btn"></div>
-      <div class="win-btn"></div>
-      <div class="win-btn" style="background: var(--win-red);"></div>
+<div class="workspace">
+  <div class="window">
+    <div class="title-bar" style="background: var(--win-blue);">
+      <span>USER_INTERFACE.EXE</span>
+      <div class="controls">
+        <div class="dot"></div>
+        <div class="dot" style="background: var(--win-red);"></div>
+      </div>
+    </div>
+    <div style="padding: 30px; text-align: center;">
+      <h1 style="font-size: 50px; line-height: 1;">HI, I'M KCHOR</h1>
+      <p style="font-size: 24px; margin: 10px 0;">Roblox Systems Developer // Chaos Enthusiast</p>
     </div>
   </div>
-  <div class="content-area">
-    <h1>KCHOR IS ONLINE</h1>
-    <p>Creating chaotic systems for digital playgrounds.</p>
-    <button class="btn-main" onclick="scrollDown()">INITIALIZE_WORK</button>
+
+  <div class="window">
+    <div class="title-bar" style="background: var(--win-green);">
+      <span>PROJECT_DATABASE.SYS</span>
+      <div class="controls"><div class="dot"></div><div class="dot"></div></div>
+    </div>
+    <div class="project-grid" id="grid"></div>
   </div>
-</section>
+</div>
 
-<div class="projects-grid" id="grid"></div>
+<div class="sticky">
+  <strong style="font-size: 20px;">TODO LIST:</strong>
+  <ul style="margin-top: 5px; list-style: none; font-size: 18px;">
+    <li>- Optimize Rain FX</li>
+    <li>- Fix UI Clipping</li>
+    <li>- Buff Boss HP</li>
+  </ul>
+</div>
 
-<div id="overlay" onclick="closePanel()"></div>
-<div id="panel">
-  <div class="title-bar" id="pHeader" style="background: var(--win-yellow);">
-    <span id="pTitle">VIEWER</span>
-    <div class="win-buttons" onclick="closePanel()" style="cursor:pointer">
-      <div class="win-btn" style="background: var(--win-red);"></div>
+<div class="taskbar">
+  <button class="start-btn">START</button>
+  <div style="flex-grow: 1; font-size: 20px;">
+    <span id="clock">12:00 PM</span>
+  </div>
+  <div style="border-left: 2px solid #000; padding-left: 10px; font-size: 18px;">
+    SYS_OK
+  </div>
+</div>
+
+<div id="overlay" onclick="closeModal()"></div>
+<div id="modal">
+  <div class="title-bar" id="mHeader">
+    <span id="mTitle">FILE_VIEWER</span>
+    <div class="controls" onclick="closeModal()" style="cursor:pointer">
+      <div class="dot" style="background: var(--win-red);"></div>
     </div>
   </div>
   <div style="padding: 20px;">
-    <div style="width:100%; height:200px; background:#000; border:var(--border-size) solid #000; margin-bottom:15px;">
-        <video id="pVideo" style="width:100%; height:100%;" controls></video>
-    </div>
-    <p id="pText" style="font-size:22px;"></p>
+    <video id="mVideo" controls></video>
+    <p id="mText" style="font-size: 22px; margin-top: 15px;"></p>
   </div>
 </div>
 
 <script>
 const projs = [
-  { t: "ROUND SYSTEM", d: "Core Gameplay Loop", c: "var(--win-blue)", f: "Manages server-wide timers, teleportation, and win conditions." },
-  { t: "STORM ENGINE", d: "Dynamic Weather", c: "var(--win-green)", f: "A physics-based weather system including tornados and particle-heavy blizzards." },
-  { t: "COMBAT V3", d: "Physics Combat", c: "var(--win-red)", f: "Raycast-based hit detection with custom knockback and animation blending." }
+  { t: "ROUND_SYSTEM", d: "Game Loop Logic", c: "var(--win-blue)", f: "Server-side synchronization for lobby, match, and reward states." },
+  { t: "STORM_ENGINE", d: "Atmospheric Chaos", c: "var(--win-yellow)", f: "Procedurally generated weather disasters with dynamic lightning." },
+  { t: "MELEE_CORE", d: "Combat Physics", c: "var(--win-pink)", f: "High-performance hit detection with customizable knockback vectors." }
 ];
 
 const grid = document.getElementById('grid');
 projs.forEach(p => {
   const card = document.createElement('div');
-  card.className = 'project-card';
+  card.className = 'card';
   card.innerHTML = `
-    <div class="card-header" style="background: ${p.c}">
-      <span>${p.t}</span>
-      <span>●</span>
-    </div>
-    <div class="card-body">
-      <h3>${p.t}</h3>
-      <p>${p.d}</p>
+    <div class="card-header" style="background: ${p.c}">${p.t}.BAT</div>
+    <div class="card-content">
+      <h3 style="font-size: 24px;">${p.t}</h3>
+      <p style="font-size: 18px; color: #444;">${p.d}</p>
     </div>
   `;
-  card.onclick = () => {
-    document.getElementById('pTitle').innerText = p.t;
-    document.getElementById('pText').innerText = p.f;
-    document.getElementById('pHeader').style.background = p.c;
-    document.getElementById('panel').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-  };
+  card.onclick = () => openModal(p);
   grid.appendChild(card);
 });
 
-function closePanel() {
-  document.getElementById('panel').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
+function openModal(p) {
+  document.getElementById('mTitle').innerText = p.t;
+  document.getElementById('mText').innerText = p.f;
+  document.getElementById('mHeader').style.background = p.c;
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('modal').style.display = 'block';
 }
 
-function scrollDown() {
-  window.scrollTo({top: 600, behavior: 'smooth'});
+function closeModal() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('modal').style.display = 'none';
+  document.getElementById('mVideo').pause();
 }
+
+// Simple Clock
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+setInterval(updateClock, 1000);
+updateClock();
 </script>
 
 </body>
