@@ -17,7 +17,6 @@
     --accent2: #c084fc;
     --text: #f0eeff;
     --muted: #7a7894;
-    --card-h: 320px;
   }
 
   body {
@@ -35,13 +34,8 @@
     z-index: 9999; flex-direction: column; gap: 16px;
     animation: loaderOut 0.6s ease 2s forwards;
   }
-  #loader .bar {
-    width: 180px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
-  }
-  #loader .bar-fill {
-    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
-    animation: barFill 1.8s ease forwards;
-  }
+  #loader .bar { width: 180px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  #loader .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); animation: barFill 1.8s ease forwards; }
   #loader span { font-family: 'Syne', sans-serif; font-size: 13px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
   @keyframes barFill { from { width: 0 } to { width: 100% } }
   @keyframes loaderOut { to { opacity: 0; pointer-events: none; } }
@@ -54,15 +48,8 @@
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s, background 0.3s;
   }
-  nav.scrolled {
-    background: rgba(8,8,16,0.85);
-    backdrop-filter: blur(20px);
-    border-color: var(--border);
-  }
-  .logo {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px;
-    letter-spacing: -0.02em;
-  }
+  nav.scrolled { background: rgba(8,8,16,0.85); backdrop-filter: blur(20px); border-color: var(--border); }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
   .logo span { color: var(--accent); }
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
@@ -91,8 +78,7 @@
     font-size: clamp(52px, 8vw, 100px); line-height: 1;
     letter-spacing: -0.04em; margin-bottom: 24px;
   }
-  .hero h1 em { font-style: normal; color: transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.25); }
+  .hero h1 em { font-style: normal; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.25); }
   .hero p { font-size: 17px; color: var(--muted); max-width: 420px; line-height: 1.7; margin-bottom: 40px; }
   .hero-cta {
     display: inline-flex; align-items: center; gap: 8px;
@@ -107,14 +93,12 @@
     font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
     display: flex; align-items: center; gap: 10px;
   }
-  .scroll-hint::after {
-    content: ''; display: block; width: 1px; height: 32px;
-    background: var(--muted); animation: scrollPulse 2s ease infinite;
-  }
+  .scroll-hint::after { content: ''; display: block; width: 1px; height: 32px; background: var(--muted); animation: scrollPulse 2s ease infinite; }
   @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
   /* ── SECTION ── */
-  .section { padding: 100px 48px; }
+  .section { padding: 100px 0; }
+  .section-header { padding: 0 48px; margin-bottom: 36px; }
   .section-label {
     font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 16px;
@@ -124,77 +108,84 @@
   .section-title {
     font-family: 'Syne', sans-serif; font-weight: 700;
     font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.03em;
-    margin-bottom: 56px;
   }
 
-  /* ── PROJECT GRID ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+  /* ── SCROLL HINT BAR ── */
+  .scroll-hint-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 48px; margin-bottom: 24px;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
   }
+  .scroll-hint-bar::before, .scroll-hint-bar::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* 3D tilt wrapper — perspective lives here */
-  .card-wrap {
+  /* ── HORIZONTAL SCROLL TRACK ── */
+  .track-wrap { position: relative; }
+  .fade-edge-l, .fade-edge-r {
+    position: absolute; top: 0; bottom: 20px;
+    width: 90px; pointer-events: none; z-index: 10;
+  }
+  .fade-edge-l { left: 0; background: linear-gradient(to right, var(--bg) 20%, transparent); }
+  .fade-edge-r { right: 0; background: linear-gradient(to left, var(--bg) 20%, transparent); }
+  .scroll-track {
+    display: flex; gap: 18px;
+    overflow-x: auto;
+    padding: 14px 48px 28px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .scroll-track::-webkit-scrollbar { display: none; }
+
+  /* ── CARD SCENE ── */
+  .card-scene {
+    flex: 0 0 230px; height: 300px;
     perspective: 900px;
-    border-radius: 16px;
+    scroll-snap-align: start;
+    cursor: pointer; flex-shrink: 0;
   }
-
-  .card {
-    position: relative; border-radius: 16px; overflow: hidden;
-    cursor: pointer; background: var(--surface);
-    border: 1px solid var(--border);
-    height: var(--card-h);
+  .card-3d {
+    width: 100%; height: 100%;
+    position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.12s ease, border-color 0.3s, box-shadow 0.3s;
+    border-radius: 16px;
     will-change: transform;
   }
-  .card:hover { border-color: rgba(124,109,250,0.45); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
-
-  /* shine overlay */
-  .card-shine {
-    position: absolute; inset: 0; z-index: 10; border-radius: 16px;
-    pointer-events: none;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 65%);
-    opacity: 0; transition: opacity 0.3s;
+  .card-front {
+    position: absolute; inset: 0;
+    border-radius: 16px; overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
-  .card:hover .card-shine { opacity: 1; }
-
-  .card-thumb-placeholder {
-    width: 100%; height: 210px;
+  .card-scene:hover .card-front {
+    border-color: rgba(124,109,250,0.45);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .card-thumb {
+    height: 160px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-    transition: transform 0.12s ease;
+    font-size: 42px; position: relative; overflow: hidden;
   }
-  .card-thumb-placeholder::after {
+  .card-thumb::after {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(124,109,250,0.18), transparent 60%);
+    background: radial-gradient(circle at 35% 55%, rgba(124,109,250,0.18), transparent 65%);
   }
-  .placeholder-icon { font-size: 44px; opacity: 0.22; transform: translateZ(30px); display: block; }
-
-  .card-body { padding: 18px 20px 20px; }
-  .card-tag {
-    display: inline-block; font-size: 10px; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
-  }
-  .card-title {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px;
-    letter-spacing: -0.02em; margin-bottom: 4px;
-  }
-  .card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
+  .card-info { padding: 14px 16px 18px; flex: 1; }
+  .card-tag { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+  .card-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.02em; color: var(--text); margin-bottom: 5px; }
+  .card-blurb { font-size: 12px; color: var(--muted); line-height: 1.5; }
   .card-arrow {
-    position: absolute; top: 18px; right: 18px;
-    width: 32px; height: 32px; border-radius: 50%;
+    position: absolute; top: 14px; right: 14px;
+    width: 28px; height: 28px; border-radius: 50%;
     background: rgba(255,255,255,0.06); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
-    opacity: 0; transform: scale(0.8) rotate(-45deg);
+    font-size: 13px; opacity: 0; transform: scale(0.8);
     transition: opacity 0.3s, transform 0.3s;
-    font-size: 14px; z-index: 11;
   }
-  .card:hover .card-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
+  .card-scene:hover .card-arrow { opacity: 1; transform: scale(1); }
 
-  /* ── OVERLAY BACKDROP ── */
+  /* ── OVERLAY ── */
   #overlay {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(4,4,12,0.7);
@@ -204,40 +195,102 @@
   }
   #overlay.active { opacity: 1; pointer-events: auto; }
 
-  /* ── PROJECT PANEL ── */
+  /* ── PANEL ── */
   #panel {
     position: fixed; top: 0; right: 0; bottom: 0; z-index: 300;
-    width: min(860px, 92vw);
+    width: min(960px, 96vw);
     background: var(--bg2);
     border-left: 1px solid var(--border);
-    display: flex; flex-direction: column;
     transform: translateX(100%);
     transition: transform 0.55s cubic-bezier(.3,.9,.4,1);
     overflow: hidden;
+    display: flex; flex-direction: column;
   }
   #panel.active { transform: translateX(0); }
 
-  .panel-close {
-    position: absolute; top: 20px; right: 24px; z-index: 10;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  /* ── PANEL SPLIT LAYOUT ── */
+  .panel-split {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* LEFT — card preview + nav arrows */
+  .panel-left {
+    background: #09090f;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 28px;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  .panel-card-preview {
+    width: 210px;
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(124,109,250,0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,109,250,0.08);
+    display: flex; flex-direction: column;
+    background: var(--surface);
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+  }
+  .panel-card-preview:hover { transform: translateY(-4px); }
+
+  .panel-card-thumb {
+    height: 140px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; color: var(--muted);
+    font-size: 46px; position: relative; overflow: hidden;
+  }
+  .panel-card-thumb::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 40% 55%, rgba(124,109,250,0.22), transparent 65%);
+  }
+  .panel-card-body { padding: 16px 18px 20px; }
+  .panel-card-tag { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .panel-card-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+  .panel-card-blurb { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Prev / Next arrows */
+  .panel-nav {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .panel-nav-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 17px; color: var(--muted);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    user-select: none; line-height: 1;
+  }
+  .panel-nav-btn:hover:not(:disabled) { background: rgba(124,109,250,0.15); border-color: rgba(124,109,250,0.4); color: var(--text); }
+  .panel-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+  .panel-nav-count { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; min-width: 44px; text-align: center; }
+
+  /* RIGHT — video + detail */
+  .panel-right {
+    display: flex; flex-direction: column;
+    overflow-y: auto; position: relative;
+  }
+
+  .panel-close {
+    position: absolute; top: 18px; right: 20px; z-index: 10;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 15px; color: var(--muted);
     transition: background 0.2s, color 0.2s;
   }
   .panel-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
-
-  .panel-inner {
-    display: flex; flex-direction: column; height: 100%; overflow-y: auto;
-  }
 
   .panel-video-wrap {
     position: relative; background: #000; flex-shrink: 0;
     aspect-ratio: 16/9;
   }
-  .panel-video-wrap video {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
+  .panel-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
   .panel-video-placeholder {
     width: 100%; height: 100%;
     background: linear-gradient(135deg, #0d0d1a, #12122a);
@@ -245,86 +298,78 @@
     position: relative; overflow: hidden;
   }
   .panel-video-placeholder::before {
-    content: '';
-    position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: radial-gradient(circle at 50% 50%, rgba(124,109,250,0.15) 0%, transparent 70%);
   }
   .play-btn {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(124,109,250,0.2);
-    border: 1.5px solid rgba(124,109,250,0.5);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(124,109,250,0.2); border: 1.5px solid rgba(124,109,250,0.5);
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px; position: relative; z-index: 1;
-    color: rgba(255,255,255,0.8);
+    font-size: 20px; position: relative; z-index: 1; color: rgba(255,255,255,0.8);
   }
 
-  .panel-content { padding: 36px 40px 48px; flex: 1; }
-
+  .panel-content { padding: 30px 32px 48px; flex: 1; }
   .panel-eyebrow {
     font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 12px;
+    color: var(--accent); margin-bottom: 10px;
     display: flex; align-items: center; gap: 8px;
   }
   .panel-eyebrow::before { content: ''; display: block; width: 14px; height: 1px; background: var(--accent); }
-
   .panel-title {
     font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.03em;
-    margin-bottom: 16px; line-height: 1.1;
+    font-size: clamp(22px, 3vw, 34px); letter-spacing: -0.03em;
+    margin-bottom: 14px; line-height: 1.1;
   }
-
-  .panel-desc { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
-
-  .panel-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .panel-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
+  .panel-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
   .tag {
     font-size: 11px; padding: 5px 12px; border-radius: 100px;
     background: rgba(124,109,250,0.1); color: var(--accent);
     border: 1px solid rgba(124,109,250,0.2); letter-spacing: 0.05em;
   }
-
-  .panel-divider { height: 1px; background: var(--border); margin-bottom: 28px; }
-
-  .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
-  .stat-item { }
-  .stat-value {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 26px;
-    letter-spacing: -0.03em; margin-bottom: 4px;
-  }
-  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .panel-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+  .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stat-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.03em; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
   /* ── ABOUT ── */
+  .about-section { padding: 100px 48px; }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
   .about-text p { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
   .skills-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-  .skill-chip {
-    font-size: 12px; padding: 6px 14px; border-radius: 100px;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text);
-  }
+  .skill-chip { font-size: 12px; padding: 6px 14px; border-radius: 100px; background: var(--surface); border: 1px solid var(--border); color: var(--text); }
 
   /* ── FOOTER ── */
-  footer {
-    padding: 40px 48px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-  }
+  footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   footer p { font-size: 13px; color: var(--muted); }
   .footer-links { display: flex; gap: 24px; }
   .footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--text); }
 
-  /* ── TRANSITIONS ── */
+  /* ── FADE IN ── */
   .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-  @media (max-width: 680px) {
+  /* ── MOBILE ── */
+  @media (max-width: 700px) {
     nav { padding: 16px 20px; }
-    .hero, .section { padding-left: 20px; padding-right: 20px; }
-    .projects-grid { grid-template-columns: 1fr; }
+    .hero { padding-left: 20px; padding-right: 20px; }
+    .section-header, .scroll-hint-bar { padding-left: 20px; padding-right: 20px; }
+    .scroll-track { padding-left: 20px; padding-right: 20px; }
+    .about-section { padding: 60px 20px; }
     .about-grid { grid-template-columns: 1fr; }
-    #panel { width: 100vw; }
-    .panel-content { padding: 24px 20px 36px; }
     .scroll-hint { left: 20px; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
+    #panel { width: 100vw; }
+    .panel-split { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .panel-left {
+      flex-direction: row; justify-content: space-between;
+      padding: 20px; border-right: none; border-bottom: 1px solid var(--border);
+      height: auto; gap: 16px;
+    }
+    .panel-card-preview { width: 130px; }
+    .panel-card-thumb { height: 80px; font-size: 30px; }
+    .panel-right { overflow-y: auto; }
   }
 </style>
 </head>
@@ -358,16 +403,24 @@
 
 <!-- PROJECTS -->
 <section class="section" id="work">
-  <div class="section-label">Selected Projects</div>
-  <h2 class="section-title">Things I've built</h2>
+  <div class="section-header fade-in">
+    <div class="section-label">Selected Projects</div>
+    <h2 class="section-title">Things I've built</h2>
+  </div>
 
-  <div class="projects-grid" id="projectsGrid"></div>
+  <div class="scroll-hint-bar">Scroll to explore · Click to open</div>
+
+  <div class="track-wrap">
+    <div class="fade-edge-l"></div>
+    <div class="fade-edge-r"></div>
+    <div class="scroll-track" id="projectsTrack"></div>
+  </div>
 </section>
 
 <!-- ABOUT -->
-<section class="section" id="about">
+<section class="about-section" id="about">
   <div class="section-label">About</div>
-  <h2 class="section-title">Who I am</h2>
+  <h2 class="section-title" style="margin-bottom:56px;">Who I am</h2>
   <div class="about-grid">
     <div class="about-text fade-in">
       <p>I'm Kchor, an independent Roblox game developer focused on building tight, polished game systems. I work across scripting, architecture, and design to create experiences that feel great to play.</p>
@@ -384,9 +437,9 @@
       </div>
     </div>
     <div class="fade-in" style="transition-delay:0.15s">
-      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px;">
-        <div style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px;">At a glance</div>
-        <div style="display: grid; gap: 18px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;">
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">At a glance</div>
+        <div style="display:grid;gap:18px;">
           <div>
             <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">4+</div>
             <div style="font-size:13px;color:var(--muted);margin-top:2px;">Years building on Roblox</div>
@@ -422,224 +475,127 @@
 <!-- PANEL -->
 <div id="panel">
   <button class="panel-close" onclick="closePanel()">✕</button>
-  <div class="panel-inner" id="panelInner"></div>
+  <div class="panel-split">
+
+    <!-- LEFT: card preview + arrows -->
+    <div class="panel-left">
+      <div class="panel-card-preview" id="panelCardPreview"></div>
+      <div class="panel-nav">
+        <button class="panel-nav-btn" id="btnPrev" onclick="navigatePanel(-1)">&#8592;</button>
+        <div class="panel-nav-count" id="navCount">1 / 19</div>
+        <button class="panel-nav-btn" id="btnNext" onclick="navigatePanel(1)">&#8594;</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: video + detail -->
+    <div class="panel-right" id="panelRight"></div>
+
+  </div>
 </div>
 
-<!-- PROJECT DATA -->
 <script>
-const projects = {
-  p1: {
-    tag: 'Core · Gameplay',
-    title: 'Round System',
-    icon: '🔄',
-    grad: 'linear-gradient(135deg,#0d1a2e,#102040)',
-    desc: 'Manages the full game loop — lobby countdown, round start, active phase, and end state. Coordinates all other systems via server-side events and ensures clean state resets between rounds.',
-    tags: ['ModuleScript','RemoteEvents','RunService','BindableEvents'],
-    stats:[{v:'3',l:'Round Phases'},{v:'1',l:'Central Controller'},{v:'∞',l:'Replayable'}]
-  },
-  p2: {
-    tag: 'World · Procedural',
-    title: 'Random Flower Size Generation',
-    icon: '🌸',
-    grad: 'linear-gradient(135deg,#1a0d2e,#2d1040)',
-    desc: 'Procedurally spawns flowers across the map with randomised scale, colour tint, and placement using seeded RNG. Adds visual variance to the world each round without any manual placement.',
-    tags: ['Random','CFrame','Instance','Seeded RNG'],
-    stats:[{v:'∞',l:'Unique Layouts'},{v:'3',l:'Size Ranges'},{v:'Seed-based',l:'Reproducible'}]
-  },
-  p3: {
-    tag: 'Events · Weather',
-    title: 'Weather System',
-    icon: '⛈️',
-    grad: 'linear-gradient(135deg,#1a1428,#2a1040)',
-    desc: 'Pre-round catastrophe framework with a slot-machine warning UI. Randomly selects from Tornado, Blizzard, and Thunderstorm — each backed by a dedicated server module and client-side VFX LocalScript. Fully extensible; new weathers drop in as standalone modules.',
-    tags: ['ModuleScript','TweenService','Sound','RemoteEvents','LocalScript VFX'],
-    stats:[{v:'3',l:'Catastrophes'},{v:'1',l:'Shared Framework'},{v:'6',l:'Scripts Total'}]
-  },
-  p4: {
-    tag: 'UI · Progression',
-    title: 'Title System',
-    icon: '🏅',
-    grad: 'linear-gradient(135deg,#2e1f0a,#3e2a0a)',
-    desc: 'Awards players cosmetic titles based on achievements, playtime, and milestones. Titles display above the player\'s name in-world and in the leaderboard UI, with animated unlock notifications.',
-    tags: ['DataStore','ScreenGui','TweenService','StringValue'],
-    stats:[{v:'20+',l:'Unique Titles'},{v:'3',l:'Rarity Tiers'},{v:'Persistent',l:'Data Saved'}]
-  },
-  p5: {
-    tag: 'Inventory · UI',
-    title: 'Backpack System',
-    icon: '🎒',
-    grad: 'linear-gradient(135deg,#0d2e1a,#103020)',
-    desc: 'A custom inventory and item management system replacing the default Roblox backpack. Supports item stacking, hotbar shortcuts, drag-and-drop reordering, and clean ScreenGui rendering tied to the server-side item state.',
-    tags: ['ScreenGui','RemoteEvents','Tool','UserInputService'],
-    stats:[{v:'6',l:'Hotbar Slots'},{v:'Stack-aware',l:'Items'},{v:'Custom',l:'No Default UI'}]
-  },
-  p6: {
-    tag: 'Progression · Economy',
-    title: 'Upgrade System',
-    icon: '⬆️',
-    grad: 'linear-gradient(135deg,#2e0d2e,#3a1040)',
-    desc: 'Tiered upgrade tree for player stats — speed, health, damage, and more. Each upgrade costs in-game currency and shows a live preview of the stat change. Built with a data-driven config so new upgrades require zero scripting.',
-    tags: ['DataStore','ScreenGui','ModuleScript','RemoteEvents'],
-    stats:[{v:'5',l:'Stat Categories'},{v:'4',l:'Tiers Each'},{v:'Data-driven',l:'Config'}]
-  },
-  p7: {
-    tag: 'Server · Communication',
-    title: 'Global Announcement System',
-    icon: '📢',
-    grad: 'linear-gradient(135deg,#2e1a0a,#3e2010)',
-    desc: 'Broadcasts server-wide messages to all players with animated banner UI. Supports custom icons, severity levels (info / warning / alert), auto-dismiss timers, and admin-triggered messages via a simple server API.',
-    tags: ['RemoteEvents','ScreenGui','TweenService','Sound'],
-    stats:[{v:'3',l:'Severity Levels'},{v:'Auto-dismiss',l:'Timer'},{v:'Admin API',l:'Callable'}]
-  },
-  p8: {
-    tag: 'Admin · Moderation',
-    title: 'Global Ban System',
-    icon: '🔨',
-    grad: 'linear-gradient(135deg,#2e0a0a,#3e1010)',
-    desc: 'Server-side ban management with persistent DataStore records. Banned players are kicked on join with a custom reason message. Supports temporary and permanent bans, admin unban commands, and a ban log viewer.',
-    tags: ['DataStore','PlayerAdded','Kick','Admin Commands'],
-    stats:[{v:'Permanent',l:'or Timed'},{v:'Kick on Join',l:'Enforcement'},{v:'Logged',l:'All Actions'}]
-  },
-  p9: {
-    tag: 'World · Engineering',
-    title: 'Bridge System',
-    icon: '🌉',
-    grad: 'linear-gradient(135deg,#0a1a2e,#0d2040)',
-    desc: 'Dynamically assembles bridges from modular parts using CFrame math and WeldConstraints. Players can build or destroy bridges mid-round, with structural integrity logic that collapses unsupported spans.',
-    tags: ['CFrame','WeldConstraint','Humanoid','RemoteEvents'],
-    stats:[{v:'Modular',l:'Parts'},{v:'Physics-based',l:'Collapse'},{v:'Dynamic',l:'Build/Destroy'}]
-  },
-  p10: {
-    tag: 'Gameplay · Resources',
-    title: 'Power System',
-    icon: '⚡',
-    grad: 'linear-gradient(135deg,#2e2a0a,#3e3410)',
-    desc: 'A player resource bar tracking power/energy that drains on ability use and regenerates over time. Certain actions are gated behind power thresholds, adding strategic depth to combat and traversal.',
-    tags: ['RunService','ScreenGui','TweenService','Heartbeat'],
-    stats:[{v:'Regen Rate',l:'Configurable'},{v:'Ability Gates',l:'Power Checks'},{v:'Per-player',l:'Tracked'}]
-  },
-  p11: {
-    tag: 'World · Mechanics',
-    title: 'Generator System',
-    icon: '🔋',
-    grad: 'linear-gradient(135deg,#102e10,#143a14)',
-    desc: 'Interactable generators scattered across the map that players can activate to unlock zone perks — lighting, barriers, or buffs. Generators have health, can be destroyed by enemies, and show a shared progress UI.',
-    tags: ['ProximityPrompt','RunService','RemoteEvents','ScreenGui'],
-    stats:[{v:'Destroyable',l:'Health'},{v:'Zone Buffs',l:'On Activation'},{v:'Shared',l:'Progress UI'}]
-  },
-  p12: {
-    tag: 'Gameplay · Combat',
-    title: 'Combat System',
-    icon: '⚔️',
-    grad: 'linear-gradient(135deg,#2e0a0a,#401010)',
-    desc: 'Melee and ranged combat with hitbox detection, combo chains, knockback physics, and damage numbers. Integrates with the Weapon Choose System and feeds kill events into the Round and Title systems.',
-    tags: ['Hitbox','AssemblyLinearVelocity','RemoteEvents','Combo Logic'],
-    stats:[{v:'Melee + Ranged',l:'Attack Types'},{v:'Combo Chains',l:'Up to 4-hit'},{v:'Knockback',l:'Physics-based'}]
-  },
-  p13: {
-    tag: 'NPC · Narrative',
-    title: 'Dialogue System',
-    icon: '💬',
-    grad: 'linear-gradient(135deg,#0a2e2a,#0d3a34)',
-    desc: 'Branching NPC dialogue with proximity trigger, animated typewriter text, and choice buttons. Supports quest hooks, shop entry, and lore delivery. Dialogue trees are data-driven JSON configs requiring no script changes.',
-    tags: ['ProximityPrompt','ScreenGui','TweenService','JSON Config'],
-    stats:[{v:'Branching',l:'Choice Trees'},{v:'Typewriter',l:'Text FX'},{v:'Data-driven',l:'Config'}]
-  },
-  p14: {
-    tag: 'Economy · NPC',
-    title: 'Shop System',
-    icon: '🛒',
-    grad: 'linear-gradient(135deg,#1a2e0a,#223a10)',
-    desc: 'NPC-driven shop with item listings, currency checks, purchase confirmation, and inventory sync. Supports consumables, equipment, and cosmetics. Item stock can be limited and restocks on round start.',
-    tags: ['RemoteEvents','DataStore','ScreenGui','ModuleScript'],
-    stats:[{v:'3',l:'Item Categories'},{v:'Limited Stock',l:'per Round'},{v:'Instant',l:'Inventory Sync'}]
-  },
-  p15: {
-    tag: 'Roles · Gameplay',
-    title: 'Killer / Captain System',
-    icon: '💀',
-    grad: 'linear-gradient(135deg,#2e0a1a,#3e1020)',
-    desc: 'Assigns special roles — Killer and Captain — to players at round start with unique abilities, win conditions, and UI indicators. Killers hunt survivors while Captains coordinate team objectives. Role logic is fully server-authoritative.',
-    tags: ['Teams','RemoteEvents','ModuleScript','SpecialAbilities'],
-    stats:[{v:'2',l:'Special Roles'},{v:'Unique',l:'Win Conditions'},{v:'Server-auth',l:'Role Logic'}]
-  },
-  p16: {
-    tag: 'Persistence · Backend',
-    title: 'Data Saving System',
-    icon: '💾',
-    grad: 'linear-gradient(135deg,#0a1a2e,#0e2040)',
-    desc: 'Robust DataStore wrapper handling player stats, inventory, currency, titles, and upgrades. Features auto-save on interval, save-on-leave, data migration versioning, and retry logic for failed writes.',
-    tags: ['DataStore','pcall','PlayerRemoving','Auto-save'],
-    stats:[{v:'Auto-save',l:'Interval'},{v:'Retry Logic',l:'On Failure'},{v:'Versioned',l:'Migration'}]
-  },
-  p17: {
-    tag: 'Player · Feel',
-    title: 'Movement System',
-    icon: '🏃',
-    grad: 'linear-gradient(135deg,#1a0d2e,#261040)',
-    desc: 'Custom character movement overriding default Roblox controls. Adds sprint, slide, wall-jump, and stamina drain. Uses BodyVelocity and spring-based camera lean for responsive feel without jitter.',
-    tags: ['BodyVelocity','UserInputService','RunService','SpringPhysics'],
-    stats:[{v:'4',l:'Move States'},{v:'Stamina',l:'Managed'},{v:'Spring Camera',l:'Lean'}]
-  },
-  p18: {
-    tag: 'Loadout · UI',
-    title: 'Weapon Choose System',
-    icon: '🔫',
-    grad: 'linear-gradient(135deg,#2e1a0a,#3a2010)',
-    desc: 'Pre-round weapon selection screen where players choose their loadout from unlocked weapons. Displays stats comparison, rarity badges, and a 3D weapon preview. Selection syncs to server and equips on round start.',
-    tags: ['ScreenGui','ViewportFrame','RemoteEvents','TweenService'],
-    stats:[{v:'3D',l:'Weapon Preview'},{v:'Stat Compare',l:'On Hover'},{v:'Loadout',l:'Saved'}]
-  },
-  p19: {
-    tag: 'AI · Enemies',
-    title: 'NPC Behavior System',
-    icon: '🤖',
-    grad: 'linear-gradient(135deg,#0a2e0a,#103a14)',
-    desc: 'State-machine driven NPCs with patrol, chase, attack, and flee states. Uses pathfinding via PathfindingService, line-of-sight raycasting for detection, and configurable aggro ranges. Each NPC type has a unique behavior profile.',
-    tags: ['PathfindingService','Raycast','StateMachine','Humanoid'],
-    stats:[{v:'4',l:'AI States'},{v:'LoS',l:'Raycasting'},{v:'Per-type',l:'Config'}]
-  }
-};
+const projects = [
+  { id:'p1',  tag:'Core · Gameplay',       icon:'🔄', grad:'linear-gradient(135deg,#0d1a2e,#102040)', title:'Round System',      blurb:'Full game loop manager',    desc:'Manages the full game loop — lobby countdown, round start, active phase, and end state. Coordinates all other systems via server-side events and ensures clean state resets between rounds.',                                                                          tags:['ModuleScript','RemoteEvents','RunService','BindableEvents'],           stats:[{v:'3',l:'Round Phases'},{v:'1',l:'Central Controller'},{v:'∞',l:'Replayable'}] },
+  { id:'p2',  tag:'World · Procedural',    icon:'🌸', grad:'linear-gradient(135deg,#1a0d2e,#2d1040)', title:'Flower Generation', blurb:'Procedural world variance', desc:'Procedurally spawns flowers across the map with randomised scale, colour tint, and placement using seeded RNG. Adds visual variance to the world each round without any manual placement.',                                                                              tags:['Random','CFrame','Instance','Seeded RNG'],                             stats:[{v:'∞',l:'Unique Layouts'},{v:'3',l:'Size Ranges'},{v:'Seed-based',l:'Reproducible'}] },
+  { id:'p3',  tag:'Events · Weather',      icon:'⛈️', grad:'linear-gradient(135deg,#1a1428,#2a1040)', title:'Weather System',    blurb:'Catastrophe framework',     desc:'Pre-round catastrophe framework with a slot-machine warning UI. Randomly selects from Tornado, Blizzard, and Thunderstorm — each backed by a dedicated server module and client-side VFX LocalScript. Fully extensible.',                                         tags:['ModuleScript','TweenService','Sound','RemoteEvents','LocalScript VFX'], stats:[{v:'3',l:'Catastrophes'},{v:'1',l:'Shared Framework'},{v:'6',l:'Scripts Total'}] },
+  { id:'p4',  tag:'UI · Progression',      icon:'🏅', grad:'linear-gradient(135deg,#2e1f0a,#3e2a0a)', title:'Title System',      blurb:'Achievement cosmetics',     desc:'Awards players cosmetic titles based on achievements, playtime, and milestones. Titles display above the player\'s name in-world and in the leaderboard UI, with animated unlock notifications.',                                                                         tags:['DataStore','ScreenGui','TweenService','StringValue'],                  stats:[{v:'20+',l:'Unique Titles'},{v:'3',l:'Rarity Tiers'},{v:'Persistent',l:'Data Saved'}] },
+  { id:'p5',  tag:'Inventory · UI',        icon:'🎒', grad:'linear-gradient(135deg,#0d2e1a,#103020)', title:'Backpack System',   blurb:'Custom inventory UI',       desc:'A custom inventory and item management system replacing the default Roblox backpack. Supports item stacking, hotbar shortcuts, drag-and-drop reordering, and clean ScreenGui rendering tied to server-side item state.',                                              tags:['ScreenGui','RemoteEvents','Tool','UserInputService'],                  stats:[{v:'6',l:'Hotbar Slots'},{v:'Stack-aware',l:'Items'},{v:'Custom',l:'No Default UI'}] },
+  { id:'p6',  tag:'Progression · Economy', icon:'⬆️', grad:'linear-gradient(135deg,#2e0d2e,#3a1040)', title:'Upgrade System',    blurb:'Tiered stat upgrades',      desc:'Tiered upgrade tree for player stats — speed, health, damage, and more. Each upgrade costs in-game currency and shows a live preview of the stat change. Built with a data-driven config so new upgrades require zero scripting.',                                          tags:['DataStore','ScreenGui','ModuleScript','RemoteEvents'],                 stats:[{v:'5',l:'Stat Categories'},{v:'4',l:'Tiers Each'},{v:'Data-driven',l:'Config'}] },
+  { id:'p7',  tag:'Server · Comms',        icon:'📢', grad:'linear-gradient(135deg,#2e1a0a,#3e2010)', title:'Announcements',     blurb:'Server-wide broadcasts',    desc:'Broadcasts server-wide messages to all players with animated banner UI. Supports custom icons, severity levels (info / warning / alert), auto-dismiss timers, and admin-triggered messages via a simple server API.',                                                      tags:['RemoteEvents','ScreenGui','TweenService','Sound'],                     stats:[{v:'3',l:'Severity Levels'},{v:'Auto-dismiss',l:'Timer'},{v:'Admin API',l:'Callable'}] },
+  { id:'p8',  tag:'Admin · Moderation',    icon:'🔨', grad:'linear-gradient(135deg,#2e0a0a,#3e1010)', title:'Ban System',        blurb:'Persistent ban management', desc:'Server-side ban management with persistent DataStore records. Banned players are kicked on join with a custom reason message. Supports temporary and permanent bans, admin unban commands, and a ban log viewer.',                                                         tags:['DataStore','PlayerAdded','Kick','Admin Commands'],                     stats:[{v:'Perm',l:'or Timed'},{v:'Kick on Join',l:'Enforcement'},{v:'Logged',l:'All Actions'}] },
+  { id:'p9',  tag:'World · Engineering',   icon:'🌉', grad:'linear-gradient(135deg,#0a1a2e,#0d2040)', title:'Bridge System',     blurb:'Modular build & destroy',   desc:'Dynamically assembles bridges from modular parts using CFrame math and WeldConstraints. Players can build or destroy bridges mid-round, with structural integrity logic that collapses unsupported spans.',                                                                  tags:['CFrame','WeldConstraint','Humanoid','RemoteEvents'],                   stats:[{v:'Modular',l:'Parts'},{v:'Physics',l:'Collapse'},{v:'Dynamic',l:'Build/Destroy'}] },
+  { id:'p10', tag:'Gameplay · Resources',  icon:'⚡', grad:'linear-gradient(135deg,#2e2a0a,#3e3410)', title:'Power System',      blurb:'Energy resource bar',       desc:'A player resource bar tracking power/energy that drains on ability use and regenerates over time. Certain actions are gated behind power thresholds, adding strategic depth to combat and traversal.',                                                                      tags:['RunService','ScreenGui','TweenService','Heartbeat'],                   stats:[{v:'Regen',l:'Configurable'},{v:'Ability Gates',l:'Power Checks'},{v:'Per-player',l:'Tracked'}] },
+  { id:'p11', tag:'World · Mechanics',     icon:'🔋', grad:'linear-gradient(135deg,#102e10,#143a14)', title:'Generator System',  blurb:'Zone activation objects',   desc:'Interactable generators scattered across the map that players can activate to unlock zone perks — lighting, barriers, or buffs. Generators have health, can be destroyed by enemies, and show a shared progress UI.',                                                    tags:['ProximityPrompt','RunService','RemoteEvents','ScreenGui'],              stats:[{v:'Destroyable',l:'Health'},{v:'Zone Buffs',l:'On Activation'},{v:'Shared',l:'Progress UI'}] },
+  { id:'p12', tag:'Gameplay · Combat',     icon:'⚔️', grad:'linear-gradient(135deg,#2e0a0a,#401010)', title:'Combat System',     blurb:'Melee + ranged combat',     desc:'Melee and ranged combat with hitbox detection, combo chains, knockback physics, and damage numbers. Integrates with the Weapon Choose System and feeds kill events into the Round and Title systems.',                                                                   tags:['Hitbox','AssemblyLinearVelocity','RemoteEvents','Combo Logic'],        stats:[{v:'Melee+Ranged',l:'Attack Types'},{v:'4-hit',l:'Combo Chain'},{v:'Knockback',l:'Physics'}] },
+  { id:'p13', tag:'NPC · Narrative',       icon:'💬', grad:'linear-gradient(135deg,#0a2e2a,#0d3a34)', title:'Dialogue System',   blurb:'Branching NPC dialogue',    desc:'Branching NPC dialogue with proximity trigger, animated typewriter text, and choice buttons. Supports quest hooks, shop entry, and lore delivery. Dialogue trees are data-driven JSON configs requiring no script changes.',                                              tags:['ProximityPrompt','ScreenGui','TweenService','JSON Config'],             stats:[{v:'Branching',l:'Choice Trees'},{v:'Typewriter',l:'Text FX'},{v:'Data-driven',l:'Config'}] },
+  { id:'p14', tag:'Economy · NPC',         icon:'🛒', grad:'linear-gradient(135deg,#1a2e0a,#223a10)', title:'Shop System',       blurb:'NPC-driven storefront',     desc:'NPC-driven shop with item listings, currency checks, purchase confirmation, and inventory sync. Supports consumables, equipment, and cosmetics. Item stock can be limited and restocks on round start.',                                                                     tags:['RemoteEvents','DataStore','ScreenGui','ModuleScript'],                 stats:[{v:'3',l:'Item Categories'},{v:'Limited Stock',l:'per Round'},{v:'Instant',l:'Inventory Sync'}] },
+  { id:'p15', tag:'Roles · Gameplay',      icon:'💀', grad:'linear-gradient(135deg,#2e0a1a,#3e1020)', title:'Killer / Captain',  blurb:'Special role assignment',   desc:'Assigns special roles — Killer and Captain — to players at round start with unique abilities, win conditions, and UI indicators. Killers hunt survivors while Captains coordinate team objectives. Role logic is fully server-authoritative.',                            tags:['Teams','RemoteEvents','ModuleScript','SpecialAbilities'],              stats:[{v:'2',l:'Special Roles'},{v:'Unique',l:'Win Conditions'},{v:'Server-auth',l:'Role Logic'}] },
+  { id:'p16', tag:'Persistence · Backend', icon:'💾', grad:'linear-gradient(135deg,#0a1a2e,#0e2040)', title:'Data Saving',       blurb:'Robust DataStore wrapper',  desc:'Robust DataStore wrapper handling player stats, inventory, currency, titles, and upgrades. Features auto-save on interval, save-on-leave, data migration versioning, and retry logic for failed writes.',                                                              tags:['DataStore','pcall','PlayerRemoving','Auto-save'],                      stats:[{v:'Auto-save',l:'Interval'},{v:'Retry Logic',l:'On Failure'},{v:'Versioned',l:'Migration'}] },
+  { id:'p17', tag:'Player · Feel',         icon:'🏃', grad:'linear-gradient(135deg,#1a0d2e,#261040)', title:'Movement System',   blurb:'Sprint, slide, wall-jump',  desc:'Custom character movement overriding default Roblox controls. Adds sprint, slide, wall-jump, and stamina drain. Uses BodyVelocity and spring-based camera lean for responsive feel without jitter.',                                                                    tags:['BodyVelocity','UserInputService','RunService','SpringPhysics'],        stats:[{v:'4',l:'Move States'},{v:'Stamina',l:'Managed'},{v:'Spring Camera',l:'Lean'}] },
+  { id:'p18', tag:'Loadout · UI',          icon:'🔫', grad:'linear-gradient(135deg,#2e1a0a,#3a2010)', title:'Weapon Choose',     blurb:'Pre-round loadout select',  desc:'Pre-round weapon selection screen where players choose their loadout from unlocked weapons. Displays stats comparison, rarity badges, and a 3D weapon preview. Selection syncs to server and equips on round start.',                                                    tags:['ScreenGui','ViewportFrame','RemoteEvents','TweenService'],             stats:[{v:'3D',l:'Weapon Preview'},{v:'Stat Compare',l:'On Hover'},{v:'Loadout',l:'Saved'}] },
+  { id:'p19', tag:'AI · Enemies',          icon:'🤖', grad:'linear-gradient(135deg,#0a2e0a,#103a14)', title:'NPC Behavior',      blurb:'State-machine AI system',   desc:'State-machine driven NPCs with patrol, chase, attack, and flee states. Uses pathfinding via PathfindingService, line-of-sight raycasting for detection, and configurable aggro ranges. Each NPC type has a unique behavior profile.',                                    tags:['PathfindingService','Raycast','StateMachine','Humanoid'],              stats:[{v:'4',l:'AI States'},{v:'LoS',l:'Raycasting'},{v:'Per-type',l:'Config'}] },
+];
 
-// Build cards dynamically
-const grid = document.getElementById('projectsGrid');
-Object.entries(projects).forEach(([id, p], i) => {
-  const delay = (i * 0.05).toFixed(2);
-  grid.innerHTML += `
-    <div class="card fade-in" onclick="openPanel('${id}')" style="transition-delay:${delay}s">
-      <div class="card-arrow">↗</div>
-      <div class="card-thumb-placeholder" style="background:${p.grad}">
-        <div class="placeholder-icon">${p.icon}</div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">${p.tag}</div>
-        <div class="card-title">${p.title}</div>
-        <div class="card-desc">${p.desc.substring(0,90)}…</div>
+const track        = document.getElementById('projectsTrack');
+const panelEl      = document.getElementById('panel');
+const overlay      = document.getElementById('overlay');
+const panelCard    = document.getElementById('panelCardPreview');
+const panelRight   = document.getElementById('panelRight');
+const navCount     = document.getElementById('navCount');
+const btnPrev      = document.getElementById('btnPrev');
+const btnNext      = document.getElementById('btnNext');
+
+let currentIndex = 0;
+
+/* ── Build scroll cards ── */
+projects.forEach((p, i) => {
+  const scene = document.createElement('div');
+  scene.className = 'card-scene';
+  scene.innerHTML = `
+    <div class="card-3d">
+      <div class="card-front">
+        <div class="card-arrow">↗</div>
+        <div class="card-thumb" style="background:${p.grad}">${p.icon}</div>
+        <div class="card-info">
+          <div class="card-tag">${p.tag}</div>
+          <div class="card-name">${p.title}</div>
+          <div class="card-blurb">${p.blurb}</div>
+        </div>
       </div>
     </div>`;
+  scene.addEventListener('click', () => openPanel(i));
+  track.appendChild(scene);
 });
 
-const panel = document.getElementById('panel');
-const overlay = document.getElementById('overlay');
-const panelInner = document.getElementById('panelInner');
+/* ── 3D tilt ── */
+track.addEventListener('mousemove', e => {
+  const scene = e.target.closest('.card-scene');
+  if (!scene) return;
+  const c3d = scene.querySelector('.card-3d');
+  const rect = scene.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width - 0.5;
+  const y = (e.clientY - rect.top)  / rect.height - 0.5;
+  c3d.style.transform = `rotateY(${x * 16}deg) rotateX(${-y * 11}deg) scale3d(1.04,1.04,1.04)`;
+});
+track.addEventListener('mouseout', e => {
+  const scene = e.target.closest('.card-scene');
+  if (!scene || scene.contains(e.relatedTarget)) return;
+  const c3d = scene.querySelector('.card-3d');
+  c3d.style.transition = 'transform 0.4s ease';
+  c3d.style.transform = '';
+  setTimeout(() => c3d.style.transition = '', 400);
+});
 
-function openPanel(id) {
-  const p = projects[id];
-  if (!p) return;
+/* ── Render panel content ── */
+function renderPanel(index) {
+  const p = projects[index];
 
+  /* Left card preview */
+  panelCard.innerHTML = `
+    <div class="panel-card-thumb" style="background:${p.grad}">${p.icon}</div>
+    <div class="panel-card-body">
+      <div class="panel-card-tag">${p.tag}</div>
+      <div class="panel-card-name">${p.title}</div>
+      <div class="panel-card-blurb">${p.blurb}</div>
+    </div>`;
+
+  /* Nav */
+  navCount.textContent = `${index + 1} / ${projects.length}`;
+  btnPrev.disabled = index === 0;
+  btnNext.disabled = index === projects.length - 1;
+
+  /* Right: video + detail */
   const statsHtml = p.stats.map(s => `
-    <div class="stat-item">
+    <div>
       <div class="stat-value">${s.v}</div>
       <div class="stat-label">${s.l}</div>
     </div>`).join('');
-
   const tagsHtml = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
-
   const mediaHtml = p.video
     ? `<video controls autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"><source src="${p.video}" type="video/mp4"></video>`
     : `<div class="panel-video-placeholder"><div class="play-btn">▶</div></div>`;
 
-  panelInner.innerHTML = `
+  panelRight.innerHTML = `
     <div class="panel-video-wrap">${mediaHtml}</div>
     <div class="panel-content">
       <div class="panel-eyebrow">${p.tag}</div>
@@ -650,35 +606,57 @@ function openPanel(id) {
       <div class="panel-stats">${statsHtml}</div>
     </div>`;
 
-  panel.classList.add('active');
+  panelRight.scrollTop = 0;
+}
+
+function openPanel(index) {
+  currentIndex = index;
+  renderPanel(currentIndex);
+  panelEl.classList.add('active');
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
-  history.pushState(null, '', '#' + id);
+  history.pushState(null, '', '#' + projects[index].id);
+}
+
+function navigatePanel(dir) {
+  const next = currentIndex + dir;
+  if (next < 0 || next >= projects.length) return;
+  currentIndex = next;
+  renderPanel(currentIndex);
+  history.replaceState(null, '', '#' + projects[currentIndex].id);
 }
 
 function closePanel() {
-  panel.classList.remove('active');
+  panelEl.classList.remove('active');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
   history.pushState('', document.title, window.location.pathname);
 }
 
+/* Keyboard nav */
+document.addEventListener('keydown', e => {
+  if (!panelEl.classList.contains('active')) return;
+  if (e.key === 'ArrowRight') navigatePanel(1);
+  if (e.key === 'ArrowLeft')  navigatePanel(-1);
+  if (e.key === 'Escape')     closePanel();
+});
+
 window.onpopstate = closePanel;
 window.onload = () => {
   const hash = location.hash.replace('#', '');
-  if (hash && projects[hash]) openPanel(hash);
+  const idx  = projects.findIndex(p => p.id === hash);
+  if (idx !== -1) openPanel(idx);
 };
 
-// Nav scroll style
+/* Nav scroll style */
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', scrollY > 30);
 });
 
-// Intersection observer for fade-ins
-const observer = new IntersectionObserver((entries) => {
+/* Fade-in observer */
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
