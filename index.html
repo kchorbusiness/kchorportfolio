@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kenny.dev</title>
+<title>kchor.dev</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -353,57 +353,7 @@
   <div class="section-label">Selected Projects</div>
   <h2 class="section-title">Things I've built</h2>
 
-  <div class="projects-grid">
-
-    <div class="card fade-in" onclick="openPanel('p1')" style="transition-delay:0s">
-      <div class="card-arrow">↗</div>
-      <div class="card-thumb-placeholder">
-        <div class="placeholder-icon">⛵</div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">Vehicles · Gameplay</div>
-        <div class="card-title">Boat System</div>
-        <div class="card-desc">Captain roles, naval combat mechanics, and smooth water physics.</div>
-      </div>
-    </div>
-
-    <div class="card fade-in" onclick="openPanel('p2')" style="transition-delay:0.1s">
-      <div class="card-arrow">↗</div>
-      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #1a2e1a, #213e16)">
-        <div class="placeholder-icon">📦</div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">UI · Rewards</div>
-        <div class="card-title">Airdrop System</div>
-        <div class="card-desc">Timed supply drops with animated UI and randomised loot rewards.</div>
-      </div>
-    </div>
-
-    <div class="card fade-in" onclick="openPanel('p3')" style="transition-delay:0.2s">
-      <div class="card-arrow">↗</div>
-      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #1a1428, #2a1040)">
-        <div class="placeholder-icon">🌊</div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">Events · Survival</div>
-        <div class="card-title">Tsunami Mechanic</div>
-        <div class="card-desc">Dynamic wave generation with client-side VFX and player flood logic.</div>
-      </div>
-    </div>
-
-    <div class="card fade-in" onclick="openPanel('p4')" style="transition-delay:0.3s">
-      <div class="card-arrow">↗</div>
-      <div class="card-thumb-placeholder" style="background: linear-gradient(135deg, #2e1a1a, #3e1616)">
-        <div class="placeholder-icon">⛈️</div>
-      </div>
-      <div class="card-body">
-        <div class="card-tag">Weather · Systems</div>
-        <div class="card-title">Catastrophe System</div>
-        <div class="card-desc">Pre-round weather events — tornado, blizzard, thunderstorm — with slot-machine warning UI.</div>
-      </div>
-    </div>
-
-  </div>
+  <div class="projects-grid" id="projectsGrid"></div>
 </section>
 
 <!-- ABOUT -->
@@ -435,7 +385,7 @@
           </div>
           <div style="height:1px;background:var(--border)"></div>
           <div>
-            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">10+</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:32px;letter-spacing:-0.03em;">19</div>
             <div style="font-size:13px;color:var(--muted);margin-top:2px;">Complex systems shipped</div>
           </div>
           <div style="height:1px;background:var(--border)"></div>
@@ -471,58 +421,195 @@
 <script>
 const projects = {
   p1: {
-    tag: 'Vehicles · Gameplay',
-    title: 'Boat System',
-    desc: 'A fully-featured naval system built for a Roblox survival game. Features captain role assignment, boat controls with realistic water physics via VectorForce, passenger seating, and a custom HUD showing speed and heading. The system uses a modular architecture separating movement, roles, and UI into clean service scripts.',
-    tags: ['Lua', 'VectorForce', 'WeldConstraint', 'RemoteEvents', 'TweenService'],
-    stats: [
-      { v: '3', l: 'Boat Sizes' },
-      { v: '120+', l: 'Lines of Code' },
-      { v: '60fps', l: 'Target Perf' },
-    ],
-    video: '',
-    thumb: ''
+    tag: 'Core · Gameplay',
+    title: 'Round System',
+    icon: '🔄',
+    grad: 'linear-gradient(135deg,#0d1a2e,#102040)',
+    desc: 'Manages the full game loop — lobby countdown, round start, active phase, and end state. Coordinates all other systems via server-side events and ensures clean state resets between rounds.',
+    tags: ['ModuleScript','RemoteEvents','RunService','BindableEvents'],
+    stats:[{v:'3',l:'Round Phases'},{v:'1',l:'Central Controller'},{v:'∞',l:'Replayable'}]
   },
   p2: {
-    tag: 'UI · Rewards',
-    title: 'Airdrop System',
-    desc: 'A timed supply drop system that spawns crates at randomised map positions. Features a signal flare effect, animated drop animation with parachute physics, looting UI with grid-based inventory, and RNG weighted loot tables. The client-side VFX and server logic are fully decoupled.',
-    tags: ['Lua', 'TweenService', 'RunService', 'ScreenGui', 'Loot Tables'],
-    stats: [
-      { v: '5', l: 'Rarity Tiers' },
-      { v: '30s', l: 'Drop Timer' },
-      { v: '12', l: 'Unique Items' },
-    ],
-    video: '',
-    thumb: ''
+    tag: 'World · Procedural',
+    title: 'Random Flower Size Generation',
+    icon: '🌸',
+    grad: 'linear-gradient(135deg,#1a0d2e,#2d1040)',
+    desc: 'Procedurally spawns flowers across the map with randomised scale, colour tint, and placement using seeded RNG. Adds visual variance to the world each round without any manual placement.',
+    tags: ['Random','CFrame','Instance','Seeded RNG'],
+    stats:[{v:'∞',l:'Unique Layouts'},{v:'3',l:'Size Ranges'},{v:'Seed-based',l:'Reproducible'}]
   },
   p3: {
-    tag: 'Events · Survival',
-    title: 'Tsunami Mechanic',
-    desc: 'A dynamic tsunami event that triggers during survival rounds. A massive wave mesh is procedurally scaled and animated toward the map, with real-time flood detection — players standing in water take damage and experience movement slowdown. Client-side particle systems and screen effects tie the VFX together.',
-    tags: ['Lua', 'CFrame', 'AssemblyLinearVelocity', 'LocalScript VFX', 'Heartbeat'],
-    stats: [
-      { v: '3', l: 'Wave Phases' },
-      { v: '~200m', l: 'Wave Width' },
-      { v: '2', l: 'VFX Scripts' },
-    ],
-    video: '',
-    thumb: ''
+    tag: 'Events · Weather',
+    title: 'Weather System',
+    icon: '⛈️',
+    grad: 'linear-gradient(135deg,#1a1428,#2a1040)',
+    desc: 'Pre-round catastrophe framework with a slot-machine warning UI. Randomly selects from Tornado, Blizzard, and Thunderstorm — each backed by a dedicated server module and client-side VFX LocalScript. Fully extensible; new weathers drop in as standalone modules.',
+    tags: ['ModuleScript','TweenService','Sound','RemoteEvents','LocalScript VFX'],
+    stats:[{v:'3',l:'Catastrophes'},{v:'1',l:'Shared Framework'},{v:'6',l:'Scripts Total'}]
   },
   p4: {
-    tag: 'Weather · Systems',
-    title: 'Catastrophe System',
-    desc: 'A pre-round weather event framework that randomly selects a catastrophe and plays a slot-machine style announcement UI. Currently implements three catastrophes — Tornado, Blizzard, and Thunderstorm — each with a dedicated server module and client VFX LocalScript. Built for extensibility; new catastrophes drop in as standalone modules.',
-    tags: ['Lua', 'ModuleScript', 'TweenService', 'Sound', 'RemoteEvents'],
-    stats: [
-      { v: '3', l: 'Catastrophes' },
-      { v: '1', l: 'Shared Framework' },
-      { v: '6', l: 'Scripts Total' },
-    ],
-    video: '',
-    thumb: ''
+    tag: 'UI · Progression',
+    title: 'Title System',
+    icon: '🏅',
+    grad: 'linear-gradient(135deg,#2e1f0a,#3e2a0a)',
+    desc: 'Awards players cosmetic titles based on achievements, playtime, and milestones. Titles display above the player\'s name in-world and in the leaderboard UI, with animated unlock notifications.',
+    tags: ['DataStore','ScreenGui','TweenService','StringValue'],
+    stats:[{v:'20+',l:'Unique Titles'},{v:'3',l:'Rarity Tiers'},{v:'Persistent',l:'Data Saved'}]
+  },
+  p5: {
+    tag: 'Inventory · UI',
+    title: 'Backpack System',
+    icon: '🎒',
+    grad: 'linear-gradient(135deg,#0d2e1a,#103020)',
+    desc: 'A custom inventory and item management system replacing the default Roblox backpack. Supports item stacking, hotbar shortcuts, drag-and-drop reordering, and clean ScreenGui rendering tied to the server-side item state.',
+    tags: ['ScreenGui','RemoteEvents','Tool','UserInputService'],
+    stats:[{v:'6',l:'Hotbar Slots'},{v:'Stack-aware',l:'Items'},{v:'Custom',l:'No Default UI'}]
+  },
+  p6: {
+    tag: 'Progression · Economy',
+    title: 'Upgrade System',
+    icon: '⬆️',
+    grad: 'linear-gradient(135deg,#2e0d2e,#3a1040)',
+    desc: 'Tiered upgrade tree for player stats — speed, health, damage, and more. Each upgrade costs in-game currency and shows a live preview of the stat change. Built with a data-driven config so new upgrades require zero scripting.',
+    tags: ['DataStore','ScreenGui','ModuleScript','RemoteEvents'],
+    stats:[{v:'5',l:'Stat Categories'},{v:'4',l:'Tiers Each'},{v:'Data-driven',l:'Config'}]
+  },
+  p7: {
+    tag: 'Server · Communication',
+    title: 'Global Announcement System',
+    icon: '📢',
+    grad: 'linear-gradient(135deg,#2e1a0a,#3e2010)',
+    desc: 'Broadcasts server-wide messages to all players with animated banner UI. Supports custom icons, severity levels (info / warning / alert), auto-dismiss timers, and admin-triggered messages via a simple server API.',
+    tags: ['RemoteEvents','ScreenGui','TweenService','Sound'],
+    stats:[{v:'3',l:'Severity Levels'},{v:'Auto-dismiss',l:'Timer'},{v:'Admin API',l:'Callable'}]
+  },
+  p8: {
+    tag: 'Admin · Moderation',
+    title: 'Global Ban System',
+    icon: '🔨',
+    grad: 'linear-gradient(135deg,#2e0a0a,#3e1010)',
+    desc: 'Server-side ban management with persistent DataStore records. Banned players are kicked on join with a custom reason message. Supports temporary and permanent bans, admin unban commands, and a ban log viewer.',
+    tags: ['DataStore','PlayerAdded','Kick','Admin Commands'],
+    stats:[{v:'Permanent',l:'or Timed'},{v:'Kick on Join',l:'Enforcement'},{v:'Logged',l:'All Actions'}]
+  },
+  p9: {
+    tag: 'World · Engineering',
+    title: 'Bridge System',
+    icon: '🌉',
+    grad: 'linear-gradient(135deg,#0a1a2e,#0d2040)',
+    desc: 'Dynamically assembles bridges from modular parts using CFrame math and WeldConstraints. Players can build or destroy bridges mid-round, with structural integrity logic that collapses unsupported spans.',
+    tags: ['CFrame','WeldConstraint','Humanoid','RemoteEvents'],
+    stats:[{v:'Modular',l:'Parts'},{v:'Physics-based',l:'Collapse'},{v:'Dynamic',l:'Build/Destroy'}]
+  },
+  p10: {
+    tag: 'Gameplay · Resources',
+    title: 'Power System',
+    icon: '⚡',
+    grad: 'linear-gradient(135deg,#2e2a0a,#3e3410)',
+    desc: 'A player resource bar tracking power/energy that drains on ability use and regenerates over time. Certain actions are gated behind power thresholds, adding strategic depth to combat and traversal.',
+    tags: ['RunService','ScreenGui','TweenService','Heartbeat'],
+    stats:[{v:'Regen Rate',l:'Configurable'},{v:'Ability Gates',l:'Power Checks'},{v:'Per-player',l:'Tracked'}]
+  },
+  p11: {
+    tag: 'World · Mechanics',
+    title: 'Generator System',
+    icon: '🔋',
+    grad: 'linear-gradient(135deg,#102e10,#143a14)',
+    desc: 'Interactable generators scattered across the map that players can activate to unlock zone perks — lighting, barriers, or buffs. Generators have health, can be destroyed by enemies, and show a shared progress UI.',
+    tags: ['ProximityPrompt','RunService','RemoteEvents','ScreenGui'],
+    stats:[{v:'Destroyable',l:'Health'},{v:'Zone Buffs',l:'On Activation'},{v:'Shared',l:'Progress UI'}]
+  },
+  p12: {
+    tag: 'Gameplay · Combat',
+    title: 'Combat System',
+    icon: '⚔️',
+    grad: 'linear-gradient(135deg,#2e0a0a,#401010)',
+    desc: 'Melee and ranged combat with hitbox detection, combo chains, knockback physics, and damage numbers. Integrates with the Weapon Choose System and feeds kill events into the Round and Title systems.',
+    tags: ['Hitbox','AssemblyLinearVelocity','RemoteEvents','Combo Logic'],
+    stats:[{v:'Melee + Ranged',l:'Attack Types'},{v:'Combo Chains',l:'Up to 4-hit'},{v:'Knockback',l:'Physics-based'}]
+  },
+  p13: {
+    tag: 'NPC · Narrative',
+    title: 'Dialogue System',
+    icon: '💬',
+    grad: 'linear-gradient(135deg,#0a2e2a,#0d3a34)',
+    desc: 'Branching NPC dialogue with proximity trigger, animated typewriter text, and choice buttons. Supports quest hooks, shop entry, and lore delivery. Dialogue trees are data-driven JSON configs requiring no script changes.',
+    tags: ['ProximityPrompt','ScreenGui','TweenService','JSON Config'],
+    stats:[{v:'Branching',l:'Choice Trees'},{v:'Typewriter',l:'Text FX'},{v:'Data-driven',l:'Config'}]
+  },
+  p14: {
+    tag: 'Economy · NPC',
+    title: 'Shop System',
+    icon: '🛒',
+    grad: 'linear-gradient(135deg,#1a2e0a,#223a10)',
+    desc: 'NPC-driven shop with item listings, currency checks, purchase confirmation, and inventory sync. Supports consumables, equipment, and cosmetics. Item stock can be limited and restocks on round start.',
+    tags: ['RemoteEvents','DataStore','ScreenGui','ModuleScript'],
+    stats:[{v:'3',l:'Item Categories'},{v:'Limited Stock',l:'per Round'},{v:'Instant',l:'Inventory Sync'}]
+  },
+  p15: {
+    tag: 'Roles · Gameplay',
+    title: 'Killer / Captain System',
+    icon: '💀',
+    grad: 'linear-gradient(135deg,#2e0a1a,#3e1020)',
+    desc: 'Assigns special roles — Killer and Captain — to players at round start with unique abilities, win conditions, and UI indicators. Killers hunt survivors while Captains coordinate team objectives. Role logic is fully server-authoritative.',
+    tags: ['Teams','RemoteEvents','ModuleScript','SpecialAbilities'],
+    stats:[{v:'2',l:'Special Roles'},{v:'Unique',l:'Win Conditions'},{v:'Server-auth',l:'Role Logic'}]
+  },
+  p16: {
+    tag: 'Persistence · Backend',
+    title: 'Data Saving System',
+    icon: '💾',
+    grad: 'linear-gradient(135deg,#0a1a2e,#0e2040)',
+    desc: 'Robust DataStore wrapper handling player stats, inventory, currency, titles, and upgrades. Features auto-save on interval, save-on-leave, data migration versioning, and retry logic for failed writes.',
+    tags: ['DataStore','pcall','PlayerRemoving','Auto-save'],
+    stats:[{v:'Auto-save',l:'Interval'},{v:'Retry Logic',l:'On Failure'},{v:'Versioned',l:'Migration'}]
+  },
+  p17: {
+    tag: 'Player · Feel',
+    title: 'Movement System',
+    icon: '🏃',
+    grad: 'linear-gradient(135deg,#1a0d2e,#261040)',
+    desc: 'Custom character movement overriding default Roblox controls. Adds sprint, slide, wall-jump, and stamina drain. Uses BodyVelocity and spring-based camera lean for responsive feel without jitter.',
+    tags: ['BodyVelocity','UserInputService','RunService','SpringPhysics'],
+    stats:[{v:'4',l:'Move States'},{v:'Stamina',l:'Managed'},{v:'Spring Camera',l:'Lean'}]
+  },
+  p18: {
+    tag: 'Loadout · UI',
+    title: 'Weapon Choose System',
+    icon: '🔫',
+    grad: 'linear-gradient(135deg,#2e1a0a,#3a2010)',
+    desc: 'Pre-round weapon selection screen where players choose their loadout from unlocked weapons. Displays stats comparison, rarity badges, and a 3D weapon preview. Selection syncs to server and equips on round start.',
+    tags: ['ScreenGui','ViewportFrame','RemoteEvents','TweenService'],
+    stats:[{v:'3D',l:'Weapon Preview'},{v:'Stat Compare',l:'On Hover'},{v:'Loadout',l:'Saved'}]
+  },
+  p19: {
+    tag: 'AI · Enemies',
+    title: 'NPC Behavior System',
+    icon: '🤖',
+    grad: 'linear-gradient(135deg,#0a2e0a,#103a14)',
+    desc: 'State-machine driven NPCs with patrol, chase, attack, and flee states. Uses pathfinding via PathfindingService, line-of-sight raycasting for detection, and configurable aggro ranges. Each NPC type has a unique behavior profile.',
+    tags: ['PathfindingService','Raycast','StateMachine','Humanoid'],
+    stats:[{v:'4',l:'AI States'},{v:'LoS',l:'Raycasting'},{v:'Per-type',l:'Config'}]
   }
 };
+
+// Build cards dynamically
+const grid = document.getElementById('projectsGrid');
+Object.entries(projects).forEach(([id, p], i) => {
+  const delay = (i * 0.05).toFixed(2);
+  grid.innerHTML += `
+    <div class="card fade-in" onclick="openPanel('${id}')" style="transition-delay:${delay}s">
+      <div class="card-arrow">↗</div>
+      <div class="card-thumb-placeholder" style="background:${p.grad}">
+        <div class="placeholder-icon">${p.icon}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">${p.tag}</div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.desc.substring(0,90)}…</div>
+      </div>
+    </div>`;
+});
 
 const panel = document.getElementById('panel');
 const overlay = document.getElementById('overlay');
