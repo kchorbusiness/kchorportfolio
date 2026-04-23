@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | OS v1.2</title>
+<title>KCHOR.EXE | OS v1.3</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
@@ -31,95 +31,60 @@ body {
   overflow: hidden; 
 }
 
-/* --- LOGIN SCREEN --- */
+/* --- LOGIN --- */
 #boot-screen {
     position: fixed; inset: 0; background: #000; z-index: 9999;
     display: flex; align-items: center; justify-content: center;
 }
+.login-box { background: var(--win-gray); border: var(--border-thick) solid #000; padding: 30px; width: 100%; max-width: 400px; }
 
-.login-box {
-    background: var(--win-gray); border: var(--border-thick) solid #000;
-    padding: 30px; box-shadow: 10px 10px 0 #333; width: 100%; max-width: 400px;
-}
+/* --- MAIN UI --- */
+#main-ui { display: none; display: grid; grid-template-columns: 100px 1fr 300px; height: calc(100vh - 40px); opacity: 0; }
 
-/* --- MAIN LAYOUT --- */
-#main-ui { display: none; }
-
-.desktop-icons {
-  position: absolute; top: 20px; left: 20px;
-  display: flex; flex-direction: column; gap: 15px;
-}
-
-.icon { width: 80px; text-align: center; cursor: pointer; }
-.icon-graphic { width: 40px; height: 40px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 3px 3px 0 #000; display:flex; align-items:center; justify-content:center; font-weight:bold;}
+.desktop-icons { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.icon { text-align: center; cursor: pointer; margin-bottom: 10px; }
+.icon-graphic { width: 45px; height: 45px; margin: 0 auto; border: 3px solid #000; background: #fff; box-shadow: 3px 3px 0 #000; display:flex; align-items:center; justify-content:center; font-weight:bold;}
 .icon span { font-size: 14px; background: #000; color: #fff; padding: 0 4px; }
 
-.workspace {
-  margin-left: 110px; margin-right: 320px;
-  padding: 20px; height: calc(100vh - 45px); overflow-y: auto;
-}
-
-/* --- SIDEBAR --- */
-.sidebar-right {
-    position: fixed; top: 20px; right: 20px; width: 280px;
-    bottom: 60px; display: flex; flex-direction: column; gap: 20px;
-}
+.workspace { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
 
 /* --- WINDOWS --- */
-.window {
-  background: #fff; border: var(--border-thick) solid #000;
-  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; margin-bottom: 25px;
-}
+.window { background: #fff; border: var(--border-thick) solid #000; box-shadow: var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink: 0; }
+.title-bar { padding: 6px 12px; border-bottom: var(--border-thick) solid #000; display: flex; justify-content: space-between; font-weight: bold; }
 
-.title-bar {
-  padding: 6px 12px; border-bottom: var(--border-thick) solid #000;
-  display: flex; justify-content: space-between; font-weight: bold; align-items: center;
-}
+/* --- BIG PROFILE WINDOW --- */
+.profile-content { display: flex; gap: 25px; padding: 30px; align-items: center; }
+.profile-img { width: 120px; height: 120px; border: 4px solid #000; background: var(--win-blue); display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; box-shadow: 6px 6px 0 #000; }
+.profile-text h1 { font-size: 50px; line-height: 0.9; margin-bottom: 10px; }
+.profile-text p { font-size: 24px; color: #333; }
 
-.system-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px; padding: 15px;
-}
+/* --- SCROLLABLE SYSTEM DIRECTORY --- */
+.sys-dir-container { height: 250px; overflow-y: scroll; padding: 15px; border: 2px inset #eee; background: #f0f0f0; }
+/* Custom Scrollbar */
+.sys-dir-container::-webkit-scrollbar { width: 15px; }
+.sys-dir-container::-webkit-scrollbar-track { background: #ddd; border-left: 2px solid #000; }
+.sys-dir-container::-webkit-scrollbar-thumb { background: var(--win-gray); border: 2px solid #000; }
 
-.sys-item {
-  border: 2px solid #000; padding: 8px; text-align: center;
-  background: var(--win-gray); cursor: pointer; font-size: 14px;
-}
-
+.system-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.sys-item { border: 2px solid #000; padding: 10px; text-align: center; background: #fff; cursor: pointer; transition: 0.1s; font-size: 14px; }
 .sys-item:hover { background: var(--win-yellow); transform: translate(-2px, -2px); box-shadow: 3px 3px 0 #000; }
 
 /* --- REVIEWS --- */
-.review-input-area { padding: 15px; border-bottom: 2px dashed #000; }
-.stars { font-size: 30px; color: #ccc; cursor: pointer; margin-bottom: 5px; }
-.stars span.active { color: #f1c40f; }
-.review-list { max-height: 250px; overflow-y: auto; padding: 15px; background: #f9f9f9; }
-.review-entry { border-bottom: 1px solid #ddd; margin-bottom: 10px; padding-bottom: 5px; position: relative; }
+.review-area { padding: 15px; }
+.review-list { max-height: 200px; overflow-y: auto; margin-top: 10px; border-top: 2px dashed #000; padding-top: 10px; }
 
-.del-btn { 
-    background: var(--win-red); color: white; border: 1px solid #000; 
-    font-size: 10px; cursor: pointer; position: absolute; right: 5px; top: 5px;
-}
+/* --- SIDEBAR (RIGHT) --- */
+.sidebar-right { padding: 20px; border-left: 2px dashed #000; display: flex; flex-direction: column; gap: 20px; }
 
 /* --- TASKBAR --- */
-.taskbar {
-  position: fixed; bottom: 0; width: 100%; height: 40px;
-  background: var(--win-gray); border-top: var(--border-thick) solid #000;
-  display: flex; align-items: center; padding: 0 15px; z-index: 100;
-}
-
-.btn-pixel {
-  background: var(--win-blue); border: 2px solid #000;
-  padding: 4px 10px; font-family: inherit; cursor: pointer; box-shadow: 2px 2px 0 #000;
-}
+.taskbar { position: fixed; bottom: 0; width: 100%; height: 40px; background: var(--win-gray); border-top: var(--border-thick) solid #000; display: flex; align-items: center; padding: 0 15px; z-index: 100; }
 
 /* --- MODALS --- */
 #overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
-#video-modal { 
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-    background: #fff; border: 3px solid #000; width: 90%; max-width: 600px; 
-    display: none; z-index: 1001; padding: 20px; box-shadow: 15px 15px 0 #000;
-}
+#video-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 3px solid #000; width: 90%; max-width: 600px; display: none; z-index: 1001; padding: 20px; box-shadow: 15px 15px 0 #000; }
 video { width: 100%; border: 3px solid #000; background: #000; }
+
+.btn-pixel { background: var(--win-blue); border: 2px solid #000; padding: 4px 10px; font-family: inherit; cursor: pointer; box-shadow: 2px 2px 0 #000; }
 </style>
 </head>
 <body>
@@ -127,12 +92,11 @@ video { width: 100%; border: 3px solid #000; background: #000; }
 <div id="boot-screen">
     <div class="login-box">
         <h2 style="margin-bottom: 10px;">SYSTEM_LOGIN.EXE</h2>
-        <input type="text" id="username-input" style="width:100%; padding:10px; border:3px solid #000; font-family:inherit; font-size:20px; margin-bottom:10px;" placeholder="Username...">
+        <input type="text" id="username-input" style="width:100%; padding:10px; border:3px solid #000; font-family:inherit; font-size:20px; margin-bottom:10px;" placeholder="Identify yourself...">
         <div style="display:flex; gap:10px;">
             <button class="btn-pixel" style="background:var(--win-yellow)" onclick="randomizeName()">RANDOM</button>
             <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="login()">ENTER_OS</button>
         </div>
-        <p style="font-size: 12px; margin-top: 10px; color: #666;">Tip: Admin identification required for system wipe.</p>
     </div>
 </div>
 
@@ -144,71 +108,66 @@ video { width: 100%; border: 3px solid #000; background: #000; }
 
     <div class="workspace">
         <div class="window">
-            <div class="title-bar" style="background: var(--win-blue);">
-                <span>WELCOME.SYS</span>
+            <div class="title-bar" style="background: var(--win-pink);">
+                <span>USER_PROFILE.INF</span>
                 <span>[ - X ]</span>
             </div>
-            <div style="padding: 20px;">
-                <h1 id="welcome-msg">WELCOME</h1>
-                <p style="font-size: 20px;">Secure session established. Use the directory to audit system modules.</p>
+            <div class="profile-content">
+                <div class="profile-img">K</div>
+                <div class="profile-text">
+                    <h1 id="welcome-name">KCHOR</h1>
+                    <p>Roblox Systems Architect & Backend Developer</p>
+                    <p style="font-size: 18px; margin-top: 5px; color: #555;">Focusing on physics-based combat, secure datastores, and high-concurrency game loops.</p>
+                </div>
             </div>
         </div>
 
-        <div class="window">
+        <div class="window" style="max-width: 800px;">
             <div class="title-bar" style="background: var(--win-yellow);">
                 <span>SYSTEM_DIRECTORY (/root/modules)</span>
                 <span>[ - X ]</span>
             </div>
-            <div class="system-grid" id="sysGrid"></div>
+            <div class="sys-dir-container">
+                <div class="system-grid" id="sysGrid"></div>
+            </div>
+            <div style="padding: 5px 15px; font-size: 12px; background: #eee; border-top: 2px solid #000;">
+                19 Files Found | Total Size: 1.4 MB
+            </div>
         </div>
 
-        <div class="window">
+        <div class="window" style="max-width: 800px;">
             <div class="title-bar" style="background: var(--win-green);">
-                <span>PUBLIC_REVIEWS.EXE</span>
+                <span>COMMUNITY_FEEDBACK.LOG</span>
                 <span>[ - X ]</span>
             </div>
-            <div class="review-input-area">
-                <div class="stars" id="star-rating">
+            <div class="review-area">
+                <div id="star-rating" style="font-size: 30px; cursor: pointer; color: #ccc;">
                     <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
                 </div>
-                <textarea id="rev-text" style="width:100%; height:60px; border:2px solid #000; margin-bottom:10px; padding:8px; font-family:inherit; font-size:18px; resize:none;" placeholder="Log your feedback..."></textarea>
-                <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-yellow)">POST_LOG</button>
-                
-                <button id="admin-wipe" class="btn-pixel" onclick="clearAllReviews()" style="background:var(--win-red); font-size:12px; float:right; display:none;">WIPE_ALL_LOGS</button>
-            </div>
-            <div class="review-list" id="review-list">
-                <p id="no-reviews"><i>No local logs found.</i></p>
+                <textarea id="rev-text" style="width:100%; height:50px; border:2px solid #000; margin: 10px 0; padding: 10px; font-family: inherit; font-size: 18px; resize: none;" placeholder="Leave a review..."></textarea>
+                <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-blue)">POST_REVIEW</button>
+                <button id="admin-wipe" class="btn-pixel" onclick="clearAllReviews()" style="background:var(--win-red); font-size:12px; float:right; display:none;">WIPE_ALL</button>
+                <div class="review-list" id="review-list"></div>
             </div>
         </div>
     </div>
 
     <div class="sidebar-right">
         <div class="window">
-            <div class="title-bar" style="background: var(--win-pink);">
-                <span>USER_PROFILE</span>
-            </div>
-            <div style="padding: 15px;">
-                <div style="width:60px; height:60px; border:3px solid #000; background:var(--win-blue); float:left; margin-right:10px; font-size:30px; display:flex; align-items:center; justify-content:center; font-weight:bold;">K</div>
-                <strong>KCHOR</strong><br>
-                <span>Lead Dev</span><br style="clear:both"><br>
-                <p>Architect of chaos. Systems synced to LocalStorage.</p>
+            <div class="title-bar" style="background: var(--win-blue);"><span>HARDWARE_STATS</span></div>
+            <div style="padding: 15px; font-size: 16px;">
+                CPU: <span style="color:green">Luau Runtime</span><br>
+                RAM: <span id="ram-usage">0MB</span> / 1024MB<br>
+                AUTH: <span id="auth-lvl" style="font-weight:bold;">GUEST</span>
             </div>
         </div>
-
-        <div class="window">
-            <div class="title-bar" style="background: var(--win-gray);">
-                <span>SYS_MONITOR</span>
-            </div>
-            <div style="padding: 10px; font-size: 16px;">
-                MEM_USAGE: [|||||   ] 42%<br>
-                STATUS: <span style="color:green">SECURE</span><br>
-                AUTH_LEVEL: <span id="auth-tag">GUEST</span>
-            </div>
+        <div class="window" style="background: var(--win-yellow); padding: 10px; font-style: italic;">
+            "Chaos is just an unoptimized system."
         </div>
     </div>
 
     <div class="taskbar">
-        <button class="btn-pixel">START</button>
+        <button class="btn-pixel" style="background: var(--win-red);">START</button>
         <div style="flex-grow: 1; margin-left: 15px;" id="taskbar-user">User: Guest</div>
         <div id="clock">00:00</div>
     </div>
@@ -216,109 +175,39 @@ video { width: 100%; border: 3px solid #000; background: #000; }
 
 <div id="overlay" onclick="closeModal()"></div>
 <div id="video-modal">
-    <div class="title-bar"><span id="vTitle">V_PLAYER</span><span onclick="closeModal()" style="cursor:pointer">[ X ]</span></div>
+    <div class="title-bar"><span id="vTitle">VIDEO_PLAYER</span><span onclick="closeModal()" style="cursor:pointer">[ X ]</span></div>
     <div style="padding: 15px;"><video id="player" controls></video></div>
 </div>
 
 <script>
 const systems = ["Round System", "Flower Generation", "Weather System", "Title System", "Backpack System", "Upgrade System", "Global Announcement", "Global Ban", "Bridge System", "Power System", "Generator System", "Combat System", "Dialogue System", "Shop System", "Killer/Captain", "Data Saving", "Movement System", "Weapon Choose", "NPC Behavior"];
-
-const randomNames = ["Dev_Pulse", "Script_Sage", "Logic_Zero", "Ghost_Coder"];
+const randomNames = ["Script_Legend", "Blox_Master", "Dev_Phantom", "Void_Walker"];
 let currentUser = "Guest";
 let currentRating = 0;
-const ADMIN_NAME = "KCHOR_ADMIN"; // THE SECRET ADMIN NAME
-
-// --- REVIEWS LOGIC ---
-
-function loadReviews() {
-    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
-    const list = document.getElementById('review-list');
-    list.innerHTML = ""; // Clear list
-    if(saved.length === 0) {
-        list.innerHTML = '<p id="no-reviews"><i>No local logs found.</i></p>';
-    } else {
-        saved.forEach((r, index) => renderReview(r, index));
-    }
-}
-
-function renderReview(data, index) {
-    const list = document.getElementById('review-list');
-    const entry = document.createElement('div');
-    entry.className = 'review-entry';
-    let stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
-    
-    // Check if the current user is the owner OR is admin
-    const canDelete = (data.user === currentUser || currentUser === ADMIN_NAME);
-    const deleteBtn = canDelete ? `<button class="del-btn" onclick="deleteReview(${index})">DEL</button>` : "";
-
-    entry.innerHTML = `
-        <b>${data.user}</b> <span style="color:orange">${stars}</span>
-        ${deleteBtn}
-        <p>${data.text}</p>
-    `;
-    list.prepend(entry);
-}
-
-function submitReview() {
-    const text = document.getElementById('rev-text').value;
-    if(!text || currentRating === 0) return alert("Missing rating or comment!");
-
-    const newRev = { user: currentUser, rating: parseInt(currentRating), text: text };
-    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
-    saved.push(newRev);
-    localStorage.setItem('kchor_logs', JSON.stringify(saved));
-
-    document.getElementById('rev-text').value = "";
-    currentRating = 0;
-    resetStars();
-    loadReviews();
-}
-
-function deleteReview(index) {
-    let saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
-    saved.splice(index, 1);
-    localStorage.setItem('kchor_logs', JSON.stringify(saved));
-    loadReviews();
-}
-
-function clearAllReviews() {
-    if(confirm("ADMIN ACTION: Wipe ALL logs?")) {
-        localStorage.removeItem('kchor_logs');
-        loadReviews();
-    }
-}
-
-// --- BOOT FLOW ---
 
 function login() {
     const val = document.getElementById('username-input').value;
     currentUser = val || "Guest_" + Math.floor(Math.random()*999);
-    
     document.getElementById('boot-screen').style.display = 'none';
-    document.getElementById('main-ui').style.display = 'block';
-    document.getElementById('welcome-msg').innerText = "WELCOME, " + currentUser.toUpperCase();
+    document.getElementById('main-ui').style.display = 'grid';
+    document.getElementById('main-ui').style.opacity = '1';
     document.getElementById('taskbar-user').innerText = "User: " + currentUser;
-
-    // Admin Check
-    if(currentUser === ADMIN_NAME) {
+    if(currentUser === "KCHOR_ADMIN") {
         document.getElementById('admin-wipe').style.display = 'block';
-        document.getElementById('auth-tag').innerText = "ADMIN";
-        document.getElementById('auth-tag').style.color = "red";
+        document.getElementById('auth-lvl').innerText = "ADMIN";
+        document.getElementById('auth-lvl').style.color = "red";
     }
-
     loadReviews();
 }
 
-function randomizeName() {
-    document.getElementById('username-input').value = randomNames[Math.floor(Math.random() * randomNames.length)];
-}
+function randomizeName() { document.getElementById('username-input').value = randomNames[Math.floor(Math.random() * randomNames.length)]; }
 
-// Initialize Grid
+// Directory Loading
 const grid = document.getElementById('sysGrid');
 systems.forEach(s => {
     const div = document.createElement('div');
     div.className = 'sys-item';
-    div.innerHTML = `<strong>${s}</strong><br><small>BOOT.BAT</small>`;
+    div.innerHTML = `<strong>${s}</strong><br><small>BOOT.EXE</small>`;
     div.onclick = () => {
         document.getElementById('vTitle').innerText = s + ".MP4";
         document.getElementById('overlay').style.display = 'block';
@@ -327,21 +216,42 @@ systems.forEach(s => {
     grid.appendChild(div);
 });
 
-// Star System
-const stars = document.querySelectorAll('#star-rating span');
-stars.forEach(s => {
-    s.onclick = () => {
-        currentRating = s.getAttribute('data-value');
-        stars.forEach(star => {
-            star.innerText = star.getAttribute('data-value') <= currentRating ? '★' : '☆';
-            star.classList.toggle('active', star.getAttribute('data-value') <= currentRating);
-        });
-    };
-});
+// Review Logic
+function submitReview() {
+    const text = document.getElementById('rev-text').value;
+    if(!text || currentRating === 0) return alert("Select stars and write a comment!");
+    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
+    saved.push({ user: currentUser, rating: currentRating, text: text });
+    localStorage.setItem('kchor_logs', JSON.stringify(saved));
+    document.getElementById('rev-text').value = "";
+    currentRating = 0;
+    resetStars();
+    loadReviews();
+}
 
-function resetStars() { stars.forEach(s => { s.innerText = '☆'; s.classList.remove('active'); }); }
+function loadReviews() {
+    const saved = JSON.parse(localStorage.getItem('kchor_logs')) || [];
+    const list = document.getElementById('review-list');
+    list.innerHTML = saved.length === 0 ? "<i>No reviews yet.</i>" : "";
+    saved.forEach((r, i) => {
+        const div = document.createElement('div');
+        div.style.marginBottom = "10px";
+        div.innerHTML = `<b>${r.user}</b> <span style="color:orange">${'★'.repeat(r.rating)}</span><br>${r.text}`;
+        list.prepend(div);
+    });
+}
+
+function clearAllReviews() { if(confirm("Wipe logs?")) { localStorage.removeItem('kchor_logs'); loadReviews(); } }
+
+const stars = document.querySelectorAll('#star-rating span');
+stars.forEach(s => { s.onclick = () => {
+    currentRating = s.getAttribute('data-value');
+    stars.forEach(star => star.innerText = star.getAttribute('data-value') <= currentRating ? '★' : '☆');
+}});
+function resetStars() { stars.forEach(s => s.innerText = '☆'); }
 function closeModal() { document.getElementById('overlay').style.display = 'none'; document.getElementById('video-modal').style.display = 'none'; }
-setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }, 1000);
+function randomizeRAM() { document.getElementById('ram-usage').innerText = Math.floor(Math.random() * 200 + 400) + "MB"; }
+setInterval(() => { randomizeRAM(); document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }, 2000);
 </script>
 </body>
 </html>
