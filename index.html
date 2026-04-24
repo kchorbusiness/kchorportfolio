@@ -24,270 +24,310 @@
   --sys-color: #000;
 }
 
-/* --- DARK MODE OVERRIDES --- */
 body.dark-mode {
   --bg-main: #0d0d1a;
   background-color: #0d0d1a !important;
   background-image: radial-gradient(#1e1e3a 1.5px, transparent 1.5px) !important;
 }
-
-body.dark-mode .window, 
-body.dark-mode .project-card, 
-body.dark-mode .login-box {
-  background: #12122a !important;
-  color: #c9e8ff !important;
-  border-color: #445 !important;
-  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000 !important;
+body.dark-mode .window, body.dark-mode .project-card, body.dark-mode .login-box {
+  background: #12122a !important; color: #c9e8ff !important; border-color: #445 !important; box-shadow: var(--shadow-block) var(--shadow-block) 0 #000 !important;
 }
+body.dark-mode .title-bar { background: #1e1e3a !important; color: #88c0d8 !important; border-bottom: var(--border-thick) solid #445 !important; }
+body.dark-mode .project-header { background: #1e1e3a !important; color: #c9e8ff !important; border-bottom: 2px solid #445 !important; }
+body.dark-mode #rev-text { background: #0d0d1a !important; color: #c9e8ff !important; border: 3px solid #445 !important; }
+body.dark-mode .profile-body p, body.dark-mode .profile-info p { color: #88c0d8 !important; }
+body.dark-mode #inspector-drawer { background: rgba(18,18,42,0.98) !important; color: #c9e8ff !important; border-color: #000 !important; }
+body.dark-mode #det-desc { background: #0d0d1a !important; color: #c9e8ff !important; border-left: 5px solid #88c0d8 !important; }
+body.dark-mode .system-grid, body.dark-mode .skills-grid { background: #0d0d1a !important; }
+body.dark-mode #taskbar { background: #12122a !important; border-top-color: #445 !important; }
+body.dark-mode #taskbar-user, body.dark-mode #clock, body.dark-mode .contact-strip a, body.dark-mode .contact-strip button { color: #c9e8ff !important; }
+body.dark-mode .btn-pixel { background: #1e1e3a !important; color: #c9e8ff !important; border-color: #445 !important; }
+body.dark-mode #sidebar { background: rgba(18,18,42,0.8) !important; border-color: #000 !important; }
 
-body.dark-mode .title-bar {
-  background: #1e1e3a !important;
-  color: #88c0d8 !important;
-  border-bottom: var(--border-thick) solid #445 !important;
-}
-
-body.dark-mode .project-header {
-  background: #1e1e3a !important;
-  color: #c9e8ff !important;
-  border-bottom: 2px solid #445 !important;
-}
-
-body.dark-mode #rev-text {
-  background: #0d0d1a !important;
-  color: #c9e8ff !important;
-  border: 3px solid #445 !important;
-}
-
-body.dark-mode .profile-body p, 
-body.dark-mode .profile-info p {
-  color: #88c0d8 !important;
-}
-
-body.dark-mode #inspector-drawer {
-  background: rgba(18, 18, 42, 0.98) !important;
-  color: #c9e8ff !important;
-  border-color: #000 !important;
-}
-
-body.dark-mode #det-desc {
-  background: #0d0d1a !important;
-  color: #c9e8ff !important;
-  border-left: 5px solid #88c0d8 !important;
-}
-
-body.dark-mode .system-grid, 
-body.dark-mode .skills-grid {
-  background: #0d0d1a !important;
-}
-
-body.dark-mode #taskbar {
-  background: #12122a !important;
-  border-top-color: #445 !important;
-}
-
-body.dark-mode #taskbar-user, 
-body.dark-mode #clock, 
-body.dark-mode .contact-strip a, 
-body.dark-mode .contact-strip button {
-  color: #c9e8ff !important;
-}
-
-body.dark-mode .btn-pixel {
-  background: #1e1e3a !important;
-  color: #c9e8ff !important;
-  border-color: #445 !important;
-}
-
-body.dark-mode #sidebar {
-  background: rgba(18, 18, 42, 0.8) !important;
-  border-color: #000 !important;
-}
-
-/* --- ORIGINAL ANIMATIONS --- */
-.boot-note {
-  margin-top: 10px;
-  background: rgba(255,255,255,0.08);
-  border: 2px solid #0f0;
-  padding: 10px 14px;
-  width: 400px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: #0f0;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0,255,0,0.2);
-  animation: flicker 2s infinite alternate;
-}
-@keyframes flicker { 0% { opacity: 0.75; } 100% { opacity: 1; } }
+.boot-note { margin-top:10px; background:rgba(255,255,255,0.08); border:2px solid #0f0; padding:10px 14px; width:400px; font-family:'Share Tech Mono',monospace; font-size:11px; color:#0f0; text-align:center; box-shadow:0 0 10px rgba(0,255,0,0.2); animation:flicker 2s infinite alternate; }
+@keyframes flicker { 0%{opacity:0.75} 100%{opacity:1} }
 @keyframes blink { 50%{opacity:0} }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'VT323', monospace; }
-input, textarea, button, select { font-family: 'VT323', monospace !important; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'VT323',monospace; }
+input, textarea, button, select { font-family:'VT323',monospace !important; }
 
-body {
-  zoom: 1.5;
-  background-color: var(--bg-main);
-  background-image: radial-gradient(#adb5bd 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
-  height: 100vh;
-  overflow: hidden;
-}
+body { background-color:var(--bg-main); background-image:radial-gradient(#adb5bd 1.5px, transparent 1.5px); background-size:28px 28px; height:100vh; overflow:hidden; }
 
 #lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
-#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; border:2px solid var(--win-blue); }
+#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff;box-shadow:0 0 30px rgba(0,0,0,0.5); }
+#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300;border:2px solid var(--win-blue); }
 
 #boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
 .boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
 .login-box { background:var(--win-gray);border:4px solid #000;padding:24px;width:400px;box-shadow:12px 12px 0 #000; }
 .blink { animation:blink 1s step-end infinite; }
 
-#sidebar {
-  position: fixed; left: calc(50% - var(--col-width)/2 - 54px); top: 50%;
-  transform: translateY(-50%); z-index: 200; display: none;
-  flex-direction: column; gap: 6px; align-items: center;
-  padding: 10px 6px; background: rgba(255,255,255,0.7);
-  border: 3px solid #000; box-shadow: 5px 5px 0 #000; backdrop-filter: blur(5px);
-}
+/* DESKTOP SIDEBAR */
+#sidebar { position:fixed;left:calc(50% - var(--col-width)/2 - 54px);top:50%;transform:translateY(-50%);z-index:200;display:none;flex-direction:column;gap:6px;align-items:center;padding:10px 6px;background:rgba(255,255,255,0.7);border:3px solid #000;box-shadow:5px 5px 0 #000;backdrop-filter:blur(5px); }
 .icon { position:relative;cursor:pointer; }
-.icon-graphic {
-  width:36px;height:36px; border:2px solid #000; background:#fff;
-  box-shadow:3px 3px 0 #000; display:flex; align-items:center; justify-content:center;
-  font-size:18px; transition:0.1s;
-}
-.icon-graphic:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 #000; }
-.icon-tip {
-  position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
-  background:#000;color:#fff;font-size:12px;padding:3px 8px;
-  white-space:nowrap;pointer-events:none;opacity:0;transition:0.2s;z-index:300;
-}
+.icon-graphic { width:36px;height:36px;border:2px solid #000;background:#fff;box-shadow:3px 3px 0 #000;display:flex;align-items:center;justify-content:center;font-size:18px;transition:0.1s; }
+.icon-graphic:hover { transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000; }
+.icon-tip { position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:#000;color:#fff;font-size:12px;padding:3px 8px;white-space:nowrap;pointer-events:none;opacity:0;transition:0.2s;z-index:300; }
 .icon:hover .icon-tip { opacity:1; }
 
 #main-ui { display:none;height:calc(100vh - 40px);overflow:hidden; }
-.workspace { 
-  height: 100%; 
-  overflow-y: auto; 
-  padding: 40px 0 100px; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 20px;
-  
-  transform-origin: top center;
-}
-.window { width:var(--col-width); background:#fff; border:var(--border-thick) solid #000; box-shadow:var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink:0; }
-.title-bar { padding:6px 12px; border-bottom:var(--border-thick) solid #000; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:18px; background:var(--win-chrome); }
-.window.accented > .title-bar { background:var(--win-blue); color:#000; }
+.workspace { height:100%;overflow-y:auto;padding:40px 0 100px;display:flex;flex-direction:column;align-items:center;gap:20px;transform-origin:top center; }
+.window { width:var(--col-width);background:#fff;border:var(--border-thick) solid #000;box-shadow:var(--shadow-block) var(--shadow-block) 0 #000;flex-shrink:0; }
+.title-bar { padding:6px 12px;border-bottom:var(--border-thick) solid #000;display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:18px;background:var(--win-chrome); }
+.window.accented > .title-bar { background:var(--win-blue);color:#000; }
 
-.profile-body { display:flex;gap:15px;padding:15px; flex-wrap:wrap; }
+.profile-body { display:flex;gap:15px;padding:15px;flex-wrap:wrap; }
 .profile-avatar { width:70px;height:70px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:4px 4px 0 #000; }
-.profile-info h1 { font-size:45px; line-height:0.8; }
+.profile-info h1 { font-size:45px;line-height:0.8; }
 .status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 10px;font-size:14px;margin-top:8px; }
 .stat-chip { background:#000;color:#fff;padding:2px 8px;font-size:13px; }
-.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px; background:#fff; }
-.skill-bar { height:16px; border:2px solid #000; background:#eee; margin-top:4px; }
-.skill-fill { height:100%; transition:1.5s cubic-bezier(.4,0,.2,1); }
+.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px;background:#fff; }
+.skill-bar { height:16px;border:2px solid #000;background:#eee;margin-top:4px; }
+.skill-fill { height:100%;transition:1.5s cubic-bezier(.4,0,.2,1); }
 
-.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; padding:12px; background:#f0f0f0; }
-.sys-item { 
-  border:2px solid #000; padding:10px; text-align:center; background:var(--sys-bg, #fff); color:var(--sys-color, #000);
-  cursor:pointer; font-size:14px; transition:0.1s; display:flex; flex-direction:column; align-items:center; gap:5px;
+.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#f0f0f0; }
+.sys-item { border:2px solid #000;padding:10px;text-align:center;background:var(--sys-bg,#fff);color:var(--sys-color,#000);cursor:pointer;font-size:14px;transition:0.1s;display:flex;flex-direction:column;align-items:center;gap:5px; }
+.sys-item strong { color:inherit; }
+.sys-item:hover { background:var(--win-yellow);transform:translate(-1px,-1px);box-shadow:3px 3px 0 #000; }
+
+.project-card { border:2px solid #000;background:#fff;box-shadow:5px 5px 0 #000;margin:12px;overflow:hidden; }
+.project-header { padding:8px 12px;border-bottom:2px solid #000;display:flex;justify-content:space-between;background:#f5f0e8; }
+.project-body { padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+.project-media { border:2px solid #000;overflow:hidden;cursor:pointer;position:relative;background:#111;height:115px; }
+.project-media video, .project-media img { width:100%;height:100%;object-fit:cover;display:block; }
+.media-label { position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:10px;padding:3px 8px;font-family:'Share Tech Mono'; }
+
+#inspector-drawer { position:fixed;top:10px;right:10px;width:400px;height:calc(100vh - 60px);background:rgba(255,255,255,0.98);backdrop-filter:blur(12px);border:4px solid #000;box-shadow:-10px 10px 0 rgba(0,0,0,0.15);transform:translateX(120%);transition:transform 0.5s cubic-bezier(0.175,0.885,0.32,1.1);z-index:500;display:flex;flex-direction:column;overflow:hidden; }
+#inspector-drawer.open { transform:translateX(0); }
+#drawer-titlebar { background:#000;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;letter-spacing:1px; }
+
+#player-wrap { position:relative;background:#000;margin:15px;border:3px solid #000;box-shadow:5px 5px 0 var(--win-blue);aspect-ratio:16/9;overflow:hidden; }
+#player-wrap::after { content:"";position:absolute;inset:0;background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,0.05) 50%);background-size:100% 4px;z-index:2;pointer-events:none; }
+#main-player { width:100%;height:100%;display:none;position:relative;z-index:1; }
+#no-signal { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0a;color:#444; }
+
+#taskbar { position:fixed;bottom:0;width:100%;height:40px;background:var(--win-gray);border-top:3px solid #000;display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px; }
+.btn-pixel { border:2px solid #000;padding:4px 10px;background:#fff;cursor:pointer;box-shadow:2px 2px 0 #000; }
+.btn-pixel:active { box-shadow:0 0 0 #000;transform:translate(2px,2px); }
+
+#activity-log { background:#000;color:#0f0;font-family:'Share Tech Mono';font-size:10px;height:0;transition:0.3s;overflow-y:auto; }
+#activity-log.open { height:100px;padding:8px;border-top:2px solid #333; }
+
+/* ============================================================
+   MOBILE STYLES
+   ============================================================ */
+#mobile-ui { display:none; position:fixed; inset:0; flex-direction:column; overflow:hidden; }
+
+/* Mobile wallpaper */
+#mobile-wallpaper {
+  position:absolute; inset:0;
+  background-color: #0d1b2a;
+  background-image:
+    radial-gradient(#1e3a5f 1px, transparent 1px),
+    radial-gradient(#88c0d8 0.5px, transparent 0.5px);
+  background-size: 40px 40px, 20px 20px;
+  background-position: 0 0, 10px 10px;
+  z-index:0;
 }
-.sys-item strong { color: inherit; }
-.sys-item:hover { background:var(--win-yellow); transform:translate(-1px,-1px); box-shadow:3px 3px 0 #000; }
 
-.project-card { border:2px solid #000; background:#fff; box-shadow:5px 5px 0 #000; margin:12px; overflow:hidden; }
-.project-header { padding:8px 12px; border-bottom:2px solid #000; display:flex; justify-content:space-between; background:#f5f0e8; }
-.project-body { padding:15px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
-.project-media { border:2px solid #000; overflow:hidden; cursor:pointer; position:relative; background:#111; height:115px; }
-.project-media video, .project-media img { width:100%; height:100%; object-fit:cover; display: block; }
-.media-label { position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.8); color:#fff; font-size:10px; padding:3px 8px; font-family:'Share Tech Mono'; }
-
-#inspector-drawer {
-  position: fixed; top: 10px; right: 10px;
-  width: 400px; height: calc(100vh - 60px);
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(12px);
-  border: 4px solid #000;
-  box-shadow: -10px 10px 0 rgba(0,0,0,0.15);
-  transform: translateX(120%);
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-  z-index: 500; display: flex; flex-direction: column; overflow: hidden;
+/* Mobile status bar */
+#mobile-statusbar {
+  position:relative; z-index:10;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 16px 4px;
+  color:#fff; font-family:'Share Tech Mono'; font-size:13px;
 }
-#inspector-drawer.open { transform: translateX(0); }
-#drawer-titlebar { background: #000; color: #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; }
 
-#player-wrap { 
-  position: relative; background: #000; margin: 15px; 
-  border: 3px solid #000; box-shadow: 5px 5px 0 var(--win-blue);
-  aspect-ratio: 16/9; overflow: hidden;
+/* Home screen */
+#mobile-home {
+  position:relative; z-index:5;
+  flex:1; overflow-y:auto;
+  padding:20px 16px 100px;
+  display:flex; flex-direction:column; gap:24px;
 }
-#player-wrap::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
-  background-size: 100% 4px; z-index: 2; pointer-events: none;
-}
-#main-player { width:100%; height:100%; display:none; position:relative; z-index:1; }
-#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0a0a0a; color:#444; }
 
-#taskbar {
-  position:fixed;bottom:0;width:100%;height:40px;
-  background:var(--win-gray);border-top:3px solid #000;
-  display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px;
+/* App grid */
+.app-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:16px 8px;
 }
-.btn-pixel { border:2px solid #000; padding:4px 10px; background:#fff; cursor:pointer; box-shadow:2px 2px 0 #000; }
-.btn-pixel:active { box-shadow:0 0 0 #000; transform:translate(2px,2px); }
+.app-icon {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  cursor:pointer;
+}
+.app-icon-graphic {
+  width:56px; height:56px;
+  border:3px solid #fff;
+  border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.1s;
+  position:relative; overflow:hidden;
+}
+.app-icon-graphic::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:50%;
+  background:rgba(255,255,255,0.15);
+  border-radius:14px 14px 0 0;
+}
+.app-icon-graphic:active { transform:scale(0.9); }
+.app-icon-label {
+  font-family:'Share Tech Mono'; font-size:11px; color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,0.8);
+  text-align:center; line-height:1.2;
+}
 
-#activity-log { background:#000; color:#0f0; font-family:'Share Tech Mono'; font-size:10px; height:0; transition: 0.3s; overflow-y:auto; }
-#activity-log.open { height:100px; padding:8px; border-top:2px solid #333; }
+/* Folder style row */
+.app-section-label {
+  font-family:'Share Tech Mono'; font-size:11px; color:rgba(255,255,255,0.6);
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:-8px;
+}
+
+/* Mobile dock */
+#mobile-dock {
+  position:fixed; bottom:0; left:0; right:0; z-index:20;
+  padding:10px 20px 16px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,0.2);
+  display:flex; justify-content:space-around; align-items:center;
+}
+.dock-item {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  cursor:pointer;
+}
+.dock-icon {
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; border:2px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.2);
+}
+.dock-label { font-family:'Share Tech Mono'; font-size:10px; color:#fff; }
+
+/* Mobile panel (slides up from bottom) */
+#mobile-panel {
+  position:fixed; inset:0; z-index:100;
+  display:flex; flex-direction:column;
+  transform:translateY(100%);
+  transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+  pointer-events:none;
+}
+#mobile-panel.open { transform:translateY(0); pointer-events:all; }
+
+#panel-backdrop {
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);
+}
+#panel-sheet {
+  position:relative; z-index:2;
+  margin-top:60px;
+  background:#fff;
+  border-radius:20px 20px 0 0;
+  border-top:4px solid #000;
+  flex:1;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+body.dark-mode #panel-sheet { background:#12122a; }
+
+#panel-header {
+  background:#000; color:#fff;
+  padding:12px 16px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:16px; letter-spacing:1px;
+  flex-shrink:0;
+}
+#panel-content {
+  flex:1; overflow-y:auto;
+  padding:16px;
+}
+
+/* Mobile sys grid inside panel */
+#mobile-panel .system-grid { grid-template-columns:repeat(2,1fr); background:transparent; padding:0; }
+#mobile-panel .skills-grid { background:transparent; grid-template-columns:1fr; }
+#mobile-panel .project-body { grid-template-columns:1fr; }
+#mobile-panel .project-card { margin:0 0 12px 0; }
+
+/* Mobile inspector for systems */
+#mobile-sys-inspector {
+  position:fixed; inset:0; z-index:200;
+  display:flex; flex-direction:column;
+  transform:translateY(100%);
+  transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+}
+#mobile-sys-inspector.open { transform:translateY(0); }
+#sys-inspector-sheet {
+  position:absolute; inset:0;
+  background:#fff;
+  display:flex; flex-direction:column;
+}
+body.dark-mode #sys-inspector-sheet { background:#12122a; color:#c9e8ff; }
+#sys-inspector-header {
+  background:#000; color:#fff;
+  padding:12px 16px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:15px;
+}
+#sys-inspector-body { flex:1; overflow-y:auto; padding:16px; }
+#sys-player-wrap { position:relative; background:#000; border:3px solid #000; aspect-ratio:16/9; overflow:hidden; margin-bottom:16px; }
+#sys-player { width:100%; height:100%; }
+
+/* Theme screen mobile adjustments */
+@media (max-width:480px) {
+  .login-box { width:90vw; }
+  .boot-note { width:90vw; }
+  .boot-log { width:90vw; }
+}
 </style>
 </head>
 <body>
 
 <div id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src=""><div id="lightbox-caption" style="color:#fff; font-family:'Share Tech Mono'"></div>
+  <img id="lightbox-img" src=""><div id="lightbox-caption" style="color:#fff;font-family:'Share Tech Mono'"></div>
 </div>
 <div id="email-toast">✓ mandzkie65@gmail.com copied!</div>
 
+<!-- BOOT SCREEN -->
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
   <div class="login-box">
     <h2 style="font-size:32px;">KCHOR_OS v2.1 <span class="blink">_</span></h2>
-    <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
+    <p style="font-family:'Share Tech Mono';font-size:12px;color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
     <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-size:20px;margin:15px 0;" placeholder="Enter name...">
     <div style="display:flex;gap:10px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
       <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
     </div>
   </div>
-  
-<div id="theme-screen" style="display:none; flex-direction:column; align-items:center; gap:16px;">
-  <div class="login-box" style="width:420px;">
-    <h2 style="font-size:28px;">SELECT THEME.EXE <span class="blink">_</span></h2>
-    <p style="font-family:'Share Tech Mono'; font-size:11px; color:#555; margin-bottom:16px;">&gt; CHOOSE DISPLAY_MODE BEFORE INITIALIZATION</p>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
 
-      <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative; color:#000;">
-        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; position:absolute; top:-12px; left:50%; transform:translateX(-50%); white-space:nowrap;">★ DEFAULT</div>
-        <div style="font-size:48px; line-height:1; margin-bottom:8px;">☀️</div>
-        <div style="font-size:22px;">LIGHT</div>
-        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; margin-top:6px; display:inline-block;">MODE_01</div>
+  <div id="theme-screen" style="display:none;flex-direction:column;align-items:center;gap:16px;">
+    <div class="login-box" style="width:420px;max-width:90vw;">
+      <h2 style="font-size:28px;">SELECT THEME.EXE <span class="blink">_</span></h2>
+      <p style="font-family:'Share Tech Mono';font-size:11px;color:#555;margin-bottom:16px;">&gt; CHOOSE DISPLAY_MODE BEFORE INITIALIZATION</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+        <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000;padding:18px 12px;text-align:center;cursor:pointer;background:#fff8e7;box-shadow:5px 5px 0 #f1c37d;outline:4px solid #f1c37d;position:relative;color:#000;">
+          <div style="font-family:'Share Tech Mono';font-size:9px;background:#000;color:#fff;padding:2px 6px;position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;">★ DEFAULT</div>
+          <div style="font-size:48px;line-height:1;margin-bottom:8px;">☀️</div>
+          <div style="font-size:22px;">LIGHT</div>
+          <div style="font-family:'Share Tech Mono';font-size:9px;background:#000;color:#fff;padding:2px 6px;margin-top:6px;display:inline-block;">MODE_01</div>
+        </div>
+        <div id="theme-dark" onclick="pickTheme('dark')" style="border:4px solid #000;padding:18px 12px;text-align:center;cursor:pointer;background:#1a1a2e;color:#c9e8ff;box-shadow:5px 5px 0 #000;">
+          <div style="font-size:48px;line-height:1;margin-bottom:8px;">🌙</div>
+          <div style="font-size:22px;">DARK</div>
+          <div style="font-family:'Share Tech Mono';font-size:9px;background:#c9e8ff;color:#000;padding:2px 6px;margin-top:6px;display:inline-block;">MODE_02</div>
+        </div>
       </div>
-
-      <div id="theme-dark" onclick="pickTheme('dark')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#1a1a2e; color:#c9e8ff; box-shadow:5px 5px 0 #000;">
-        <div style="font-size:48px; line-height:1; margin-bottom:8px;">🌙</div>
-        <div style="font-size:22px;">DARK</div>
-        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#c9e8ff; color:#000; padding:2px 6px; margin-top:6px; display:inline-block;">MODE_02</div>
-      </div>
+      <button class="btn-pixel" style="background:var(--win-green);width:100%;font-size:20px;padding:10px;" onclick="applyTheme()">▶ CONFIRM &amp; BOOT</button>
     </div>
-    <button class="btn-pixel" style="background:var(--win-green); width:100%; font-size:20px; padding:10px;" onclick="applyTheme()">▶ CONFIRM &amp; BOOT</button>
   </div>
-</div>
   <div class="boot-note">
     <p>PRESS F11 FOR FULL EXPERIENCE</p>
     <p>FIRST 5 ORDERS WILL GET DISCOUNTED AS A TOKEN OF APPRECIATION</p>
   </div>
 </div>
 
+<!-- DESKTOP SIDEBAR -->
 <div id="sidebar">
   <div class="icon" onclick="jumpTo('win-profile')"><div class="icon-graphic" style="background:var(--win-pink)">👤</div><span class="icon-tip">PROFILE</span></div>
   <div class="icon" onclick="jumpTo('win-skills')"><div class="icon-graphic" style="background:var(--win-purple)">📊</div><span class="icon-tip">SKILLS</span></div>
@@ -297,26 +337,28 @@ body {
   <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span class="icon-tip">REBOOT</span></div>
 </div>
 
+<!-- DESKTOP INSPECTOR DRAWER -->
 <div id="inspector-drawer">
-  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()" style="background:var(--win-red); color:#fff; border:2px solid #fff; width:24px; cursor:pointer;">✕</button></div>
+  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()" style="background:var(--win-red);color:#fff;border:2px solid #fff;width:24px;cursor:pointer;">✕</button></div>
   <div id="player-wrap">
     <video id="main-player" controls autoplay muted loop></video>
-    <div id="no-signal"><div style="font-size:30px;">📡</div><p style="font-family:'Share Tech Mono'; font-size:11px;">FEED_UNAVAILABLE</p></div>
+    <div id="no-signal"><div style="font-size:30px;">📡</div><p style="font-family:'Share Tech Mono';font-size:11px;">FEED_UNAVAILABLE</p></div>
   </div>
-  <div id="det-content-scroll" style="padding: 0 20px 20px; flex: 1; overflow-y: auto;">
-    <div style="font-family: 'Share Tech Mono'; font-size: 11px; color: #888; text-transform: uppercase; margin-top: 15px;">Active Module</div>
+  <div id="det-content-scroll" style="padding:0 20px 20px;flex:1;overflow-y:auto;">
+    <div style="font-family:'Share Tech Mono';font-size:11px;color:#888;text-transform:uppercase;margin-top:15px;">Active Module</div>
     <h2 id="det-title">SYSTEM</h2>
-    <div id="det-desc" style="font-family: 'Share Tech Mono'; font-size: 13px; line-height: 1.6; color: #333; margin-top: 10px; background: #fdfdfd; padding: 12px; border-left: 5px solid #000;">Initialize a system to view documentation.</div>
-    <div id="det-tags" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;"></div>
+    <div id="det-desc" style="font-family:'Share Tech Mono';font-size:13px;line-height:1.6;color:#333;margin-top:10px;background:#fdfdfd;padding:12px;border-left:5px solid #000;">Initialize a system to view documentation.</div>
+    <div id="det-tags" style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;"></div>
   </div>
   <div id="log-section">
-    <div id="log-toggle" onclick="toggleLog()" style="background:#000; color:#0f0; padding:8px 15px; font-family:'Share Tech Mono'; font-size:11px; cursor:pointer; display:flex; justify-content:space-between;">
+    <div id="log-toggle" onclick="toggleLog()" style="background:#000;color:#0f0;padding:8px 15px;font-family:'Share Tech Mono';font-size:11px;cursor:pointer;display:flex;justify-content:space-between;">
       <span>TERMINAL_OUTPUT</span><span id="log-arrow">▲</span>
     </div>
     <div id="activity-log"></div>
   </div>
 </div>
 
+<!-- DESKTOP MAIN UI -->
 <div id="main-ui">
   <div class="workspace">
     <div class="window accented" id="win-profile">
@@ -324,15 +366,14 @@ body {
       <div class="profile-body">
         <div class="profile-avatar">K</div>
         <div class="profile-info">
-            <h1>KCHOR</h1>
-            <p style="font-family:'Share Tech Mono'; font-size:12px;">Game Developer (Roblox)</p>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
-                <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue); font-size:12px; text-decoration:none; color:#000; padding:2px 8px; margin-top:8px; display:inline-block;">ROBLOX PROFILE</a>
-            </div>
+          <h1>KCHOR</h1>
+          <p style="font-family:'Share Tech Mono';font-size:12px;">Game Developer (Roblox)</p>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
+            <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue);font-size:12px;text-decoration:none;color:#000;padding:2px 8px;margin-top:8px;display:inline-block;">ROBLOX PROFILE</a>
+          </div>
         </div>
-        <p class="bio-text" style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Hi, I’m kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I’m also a versatile developer capable of working on UI design specially Pixel Art, animation, and building.
-       (Note: I do not work with sound design.)</p>
+        <p class="bio-text" style="width:100%;font-family:'Share Tech Mono';font-size:12px;line-height:1.6;margin-top:10px;color:#444;">Hi, I'm kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I'm also a versatile developer capable of working on UI design specially Pixel Art, animation, and building. (Note: I do not work with sound design.)</p>
       </div>
     </div>
 
@@ -349,11 +390,11 @@ body {
     <div class="window" id="win-portfolio">
       <div class="title-bar"><span>ACTIVE_PROJECTS [Currently Working]</span></div>
       <div class="project-card">
-        <div class="project-header"><span style="font-weight:bold; font-size:18px;">🌉 Build A Bridge</span><span class="stat-chip" style="background:var(--win-orange);">PROTOTYPE</span></div>
+        <div class="project-header"><span style="font-weight:bold;font-size:18px;">🌉 Build A Bridge</span><span class="stat-chip" style="background:var(--win-orange);">PROTOTYPE</span></div>
         <div class="project-body">
-          <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">“Build A Bridge” is a minigame project focused on improving my development skills while also serving as a fully playable game experience</p>
-          <div class="project-media" onclick="openLightbox('videos/image.png', 'Environment Architecture')"><img src="videos/image.png"><div class="media-label">MAP_PREVIEW.PNG</div></div>
-          <div class="project-media" onclick="openLightbox('videos/image1.png', 'Modular System UI')"><img src="videos/image1.png"><div class="media-label">INTERFACE_DESIGN.PNG</div></div>
+          <p style="grid-column:span 2;font-family:'Share Tech Mono';font-size:12px;">"Build A Bridge" is a minigame project focused on improving my development skills while also serving as a fully playable game experience</p>
+          <div class="project-media" onclick="openLightbox('videos/image.png','Environment Architecture')"><img src="videos/image.png"><div class="media-label">MAP_PREVIEW.PNG</div></div>
+          <div class="project-media" onclick="openLightbox('videos/image1.png','Modular System UI')"><img src="videos/image1.png"><div class="media-label">INTERFACE_DESIGN.PNG</div></div>
           <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')"><video muted loop><source src="videos/bridge_demo1.mp4"></video><div class="media-label">VIEW_GAMEPLAY.MP4</div></div>
           <div class="project-media" onclick="playInspector('videos/Testing1.mp4','System Logic')"><video muted loop><source src="videos/Testing1.mp4"></video><div class="media-label">VIEW_LOGIC.MP4</div></div>
         </div>
@@ -363,57 +404,196 @@ body {
     <div class="window" id="win-feedback">
       <div class="title-bar"><span>COMMUNICATION_LINK.LOG</span></div>
       <div style="padding:15px;">
-        <div id="star-rating" style="font-size:30px; cursor:pointer; color:#ccc; margin-bottom:8px;">
+        <div id="star-rating" style="font-size:30px;cursor:pointer;color:#ccc;margin-bottom:8px;">
           <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
         </div>
-        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; font-size:14px; resize:none;" placeholder="Type your message to KCHOR..."></textarea>
-        <div id="preview-wrap" style="display:none; margin:8px 0; align-items:center; gap:10px;">
-          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;"><button class="btn-pixel" style="background:var(--win-red); padding:2px 8px;" onclick="removeImage()">REMOVE</button>
+        <textarea id="rev-text" style="width:100%;height:60px;border:3px solid #000;padding:8px;font-size:14px;resize:none;" placeholder="Type your message to KCHOR..."></textarea>
+        <div id="preview-wrap" style="display:none;margin:8px 0;align-items:center;gap:10px;">
+          <img id="img-preview" style="width:50px;height:50px;border:2px solid #000;"><button class="btn-pixel" style="background:var(--win-red);padding:2px 8px;" onclick="removeImage()">REMOVE</button>
         </div>
-        <div style="display:flex; gap:8px; margin-top:10px;">
+        <div style="display:flex;gap:8px;margin-top:10px;">
           <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ ATTACH IMAGE</button>
           <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="submitReview()">▶ SEND_MESSAGE</button>
+          <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="submitReview()">▶ SEND_MESSAGE</button>
         </div>
-        <div id="review-list" style="margin-top:15px; border-top:2px solid #000; padding-top:10px;"></div>
+        <div id="review-list" style="margin-top:15px;border-top:2px solid #000;padding-top:10px;"></div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- DESKTOP TASKBAR -->
 <div id="taskbar">
-  <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
-  <div style="width:2px; height:20px; background:#aaa;"></div>
-  <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px;">SYSTEM_OFFLINE</div>
-  <div class="contact-strip" style="display:flex; gap:10px;">
-    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;">💬 DISCORD</a>
-    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer; color:#000;">📧 EMAIL</button>
+  <button class="btn-pixel" style="background:var(--win-red);font-weight:bold;">START</button>
+  <div style="width:2px;height:20px;background:#aaa;"></div>
+  <div id="taskbar-user" style="flex-grow:1;font-family:'Share Tech Mono';font-size:12px;">SYSTEM_OFFLINE</div>
+  <div class="contact-strip" style="display:flex;gap:10px;">
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none;color:#000;">💬 DISCORD</a>
+    <button onclick="copyEmail()" style="border:none;background:none;cursor:pointer;color:#000;">📧 EMAIL</button>
   </div>
-  <div style="width:2px; height:20px; background:#aaa;"></div>
-  <div id="clock" style="font-family:'Share Tech Mono'; font-size:13px;">00:00</div>
+  <div style="width:2px;height:20px;background:#aaa;"></div>
+  <div id="clock" style="font-family:'Share Tech Mono';font-size:13px;">00:00</div>
+</div>
+
+<!-- ============================================================
+     MOBILE UI
+     ============================================================ -->
+<div id="mobile-ui">
+  <div id="mobile-wallpaper"></div>
+
+  <!-- Status Bar -->
+  <div id="mobile-statusbar">
+    <span id="mobile-clock">00:00</span>
+    <span style="font-size:16px;">KCHOR_OS</span>
+    <span>📶 100%</span>
+  </div>
+
+  <!-- Home Screen -->
+  <div id="mobile-home">
+    <!-- Welcome widget -->
+    <div style="background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:16px;padding:16px;backdrop-filter:blur(10px);">
+      <div style="font-family:'Share Tech Mono';font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:2px;">WELCOME BACK</div>
+      <div id="mobile-greeting" style="font-size:28px;color:#fff;margin:4px 0;">GUEST</div>
+      <div style="font-family:'Share Tech Mono';font-size:11px;color:var(--win-green);">● READY_FOR_COMMISSIONS</div>
+    </div>
+
+    <!-- App Icons -->
+    <div>
+      <div class="app-section-label">PORTFOLIO</div>
+      <div style="height:8px;"></div>
+      <div class="app-grid">
+        <div class="app-icon" onclick="openMobilePanel('profile')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#e4a1b0,#c47a8a);">👤</div>
+          <div class="app-icon-label">PROFILE</div>
+        </div>
+        <div class="app-icon" onclick="openMobilePanel('skills')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#b8a3d8,#8a7ab8);">📊</div>
+          <div class="app-icon-label">SKILLS</div>
+        </div>
+        <div class="app-icon" onclick="openMobilePanel('projects')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#e8a87c,#c47a4a);">📁</div>
+          <div class="app-icon-label">PROJECTS</div>
+        </div>
+        <div class="app-icon" onclick="openMobilePanel('systems')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#f1c37d,#c49a4a);">💾</div>
+          <div class="app-icon-label">SYSTEMS</div>
+        </div>
+        <div class="app-icon" onclick="openMobilePanel('feedback')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#a3cc8d,#6aaa52);">📝</div>
+          <div class="app-icon-label">FEEDBACK</div>
+        </div>
+        <div class="app-icon" onclick="window.open('https://www.roblox.com/users/228376618/profile','_blank')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#88c0d8,#4a90b8);">🎮</div>
+          <div class="app-icon-label">ROBLOX</div>
+        </div>
+        <div class="app-icon" onclick="window.open('https://discord.gg/6Zs6NcbPWu','_blank')">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#7289da,#4752c4);">💬</div>
+          <div class="app-icon-label">DISCORD</div>
+        </div>
+        <div class="app-icon" onclick="copyEmail()">
+          <div class="app-icon-graphic" style="background:linear-gradient(135deg,#d17a8a,#a04a5a);">📧</div>
+          <div class="app-icon-label">EMAIL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick stats widget -->
+    <div style="background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:16px;padding:16px;backdrop-filter:blur(10px);">
+      <div style="font-family:'Share Tech Mono';font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:2px;margin-bottom:12px;">QUICK_STATS</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="text-align:center;">
+          <div style="font-size:32px;color:#fff;">2+</div>
+          <div style="font-family:'Share Tech Mono';font-size:10px;color:rgba(255,255,255,0.6);">YRS EXPERIENCE</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;color:#fff;">19</div>
+          <div style="font-family:'Share Tech Mono';font-size:10px;color:rgba(255,255,255,0.6);">SYSTEMS BUILT</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;color:var(--win-green);">●</div>
+          <div style="font-family:'Share Tech Mono';font-size:10px;color:rgba(255,255,255,0.6);">OPEN FOR WORK</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px;color:#fff;">90%</div>
+          <div style="font-family:'Share Tech Mono';font-size:10px;color:rgba(255,255,255,0.6);">LUAU SKILL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dock -->
+  <div id="mobile-dock">
+    <div class="dock-item" onclick="openMobilePanel('profile')">
+      <div class="dock-icon">👤</div>
+      <div class="dock-label">PROFILE</div>
+    </div>
+    <div class="dock-item" onclick="openMobilePanel('systems')">
+      <div class="dock-icon">💾</div>
+      <div class="dock-label">SYSTEMS</div>
+    </div>
+    <div class="dock-item" onclick="openMobilePanel('feedback')">
+      <div class="dock-icon">📝</div>
+      <div class="dock-label">CONTACT</div>
+    </div>
+    <div class="dock-item" onclick="location.reload()">
+      <div class="dock-icon">⚡</div>
+      <div class="dock-label">REBOOT</div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE PANEL (slides up) -->
+<div id="mobile-panel">
+  <div id="panel-backdrop" onclick="closeMobilePanel()"></div>
+  <div id="panel-sheet">
+    <div id="panel-header">
+      <span id="panel-title">PANEL</span>
+      <button onclick="closeMobilePanel()" style="background:var(--win-red);color:#fff;border:2px solid #fff;padding:2px 8px;cursor:pointer;font-family:'VT323';font-size:16px;">✕ CLOSE</button>
+    </div>
+    <div id="panel-content"></div>
+  </div>
+</div>
+
+<!-- MOBILE SYSTEM INSPECTOR -->
+<div id="mobile-sys-inspector">
+  <div id="sys-inspector-sheet">
+    <div id="sys-inspector-header">
+      <span id="sys-inspector-title">SYSTEM</span>
+      <button onclick="closeMobileSysInspector()" style="background:var(--win-red);color:#fff;border:2px solid #fff;padding:2px 8px;cursor:pointer;font-family:'VT323';font-size:16px;">✕ BACK</button>
+    </div>
+    <div id="sys-inspector-body">
+      <div id="sys-player-wrap">
+        <video id="sys-player" controls autoplay muted loop style="width:100%;height:100%;display:block;"></video>
+      </div>
+      <div style="font-family:'Share Tech Mono';font-size:11px;color:#888;text-transform:uppercase;">Active Module</div>
+      <div id="sys-det-title" style="font-size:28px;margin:4px 0;"></div>
+      <div id="sys-det-desc" style="font-family:'Share Tech Mono';font-size:13px;line-height:1.6;background:#f5f5f5;padding:12px;border-left:4px solid #000;margin:10px 0;"></div>
+      <div id="sys-det-tags" style="display:flex;gap:5px;flex-wrap:wrap;"></div>
+    </div>
+  </div>
 </div>
 
 <script>
 const systems = [
-  {name:"Round System", icon:"🔄", vid:"videos/Round.mp4", desc:"Server-authoritative loop managing map cycling.", tags:["Server-Side","Loop"]},
-  {name:"Flower Gen", icon:"🌸", vid:"videos/Flower.mp4", desc:"Advanced procedural generation algorithm.", tags:["Math","Procedural"]},
-  {name:"Weather System", icon:"🌦️", vid:"videos/weather_sys.mp4", desc:"Global atmospheric lighting controller.", tags:["Lighting","Tween"]},
-  {name:"Title System", icon:"📜", vid:"videos/title_sys.mp4", desc:"Dynamic player overhead and UI labels.", tags:["UI","Progression"]},
-  {name:"EXP System", icon:"⭐", vid:"videos/exp_sys.mp4", desc:"Granular experience framework with security.", tags:["Data","Security"]},
-  {name:"Backpack System", icon:"🎒", vid:"videos/backpack_sys.mp4", desc:"Custom OOP inventory with item dropping.", tags:["Inventory","OOP"]},
-  {name:"Upgrade System", icon:"🛠️", vid:"videos/upgrade_sys.mp4", desc:"Scaling modifier system for attributes.", tags:["Balancing"]},
-  {name:"Global Alerts", icon:"📢", vid:"videos/alerts.mp4", desc:"Priority broadcast API system.", tags:["Messaging","API"]},
-  {name:"Global Ban UI", icon:"🚫", vid:"videos/ban_ui.mp4", desc:"Admin dashboard for Roblox Ban API.", tags:["Admin","API"]},
-  {name:"Bridge System", icon:"🌉", vid:"videos/bridge_demo1.mp4", desc:"Tweened construction physics logic.", tags:["Tweening","Physics"]},
-  {name:"Power System", icon:"⚡", vid:"videos/power_sys.mp4", desc:"Skill management with cooldown logic.", tags:["Skills"]},
-  {name:"Gen System", icon:"⚙️", vid:"videos/gen_sys.mp4", desc:"Repairable world object mechanics.", tags:["Mechanic"]},
-  {name:"Combat System", icon:"⚔️", vid:"videos/combat_sys.mp4", desc:"Raycast hit detection melee framework.", tags:["Combat","Raycast"]},
-  {name:"Shop System", icon:"💰", vid:"videos/shop_sys.mp4", desc:"Marketplace solution with DataStore checks.", tags:["Economy"]},
-  {name:"Killer System", icon:"🎭", vid:"videos/killer_sys.mp4", desc:"Probability-based role selection pities.", tags:["Probability"]},
-  {name:"Data Saving", icon:"💾", vid:"videos/data_sys.mp4", desc:"Ultra-secure persistence via ProfileService.", tags:["Backend"]},
-  {name:"Movement Pro", icon:"🏃", vid:"videos/movement.mp4", desc:"Enhanced character controller with vaulting.", tags:["Movement"]},
-  {name:"Weapon UI", icon:"🔫", vid:"videos/weapon_ui.mp4", desc:"Integrated tactical backpack interface.", tags:["GUI"]},
-  {name:"NPC AI", icon:"🤖", vid:"videos/npc_ai.mp4", desc:"State-machine based NPC behavior logic.", tags:["AI","Behavior"]}
+  {name:"Round System",icon:"🔄",vid:"videos/Round.mp4",desc:"Server-authoritative loop managing map cycling.",tags:["Server-Side","Loop"]},
+  {name:"Flower Gen",icon:"🌸",vid:"videos/Flower.mp4",desc:"Advanced procedural generation algorithm.",tags:["Math","Procedural"]},
+  {name:"Weather System",icon:"🌦️",vid:"videos/weather_sys.mp4",desc:"Global atmospheric lighting controller.",tags:["Lighting","Tween"]},
+  {name:"Title System",icon:"📜",vid:"videos/title_sys.mp4",desc:"Dynamic player overhead and UI labels.",tags:["UI","Progression"]},
+  {name:"EXP System",icon:"⭐",vid:"videos/exp_sys.mp4",desc:"Granular experience framework with security.",tags:["Data","Security"]},
+  {name:"Backpack System",icon:"🎒",vid:"videos/backpack_sys.mp4",desc:"Custom OOP inventory with item dropping.",tags:["Inventory","OOP"]},
+  {name:"Upgrade System",icon:"🛠️",vid:"videos/upgrade_sys.mp4",desc:"Scaling modifier system for attributes.",tags:["Balancing"]},
+  {name:"Global Alerts",icon:"📢",vid:"videos/alerts.mp4",desc:"Priority broadcast API system.",tags:["Messaging","API"]},
+  {name:"Global Ban UI",icon:"🚫",vid:"videos/ban_ui.mp4",desc:"Admin dashboard for Roblox Ban API.",tags:["Admin","API"]},
+  {name:"Bridge System",icon:"🌉",vid:"videos/bridge_demo1.mp4",desc:"Tweened construction physics logic.",tags:["Tweening","Physics"]},
+  {name:"Power System",icon:"⚡",vid:"videos/power_sys.mp4",desc:"Skill management with cooldown logic.",tags:["Skills"]},
+  {name:"Gen System",icon:"⚙️",vid:"videos/gen_sys.mp4",desc:"Repairable world object mechanics.",tags:["Mechanic"]},
+  {name:"Combat System",icon:"⚔️",vid:"videos/combat_sys.mp4",desc:"Raycast hit detection melee framework.",tags:["Combat","Raycast"]},
+  {name:"Shop System",icon:"💰",vid:"videos/shop_sys.mp4",desc:"Marketplace solution with DataStore checks.",tags:["Economy"]},
+  {name:"Killer System",icon:"🎭",vid:"videos/killer_sys.mp4",desc:"Probability-based role selection pities.",tags:["Probability"]},
+  {name:"Data Saving",icon:"💾",vid:"videos/data_sys.mp4",desc:"Ultra-secure persistence via ProfileService.",tags:["Backend"]},
+  {name:"Movement Pro",icon:"🏃",vid:"videos/movement.mp4",desc:"Enhanced character controller with vaulting.",tags:["Movement"]},
+  {name:"Weapon UI",icon:"🔫",vid:"videos/weapon_ui.mp4",desc:"Integrated tactical backpack interface.",tags:["GUI"]},
+  {name:"NPC AI",icon:"🤖",vid:"videos/npc_ai.mp4",desc:"State-machine based NPC behavior logic.",tags:["AI","Behavior"]}
 ];
 
 const skills = [
@@ -423,18 +603,15 @@ const skills = [
   {name:"UI/UX Implementation",pct:60,color:"var(--win-yellow)"}
 ];
 
-let currentUser="Guest", currentRating=0, currentImageData="";
+let currentUser = "Guest", currentRating = 0, currentImageData = "";
+const isMobile = () => window.innerWidth <= 768;
 
-function escapeHTML(str) {
-  const p = document.createElement('p'); p.textContent = str; return p.innerHTML;
-}
+function escapeHTML(str) { const p = document.createElement('p'); p.textContent = str; return p.innerHTML; }
 
 (function boot(){
   const el = document.getElementById('boot-log');
-  const logs = ["KCHOR_OS v2.1 booting...", "Mounting modular_systems...", "Admin protocols ready.", "Interface initialized."];
-  logs.forEach((msg, i) => setTimeout(() => {
-    const d = document.createElement('div'); d.innerText = "> " + msg; el.appendChild(d);
-  }, i * 400));
+  const logs = ["KCHOR_OS v2.1 booting...","Mounting modular_systems...","Admin protocols ready.","Interface initialized."];
+  logs.forEach((msg,i) => setTimeout(() => { const d = document.createElement('div'); d.innerText = "> " + msg; el.appendChild(d); }, i * 400));
 })();
 
 function login(){
@@ -446,58 +623,59 @@ function login(){
 }
 
 let selectedTheme = 'light';
-function pickTheme(mode) {
+function pickTheme(mode){
   selectedTheme = mode;
   const light = document.getElementById('theme-light');
   const dark = document.getElementById('theme-dark');
-  if(mode === 'light') {
-    light.style.outline = '4px solid #f1c37d'; light.style.boxShadow = '5px 5px 0 #f1c37d';
-    dark.style.outline = 'none'; dark.style.boxShadow = '5px 5px 0 #000';
-  } else {
-    dark.style.outline = '4px solid #88c0d8'; dark.style.boxShadow = '5px 5px 0 #88c0d8';
-    light.style.outline = 'none'; light.style.boxShadow = '5px 5px 0 #000';
-  }
+  if(mode === 'light'){ light.style.outline='4px solid #f1c37d'; light.style.boxShadow='5px 5px 0 #f1c37d'; dark.style.outline='none'; dark.style.boxShadow='5px 5px 0 #000'; }
+  else { dark.style.outline='4px solid #88c0d8'; dark.style.boxShadow='5px 5px 0 #88c0d8'; light.style.outline='none'; light.style.boxShadow='5px 5px 0 #000'; }
 }
 
 function applyTheme(){
-  if(selectedTheme === 'dark') {
+  if(selectedTheme === 'dark'){
     document.body.classList.add('dark-mode');
-    document.documentElement.style.setProperty('--sys-bg', '#12122a');
-    document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
+    document.documentElement.style.setProperty('--sys-bg','#12122a');
+    document.documentElement.style.setProperty('--sys-color','#c9e8ff');
   } else {
     document.body.classList.remove('dark-mode');
-    document.documentElement.style.setProperty('--sys-bg', '#fff');
-    document.documentElement.style.setProperty('--sys-color', '#000');
+    document.documentElement.style.setProperty('--sys-bg','#fff');
+    document.documentElement.style.setProperty('--sys-color','#000');
   }
-  
-  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
-  document.getElementById('main-ui').style.display = 'block';
-  document.getElementById('sidebar').style.display = 'flex';
-  
-  buildSkills(); 
-  buildSysGrid(); 
-  loadReviews();
 
-  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  if(isMobile()){
+    // MOBILE MODE
+    document.getElementById('mobile-ui').style.display = 'flex';
+    document.getElementById('mobile-greeting').innerText = currentUser.toUpperCase();
+    if(selectedTheme === 'dark'){
+      document.getElementById('mobile-wallpaper').style.backgroundImage = 'radial-gradient(#1e3a5f 1px, transparent 1px), radial-gradient(#445 0.5px, transparent 0.5px)';
+    }
+  } else {
+    // DESKTOP MODE
+    document.getElementById('main-ui').style.display = 'block';
+    document.getElementById('sidebar').style.display = 'flex';
+    document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
+    buildSkills(); buildSysGrid();
+    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  }
+  loadReviews();
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
   document.getElementById('skills-grid').innerHTML = skills.map(s=>`
-    <div><div style="display:flex; justify-content:space-between; font-size:14px;"><span>${s.name}</span><span>${s.pct}%</span></div>
-    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%; background:${s.color}"></div></div></div>
+    <div><div style="display:flex;justify-content:space-between;font-size:14px;"><span>${s.name}</span><span>${s.pct}%</span></div>
+    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%;background:${s.color}"></div></div></div>
   `).join('');
 }
 
 function buildSysGrid(){
-  const grid=document.getElementById('sysGrid');
-  grid.innerHTML="";
-  systems.forEach(s=>{
-    const div=document.createElement('div'); div.className='sys-item';
-    div.innerHTML=`<div style="font-size:22px;">${s.icon}</div><strong>${s.name}</strong>`;
-    div.onclick=()=>openDrawer(s); grid.appendChild(div);
+  const grid = document.getElementById('sysGrid'); grid.innerHTML = "";
+  systems.forEach(s => {
+    const div = document.createElement('div'); div.className = 'sys-item';
+    div.innerHTML = `<div style="font-size:22px;">${s.icon}</div><strong>${s.name}</strong>`;
+    div.onclick = () => openDrawer(s); grid.appendChild(div);
   });
 }
 
@@ -505,15 +683,160 @@ function openDrawer(s){
   document.getElementById('inspector-drawer').classList.add('open');
   document.getElementById('det-title').innerText = s.name;
   document.getElementById('det-desc').innerText = s.desc;
-  document.getElementById('det-tags').innerHTML = (s.tags || []).map(t => `<span class="stat-chip" style="background:var(--win-yellow); color:#000;">${t}</span>`).join('');
+  document.getElementById('det-tags').innerHTML = (s.tags||[]).map(t=>`<span class="stat-chip" style="background:var(--win-yellow);color:#000;">${t}</span>`).join('');
   const v = document.getElementById('main-player');
-  if(s.vid) { v.src = s.vid; v.style.display = 'block'; v.play().catch(()=>{}); }
-  else { v.style.display = 'none'; }
+  if(s.vid){ v.src=s.vid; v.style.display='block'; v.play().catch(()=>{}); } else { v.style.display='none'; }
+}
+function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
+function playInspector(vid,title){ openDrawer({name:title,desc:"Visual data feed.",vid:vid,tags:["Visual"]}); }
+
+// ============================================================
+// MOBILE PANEL LOGIC
+// ============================================================
+function openMobilePanel(section){
+  const panel = document.getElementById('mobile-panel');
+  const title = document.getElementById('panel-title');
+  const content = document.getElementById('panel-content');
+
+  if(section === 'profile'){
+    title.innerText = '👤 USER_IDENTITY.INF';
+    content.innerHTML = `
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+        <div style="width:60px;height:60px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:4px 4px 0 #000;flex-shrink:0;">K</div>
+        <div>
+          <div style="font-size:40px;line-height:1;">KCHOR</div>
+          <div style="font-family:'Share Tech Mono';font-size:11px;color:#666;">Game Developer (Roblox)</div>
+          <span style="display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 8px;font-size:13px;margin-top:6px;">● READY_FOR_COMMISSIONS</span>
+        </div>
+      </div>
+      <p style="font-family:'Share Tech Mono';font-size:12px;line-height:1.7;color:#444;background:#f9f9f9;padding:12px;border-left:4px solid #000;margin-bottom:16px;">Hi, I'm kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I'm also a versatile developer capable of working on UI design specially Pixel Art, animation, and building. (Note: I do not work with sound design.)</p>
+      <a href="https://www.roblox.com/users/228376618/profile" target="_blank" style="display:block;text-align:center;background:var(--win-blue);border:3px solid #000;padding:10px;text-decoration:none;color:#000;box-shadow:4px 4px 0 #000;font-size:18px;">🎮 VIEW ROBLOX PROFILE</a>
+    `;
+  } else if(section === 'skills'){
+    title.innerText = '📊 SKILLS_METRICS';
+    content.innerHTML = `<div style="display:flex;flex-direction:column;gap:16px;">` +
+      skills.map(s=>`
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:18px;margin-bottom:4px;"><span>${s.name}</span><span>${s.pct}%</span></div>
+          <div style="height:20px;border:2px solid #000;background:#eee;">
+            <div style="width:${s.pct}%;height:100%;background:${s.color};"></div>
+          </div>
+        </div>
+      `).join('') + `</div>`;
+  } else if(section === 'projects'){
+    title.innerText = '📁 ACTIVE_PROJECTS';
+    content.innerHTML = `
+      <div style="border:2px solid #000;background:#fff;box-shadow:4px 4px 0 #000;overflow:hidden;margin-bottom:8px;">
+        <div style="padding:8px 12px;border-bottom:2px solid #000;display:flex;justify-content:space-between;background:#f5f0e8;">
+          <span style="font-size:18px;">🌉 Build A Bridge</span>
+          <span style="background:#000;color:#fff;padding:2px 8px;font-size:12px;">PROTOTYPE</span>
+        </div>
+        <div style="padding:12px;">
+          <p style="font-family:'Share Tech Mono';font-size:12px;margin-bottom:12px;">"Build A Bridge" is a minigame project focused on improving my development skills while also serving as a fully playable game experience</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div onclick="openLightbox('videos/image.png','Environment Architecture')" style="border:2px solid #000;height:100px;overflow:hidden;cursor:pointer;position:relative;background:#111;">
+              <img src="videos/image.png" style="width:100%;height:100%;object-fit:cover;">
+              <div style="position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:9px;padding:2px 6px;font-family:'Share Tech Mono';">MAP_PREVIEW.PNG</div>
+            </div>
+            <div onclick="openLightbox('videos/image1.png','Modular System UI')" style="border:2px solid #000;height:100px;overflow:hidden;cursor:pointer;position:relative;background:#111;">
+              <img src="videos/image1.png" style="width:100%;height:100%;object-fit:cover;">
+              <div style="position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:9px;padding:2px 6px;font-family:'Share Tech Mono';">INTERFACE.PNG</div>
+            </div>
+            <div onclick="openMobileSysInspectorDirect('videos/bridge_demo1.mp4','Build A Bridge','Visual data feed.',[])" style="border:2px solid #000;height:100px;overflow:hidden;cursor:pointer;position:relative;background:#222;display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;color:#fff;font-size:24px;">▶</div>
+              <div style="position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:9px;padding:2px 6px;font-family:'Share Tech Mono';">GAMEPLAY.MP4</div>
+            </div>
+            <div onclick="openMobileSysInspectorDirect('videos/Testing1.mp4','System Logic','Visual data feed.',[])" style="border:2px solid #000;height:100px;overflow:hidden;cursor:pointer;position:relative;background:#222;display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;color:#fff;font-size:24px;">▶</div>
+              <div style="position:absolute;bottom:0;width:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:9px;padding:2px 6px;font-family:'Share Tech Mono';">LOGIC.MP4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if(section === 'systems'){
+    title.innerText = '💾 MODULAR_SYSTEMS_LIBRARY';
+    content.innerHTML = `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">` +
+      systems.map(s=>`
+        <div onclick="openMobileSysInspectorDirect('${s.vid}','${s.name}','${s.desc}',${JSON.stringify(s.tags)})"
+          style="border:2px solid #000;padding:10px;text-align:center;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:3px 3px 0 #000;">
+          <div style="font-size:22px;">${s.icon}</div>
+          <div style="font-size:14px;line-height:1.2;">${s.name}</div>
+        </div>
+      `).join('') + `</div>`;
+  } else if(section === 'feedback'){
+    title.innerText = '📝 COMMUNICATION_LINK.LOG';
+    content.innerHTML = `
+      <div id="mobile-star-rating" style="font-size:36px;cursor:pointer;color:#ccc;margin-bottom:8px;">
+        <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
+      </div>
+      <textarea id="mobile-rev-text" style="width:100%;height:80px;border:3px solid #000;padding:8px;font-size:16px;resize:none;margin-bottom:8px;" placeholder="Type your message to KCHOR..."></textarea>
+      <button onclick="submitMobileReview()" style="width:100%;background:var(--win-green);border:3px solid #000;padding:10px;font-size:20px;cursor:pointer;box-shadow:4px 4px 0 #000;">▶ SEND_MESSAGE</button>
+      <div id="mobile-review-list" style="margin-top:16px;border-top:2px solid #000;padding-top:10px;"></div>
+    `;
+    // Wire up mobile stars
+    let mobileRating = 0;
+    document.querySelectorAll('#mobile-star-rating span').forEach(s=>{
+      s.onclick=()=>{
+        mobileRating = s.dataset.value;
+        currentRating = mobileRating;
+        document.querySelectorAll('#mobile-star-rating span').forEach(star=>{
+          star.innerText = star.dataset.value <= mobileRating ? '★' : '☆';
+          star.style.color = star.dataset.value <= mobileRating ? 'var(--win-orange)' : '#ccc';
+        });
+      };
+    });
+    loadMobileReviews();
+  }
+
+  panel.classList.add('open');
 }
 
-function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
-function playInspector(vid, title) { openDrawer({ name: title, desc: "Visual data feed.", vid: vid, tags: ["Visual"] }); }
+function closeMobilePanel(){
+  document.getElementById('mobile-panel').classList.remove('open');
+}
 
+function openMobileSysInspectorDirect(vid, name, desc, tags){
+  const inspector = document.getElementById('mobile-sys-inspector');
+  document.getElementById('sys-inspector-title').innerText = name;
+  document.getElementById('sys-det-title').innerText = name;
+  document.getElementById('sys-det-desc').innerText = desc;
+  document.getElementById('sys-det-tags').innerHTML = tags.map(t=>`<span style="background:#000;color:#fff;padding:2px 8px;font-size:13px;">${t}</span>`).join('');
+  const player = document.getElementById('sys-player');
+  player.src = vid; player.play().catch(()=>{});
+  inspector.classList.add('open');
+}
+
+function closeMobileSysInspector(){
+  document.getElementById('mobile-sys-inspector').classList.remove('open');
+  document.getElementById('sys-player').pause();
+}
+
+function submitMobileReview(){
+  const text = document.getElementById('mobile-rev-text').value.trim();
+  if(!text || currentRating == 0) return alert("System requires rating and message.");
+  const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
+  reviews.push({id:Date.now(),user:currentUser,rate:currentRating,msg:text,img:""});
+  localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
+  document.getElementById('mobile-rev-text').value = "";
+  currentRating = 0;
+  document.querySelectorAll('#mobile-star-rating span').forEach(s=>{ s.innerText='☆'; s.style.color='#ccc'; });
+  loadMobileReviews();
+}
+
+function loadMobileReviews(){
+  const el = document.getElementById('mobile-review-list');
+  if(!el) return;
+  const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
+  el.innerHTML = reviews.reverse().map(r=>`
+    <div style="border-bottom:1px solid #ddd;padding:10px 0;">
+      <b>${escapeHTML(r.user)}</b> <span style="color:var(--win-orange)">★${r.rate}</span>
+      <p style="font-family:'Share Tech Mono';font-size:11px;">${escapeHTML(r.msg)}</p>
+    </div>
+  `).join('');
+}
+
+// Desktop star rating
 document.querySelectorAll('#star-rating span').forEach(s=>{
   s.onclick=()=>{
     currentRating = s.dataset.value;
@@ -527,7 +850,7 @@ document.querySelectorAll('#star-rating span').forEach(s=>{
 function handleImage(input){
   if(input.files && input.files[0]){
     const reader = new FileReader();
-    reader.onload = e => { currentImageData = e.target.result; document.getElementById('img-preview').src = e.target.result; document.getElementById('preview-wrap').style.display = 'flex'; };
+    reader.onload = e => { currentImageData=e.target.result; document.getElementById('img-preview').src=e.target.result; document.getElementById('preview-wrap').style.display='flex'; };
     reader.readAsDataURL(input.files[0]);
   }
 }
@@ -537,12 +860,12 @@ function submitReview(){
   const text = document.getElementById('rev-text').value.trim();
   if(!text || currentRating == 0) return alert("System requires rating and message.");
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
-  reviews.push({ id: Date.now(), user: currentUser, rate: currentRating, msg: text, img: currentImageData });
+  reviews.push({id:Date.now(),user:currentUser,rate:currentRating,msg:text,img:currentImageData});
   localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
   document.getElementById('rev-text').value = ""; removeImage(); loadReviews();
 }
 
-function deleteReview(id) {
+function deleteReview(id){
   if(currentUser !== "KCHOR_ADMIN") return;
   let reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
   reviews = reviews.filter(r => r.id !== id);
@@ -552,23 +875,31 @@ function deleteReview(id) {
 
 function loadReviews(){
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
-  document.getElementById('review-list').innerHTML = reviews.reverse().map(r => `
-    <div style="border-bottom:1px solid #ddd; padding:10px 0; position:relative;">
+  const el = document.getElementById('review-list');
+  if(!el) return;
+  el.innerHTML = reviews.reverse().map(r=>`
+    <div style="border-bottom:1px solid #ddd;padding:10px 0;position:relative;">
       <b>${escapeHTML(r.user)}</b> <span style="color:var(--win-orange)">★${r.rate}</span>
-      <p style="font-family:'Share Tech Mono'; font-size:11px;">${escapeHTML(r.msg)}</p>
-      ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'Attachment')">` : ''}
-      ${currentUser === "KCHOR_ADMIN" ? `<button onclick="deleteReview(${r.id})" style="position:absolute; right:0; bottom:5px; background:var(--win-red); color:#fff; border:1px solid #000; font-size:10px; cursor:pointer; padding:2px 5px;">DELETE</button>` : ''}
+      <p style="font-family:'Share Tech Mono';font-size:11px;">${escapeHTML(r.msg)}</p>
+      ${r.img ? `<img src="${r.img}" style="max-width:100px;border:2px solid #000;margin-top:5px;cursor:zoom-in;" onclick="openLightbox('${r.img}','Attachment')">` : ''}
+      ${currentUser==="KCHOR_ADMIN" ? `<button onclick="deleteReview(${r.id})" style="position:absolute;right:0;bottom:5px;background:var(--win-red);color:#fff;border:1px solid #000;font-size:10px;cursor:pointer;padding:2px 5px;">DELETE</button>` : ''}
     </div>
   `).join('');
 }
 
-function copyEmail(){ navigator.clipboard.writeText("mandzkie65@gmail.com"); document.getElementById('email-toast').style.display = 'block'; setTimeout(()=>document.getElementById('email-toast').style.display='none', 2000); }
-function toggleLog(){ const l = document.getElementById('activity-log'); l.classList.toggle('open'); document.getElementById('log-arrow').innerText = l.classList.contains('open') ? '▼' : '▲'; }
-function log(msg){ const el = document.getElementById('activity-log'); const d = document.createElement('div'); d.innerText = "> [" + new Date().toLocaleTimeString() + "] " + msg; el.appendChild(d); el.scrollTop = el.scrollHeight; }
+function copyEmail(){ navigator.clipboard.writeText("mandzkie65@gmail.com").catch(()=>{}); document.getElementById('email-toast').style.display='block'; setTimeout(()=>document.getElementById('email-toast').style.display='none',2000); }
+function toggleLog(){ const l=document.getElementById('activity-log'); l.classList.toggle('open'); document.getElementById('log-arrow').innerText=l.classList.contains('open')?'▼':'▲'; }
+function log(msg){ const el=document.getElementById('activity-log'); const d=document.createElement('div'); d.innerText="> ["+new Date().toLocaleTimeString()+"] "+msg; el.appendChild(d); el.scrollTop=el.scrollHeight; }
 function jumpTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
-function openLightbox(src, cap){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-caption').innerText=cap; document.getElementById('lightbox').style.display='flex'; }
+function openLightbox(src,cap){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-caption').innerText=cap; document.getElementById('lightbox').style.display='flex'; }
 function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
-setInterval(()=>document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), 1000);
+
+// Clock for both desktop and mobile
+setInterval(()=>{
+  const t = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const c = document.getElementById('clock'); if(c) c.innerText = t;
+  const mc = document.getElementById('mobile-clock'); if(mc) mc.innerText = t;
+}, 1000);
 </script>
 </body>
 </html>
