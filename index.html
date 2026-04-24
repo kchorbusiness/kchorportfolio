@@ -250,8 +250,6 @@ input, textarea, button, select { font-family: 'VT323', monospace !important; }
 
 body {
 
-  zoom: 1.8;
-
   background-color: var(--bg-main);
 
   background-image: radial-gradient(#adb5bd 1.5px, transparent 1.5px);
@@ -480,7 +478,78 @@ body {
 
 #activity-log.open { height:100px; padding:8px; border-top:2px solid #333; }
 
-</style>
+/* =============================================
+   DESKTOP ZOOM — keeps the original scaled look
+   on large screens without breaking mobile
+   ============================================= */
+@media (min-width: 900px) {
+  body { zoom: 1.8; }
+}
+
+/* =============================================
+   MOBILE OVERRIDES
+   ============================================= */
+@media (max-width: 899px) {
+
+  :root { --col-width: 100%; }
+
+  body { overflow-x: hidden; overflow-y: auto; height: auto; }
+
+  /* Boot screen boxes fit narrow screens */
+  .boot-log, .login-box { width: 90vw !important; }
+  #theme-screen .login-box { width: 90vw !important; }
+
+  /* Main UI scrolls freely */
+  #main-ui { height: auto; overflow: visible; }
+  .workspace { height: auto; overflow-y: visible; padding: 12px 0 80px; }
+
+  /* Windows fill screen width */
+  .window { width: 100%; box-shadow: 4px 4px 0 #000; }
+
+  /* Sidebar moves to a horizontal bar at the top */
+  #sidebar {
+    position: fixed;
+    left: 0; top: auto; bottom: 44px;
+    transform: none;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 6px 8px;
+    border-left: none; border-right: none;
+    box-shadow: 0 -3px 0 #000;
+    z-index: 150;
+  }
+  .icon-tip { display: none; }
+
+  /* Inspector drawer fills screen on mobile */
+  #inspector-drawer {
+    top: 0; right: 0;
+    width: 100%;
+    height: 100vh;
+    border-left: none;
+  }
+
+  /* Skills grid single column */
+  .skills-grid { grid-template-columns: 1fr; }
+
+  /* System grid 2 columns */
+  .system-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Project media single column */
+  .project-body { grid-template-columns: 1fr; }
+
+  /* Taskbar — hide volume slider label, compress */
+  #taskbar { gap: 5px; padding: 0 6px; font-size: 11px; }
+  #vol-slider { width: 44px; }
+
+  /* Workspace padding accounts for sidebar bar at bottom */
+  .workspace { padding-bottom: 120px; }
+
+  /* Profile wrap */
+  .profile-body { flex-direction: column; }
+}
+
+
 
 </head>
 
