@@ -41,7 +41,7 @@ body {
 #lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; }
 #lightbox-caption { color:#fff;font-family:'Share Tech Mono',monospace;font-size:12px; }
 
-#boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; transition: opacity 0.5s; }
+#boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
 .boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
 .boot-log div { animation:fadeIn 0.3s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
@@ -137,10 +137,9 @@ body {
 .project-body { padding:11px;display:grid;grid-template-columns:1fr 1fr;gap:7px; }
 .project-desc { font-family:'Share Tech Mono',monospace;font-size:11.5px;line-height:1.6;grid-column:span 2;color:#222; }
 .project-media { border:2px solid #000;overflow:hidden;cursor:pointer;position:relative;background:#111; }
-.project-media img, .project-media video { width:100%;height:100px;object-fit:cover;display:block; transition: transform 0.2s; }
-.project-media:hover img { transform:scale(1.05); }
-.media-label { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:#fff;font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 6px; z-index: 2; }
-.media-hover-hint { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;opacity:0;transition:opacity 0.15s;pointer-events:none; z-index: 3;}
+.project-media img, .project-media video { width:100%;height:100px;object-fit:cover;display:block; }
+.media-label { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:#fff;font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 6px; }
+.media-hover-hint { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;opacity:0;transition:opacity 0.15s;pointer-events:none; }
 .project-media:hover .media-hover-hint { opacity:1; }
 .project-specs { grid-column:span 2;display:flex;gap:5px;flex-wrap:wrap; }
 .spec-pill { border:2px solid #000;padding:1px 6px;font-size:13px;background:var(--win-gray); }
@@ -149,16 +148,16 @@ body {
   position:fixed;top:0;right:0;
   width:320px;height:calc(100vh - 40px);
   background:#fff;border-left:3px solid #000;box-shadow:-5px 0 0 #000;
-  transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform:translateX(100%);transition:transform 0.2s ease;
   z-index:500;display:flex;flex-direction:column;
 }
 #inspector-drawer.open { transform:translateX(0); }
 #drawer-titlebar { background:var(--win-chrome);border-bottom:3px solid #000;padding:5px 9px;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:bold; }
-#drawer-close { background:var(--win-red);border:2px solid #000;width:22px;height:22px;cursor:pointer; }
+#drawer-close { background:var(--win-red);border:2px solid #000;width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
 
 #player-wrap { position:relative;background:#000;flex-shrink:0; aspect-ratio:16/9; }
 #main-player { width:100%; height:100%; display:none; }
-#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0d0d0d; color:#555; }
+#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; background:#0d0d0d; color:#555; }
 
 #taskbar {
   position:fixed;bottom:0;width:100%;height:40px;
@@ -166,8 +165,8 @@ body {
   display:flex;align-items:center;padding:0 10px;z-index:100;font-size:15px;gap:7px;
 }
 .btn-pixel { background:var(--win-blue);border:2px solid #000;padding:3px 8px;font-family:inherit;cursor:pointer;box-shadow:2px 2px 0 #000; }
-.t-divider { width:1px;height:20px;background:#999; }
-.contact-strip a, .contact-strip button { background:#fff;border:2px solid #000;padding:2px 7px;font-family:'VT323',monospace;font-size:14px;cursor:pointer;text-decoration:none;color:#000; }
+.contact-strip { display:flex;gap:5px;align-items:center; }
+.contact-strip a, .contact-strip button { background:#fff;border:2px solid #000;padding:2px 7px;font-family:'VT323',monospace;font-size:14px;cursor:pointer;box-shadow:2px 2px 0 #000;text-decoration:none;color:#000; }
 </style>
 </head>
 <body>
@@ -202,11 +201,11 @@ body {
   <div id="drawer-titlebar"><span>MODULE_VIEWER</span><button id="drawer-close" onclick="closeDrawer()">✕</button></div>
   <div id="player-wrap">
     <video id="main-player" controls autoplay muted loop></video>
-    <div id="no-signal"><p>No video available.</p></div>
+    <div id="no-signal"><div style="font-size:22px;">📺</div><p>No video for this module.</p></div>
   </div>
   <div style="padding:15px; flex:1; overflow-y:auto;">
     <h2 id="det-title">—</h2>
-    <p id="det-desc" style="font-family:'Share Tech Mono',monospace; font-size:12px; color:#444; margin-top:10px;">Select a module.</p>
+    <p id="det-desc" style="font-family:'Share Tech Mono',monospace; font-size:11px; color:#444; margin-top:5px;"></p>
     <div id="det-tags" style="margin-top:10px; display:flex; gap:5px; flex-wrap:wrap;"></div>
   </div>
 </div>
@@ -221,8 +220,9 @@ body {
           <h1>KCHOR</h1>
           <p class="subtitle">Roblox Systems Architect</p>
           <span class="status-badge">● AVAILABLE FOR HIRE</span>
+          <div class="stat-row"><span class="stat-chip">3+ YRS EXP</span><span class="stat-chip">LUAU</span><span class="stat-chip">STUDIO</span></div>
         </div>
-        <p class="profile-bio">Building robust game systems in Roblox Studio. Specializing in game loops, combat mechanics, and dynamic environments.</p>
+        <p class="profile-bio">Building robust game systems in Roblox Studio. Specializing in game loops, combat mechanics, data persistence, and dynamic environments. Always shipping clean, scalable Luau code.</p>
       </div>
     </div>
 
@@ -243,21 +243,38 @@ body {
       <div class="title-bar"><span>PORTFOLIO.DIR</span></div>
       <div class="projects-scroll">
         <div class="project-card">
-          <div class="project-header"><strong>🌉 Build A Bridge</strong> <span class="project-tag wip">WIP</span></div>
+          <div class="project-header"><span style="font-size:17px;font-weight:bold;">🌉 Build A Bridge</span><span class="project-tag wip">● WIP</span></div>
           <div class="project-body">
-            <p class="project-desc">Physics-based construction and round systems.</p>
-            <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge — Gameplay')">
-              <video muted loop preload="metadata"><source src="videos/bridge_demo1.mp4" type="video/mp4"></video>
-              <div class="media-label">▶ Gameplay Demo</div>
-              <div class="media-hover-hint">Open Viewer →</div>
+            <p class="project-desc">A Roblox game where players race to construct bridges across gaps using collected parts. Features round systems and physics.</p>
+            <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge — Demo')">
+              <video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"><source src="videos/bridge_demo1.mp4" type="video/mp4"></video>
+              <div class="media-label">▶ Gameplay Demo</div><div class="media-hover-hint">Open viewer →</div>
+            </div>
+            <div class="project-media" onclick="playInspector('videos/bridge_demo2.mp4','Bridge Physics')">
+              <video muted loop><source src="videos/bridge_demo2.mp4" type="video/mp4"></video>
+              <div class="media-label">▶ Bridge Physics</div><div class="media-hover-hint">Open viewer →</div>
             </div>
             <div class="project-media" onclick="openLightbox('videos/image.png','Map Overview')">
-              <img src="videos/image.png" onerror="this.style.display='none'">
-              <div class="media-label">🔍 Map Overview</div>
+              <img src="videos/image.png" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
+              <div class="media-label">🗺 Map Overview</div>
             </div>
-            <div class="project-specs"><span class="spec-pill">Luau</span><span class="spec-pill">Physics</span></div>
+            <div class="project-media" onclick="openLightbox('videos/image1.png','UI Design')">
+              <img src="videos/image1.png" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
+              <div class="media-label">🖥 UI Design</div>
+            </div>
+            <div class="project-specs"><span class="spec-pill">Luau</span><span class="spec-pill">Physics</span><span class="spec-pill">DataStore</span></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="window" id="win-feedback">
+      <div class="title-bar"><span>FEEDBACK_LOG.LOG</span></div>
+      <div style="padding:15px;">
+        <p style="font-family:'Share Tech Mono',monospace; font-size:11px;">Leave a report below:</p>
+        <textarea id="rev-text" style="width:100%;height:52px;border:3px solid #000;margin:5px 0;padding:6px;font-family:inherit;resize:none;"></textarea>
+        <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-green);">▶ SUBMIT</button>
+        <div id="review-list" style="margin-top:10px;"></div>
       </div>
     </div>
   </div>
@@ -265,133 +282,119 @@ body {
 
 <div id="taskbar">
   <button class="btn-pixel" style="background:var(--win-red);">⊞ START</button>
-  <div class="t-divider"></div>
+  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
   <div id="taskbar-user" style="flex-grow:1;">User: Guest</div>
   <div class="contact-strip">
-    <a href="#" target="_blank">🕹 Roblox</a>
-    <button onclick="alert('Email copied!')">📧 Email</button>
+    <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹 Roblox</a>
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 Discord</a>
+    <button onclick="copyEmail()">📧 Email</button>
   </div>
-  <div class="t-divider"></div>
+  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
   <div id="clock">00:00</div>
 </div>
 
 <script>
 const systems = [
-  {name:"Round System",icon:"🔄",desc:"Global loop handling intermissions and map voting.",vid:"videos/Testing1.mp4",tags:["Luau","Server"]},
-  {name:"Combat System",icon:"⚔️",desc:"Raycast-based weapon system.",vid:"",tags:["Raycast"]},
-  {name:"Bridge Builder",icon:"🌉",desc:"Custom physics placement system.",vid:"videos/bridge_demo1.mp4",tags:["Physics"]}
+  {name:"Round System",icon:"🔄",desc:"Global loop handling intermissions and voting.",vid:"videos/Testing1.mp4",tags:["Luau","RemoteEvents"]},
+  {name:"Combat System",icon:"⚔️",desc:"Raycast weapon system.",vid:"",tags:["Raycast"]},
+  {name:"Weather System",icon:"🌦️",desc:"Dynamic lighting cycles.",vid:"",tags:["Lighting"]},
+  {name:"Data Saving",icon:"💾",desc:"ProfileService-based saving.",vid:"",tags:["DataStore"]},
+  {name:"Bridge Builder",icon:"🌉",desc:"Placement + physics system.",vid:"videos/bridge_demo1.mp4",tags:["Physics"]},
+  {name:"UI Framework",icon:"🖥️",desc:"Modular UI system.",vid:"",tags:["GUI"]}
 ];
 
 const skills = [
-  {name:"Luau Scripting",pct:85,color:"var(--win-blue)"},
-  {name:"Game Architecture",pct:80,color:"var(--win-purple)"}
+  {name:"Luau / Scripting",pct:85,color:"var(--win-blue)"},
+  {name:"Game Architecture",pct:80,color:"var(--win-purple)"},
+  {name:"Studio / Building",pct:70,color:"var(--win-yellow)"},
+  {name:"UI Design",pct:65,color:"var(--win-pink)"}
 ];
 
-// BOOT SYSTEM
-const bootLog = document.getElementById('boot-log');
-const bootLines = ["System Check... OK", "Loading Drive... OK", "Ready."];
-bootLines.forEach((l, i) => {
-  setTimeout(() => {
-    const d = document.createElement('div');
-    d.innerText = "> " + l;
-    bootLog.appendChild(d);
-  }, i * 400);
-});
+// BOOT LOGIC
+(function(){
+  const el = document.getElementById('boot-log');
+  ["BIOS v2.1 ... OK", "Mounting drives ...", "Ready."].forEach((l,i)=>{
+    setTimeout(()=>{
+      const d = document.createElement('div'); d.innerText="> "+l; el.appendChild(d);
+    }, i*300);
+  });
+})();
 
-function login() {
+function login(){
   const val = document.getElementById('username-input').value;
   document.getElementById('taskbar-user').innerText = "User: " + (val || "Guest");
-  document.getElementById('boot-screen').style.opacity = "0";
-  setTimeout(() => {
-    document.getElementById('boot-screen').style.display = "none";
-    document.getElementById('main-ui').style.display = "block";
-    document.getElementById('sidebar').style.display = "flex";
-    buildSkills();
-    buildSysGrid();
-  }, 500);
+  document.getElementById('boot-screen').style.display='none';
+  document.getElementById('main-ui').style.display='block';
+  document.getElementById('sidebar').style.display='flex';
+  buildSkills(); buildSysGrid();
 }
 
-function randomizeName() {
-  document.getElementById('username-input').value = "Dev_" + Math.floor(Math.random()*999);
+function randomizeName(){
+  document.getElementById('username-input').value = "User" + Math.floor(Math.random()*999);
 }
 
-// NAVIGATION
-function jumpTo(id) {
-  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-// SKILLS & GRID
-function buildSkills() {
-  const g = document.getElementById('skills-grid');
-  g.innerHTML = skills.map(s => `
+function buildSkills(){
+  const g=document.getElementById('skills-grid');
+  g.innerHTML = skills.map(s=>`
     <div class="skill-bar-wrap">
       <div class="skill-label"><span>${s.name}</span><span>${s.pct}%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%; background:${s.color}"></div></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%;background:${s.color}"></div></div>
     </div>
   `).join('');
 }
 
-function buildSysGrid() {
-  const grid = document.getElementById('sysGrid');
-  grid.innerHTML = "";
-  systems.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'sys-item';
-    div.innerHTML = `<div>${s.icon}</div><strong>${s.name}</strong>`;
-    div.onclick = () => openDrawer(s);
+function buildSysGrid(){
+  const grid=document.getElementById('sysGrid');
+  grid.innerHTML="";
+  systems.forEach(s=>{
+    const div=document.createElement('div');
+    div.className='sys-item';
+    div.innerHTML=`<div>${s.icon}</div><strong>${s.name}</strong>`;
+    div.onclick=()=>openDrawer(s);
     grid.appendChild(div);
   });
 }
 
-// DRAWER FIXES
-function openDrawer(data) {
-  const drawer = document.getElementById('inspector-drawer');
-  drawer.classList.add('open');
-  
-  document.getElementById('det-title').innerText = (data.icon || "📁") + " " + data.name;
-  document.getElementById('det-desc').innerText = data.desc;
-  document.getElementById('det-tags').innerHTML = data.tags.map(t => `<span class="spec-pill">${t}</span>`).join('');
+function openDrawer(s){
+  document.getElementById('inspector-drawer').classList.add('open');
+  document.getElementById('det-title').innerText = s.name;
+  document.getElementById('det-desc').innerText = s.desc;
+  document.getElementById('det-tags').innerHTML = s.tags.map(t=>`<span class="spec-pill">${t}</span>`).join('');
   
   const v = document.getElementById('main-player');
   const ns = document.getElementById('no-signal');
-  
-  if (data.vid) {
-    v.src = data.vid;
-    v.style.display = 'block';
-    ns.style.display = 'none';
-    v.play().catch(() => {});
+  if(s.vid){
+    v.src=s.vid; v.style.display='block'; ns.style.display='none'; v.play().catch(()=>{});
   } else {
-    v.style.display = 'none';
-    ns.style.display = 'flex';
+    v.style.display='none'; ns.style.display='flex';
   }
 }
 
-function closeDrawer() {
-  document.getElementById('inspector-drawer').classList.remove('open');
-}
+function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
 
-// Added this to fix the missing playInspector function
+// RESTORED playInspector function
 function playInspector(vid, title) {
-  openDrawer({
-    name: title,
-    desc: "Project Preview",
-    vid: vid,
-    tags: ["Project","Demo"]
-  });
+  openDrawer({ name: title, desc: "Project Media Preview", vid: vid, tags: ["Demo", "Gameplay"] });
 }
 
-function openLightbox(src, cap) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox-caption').innerText = cap;
-  document.getElementById('lightbox').style.display = 'flex';
+function copyEmail(){
+  navigator.clipboard.writeText("mandzkie65@gmail.com");
+  alert("Email copied!");
 }
 
-function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
+function jumpTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
 }
 
-setInterval(() => {
-  document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+function openLightbox(src, cap){
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox-caption').innerText=cap;
+  document.getElementById('lightbox').style.display='flex';
+}
+function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+
+setInterval(()=>{
+  document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }, 1000);
 </script>
 </body>
