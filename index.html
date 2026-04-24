@@ -159,14 +159,17 @@ body {
 #main-player { width:100%; height:100%; display:none; }
 #no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; background:#0d0d0d; color:#555; }
 
+#activity-log { padding:6px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;height:85px;overflow-y:auto;background:#0d0d0d;color:#0f0;line-height:1.7; display:none; }
+#activity-log.open { display:block; }
+
 #taskbar {
   position:fixed;bottom:0;width:100%;height:40px;
   background:var(--win-gray);border-top:3px solid #000;
   display:flex;align-items:center;padding:0 10px;z-index:100;font-size:15px;gap:7px;
 }
 .btn-pixel { background:var(--win-blue);border:2px solid #000;padding:3px 8px;font-family:inherit;cursor:pointer;box-shadow:2px 2px 0 #000; }
-.contact-strip { display:flex;gap:5px;align-items:center; }
 .contact-strip a, .contact-strip button { background:#fff;border:2px solid #000;padding:2px 7px;font-family:'VT323',monospace;font-size:14px;cursor:pointer;box-shadow:2px 2px 0 #000;text-decoration:none;color:#000; }
+#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; }
 </style>
 </head>
 <body>
@@ -174,6 +177,7 @@ body {
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src=""><div id="lightbox-caption"></div>
 </div>
+<div id="email-toast">✓ mandzkie65@gmail.com copied!</div>
 
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
@@ -207,6 +211,12 @@ body {
     <h2 id="det-title">—</h2>
     <p id="det-desc" style="font-family:'Share Tech Mono',monospace; font-size:11px; color:#444; margin-top:5px;"></p>
     <div id="det-tags" style="margin-top:10px; display:flex; gap:5px; flex-wrap:wrap;"></div>
+  </div>
+  <div id="log-section" style="border-top:2px solid #000;">
+    <div id="log-toggle" onclick="toggleLog()" style="background:#111;color:#0f0;padding:4px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;display:flex;justify-content:space-between;">
+      <span>ACTIVITY_LOG</span><span id="log-arrow">▼</span>
+    </div>
+    <div id="activity-log"></div>
   </div>
 </div>
 
@@ -271,9 +281,25 @@ body {
     <div class="window" id="win-feedback">
       <div class="title-bar"><span>FEEDBACK_LOG.LOG</span></div>
       <div style="padding:15px;">
-        <p style="font-family:'Share Tech Mono',monospace; font-size:11px;">Leave a report below:</p>
-        <textarea id="rev-text" style="width:100%;height:52px;border:3px solid #000;margin:5px 0;padding:6px;font-family:inherit;resize:none;"></textarea>
-        <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-green);">▶ SUBMIT</button>
+        <p style="font-family:'Share Tech Mono',monospace; font-size:11px;">Rate KCHOR's work and leave a note.</p>
+        <div id="star-rating" style="font-size:28px;cursor:pointer;color:#ccc;margin-bottom:5px;">
+          <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
+        </div>
+        
+        <div id="preview-wrap" style="display:none;margin:5px 0;align-items:center;gap:7px;">
+          <img id="img-preview" style="width:48px;height:48px;border:2px solid #000;object-fit:cover;">
+          <button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">✕</button>
+        </div>
+
+        <textarea id="rev-text" style="width:100%;height:52px;border:3px solid #000;margin:5px 0;padding:6px;font-family:'Share Tech Mono',monospace;font-size:11px;resize:none;" placeholder="Write your report here..."></textarea>
+        
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ IMAGE</button>
+          <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
+          <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-green);">▶ SUBMIT</button>
+          <button id="admin-wipe" class="btn-pixel" onclick="clearAll()" style="background:var(--win-red);display:none;margin-left:auto;">WIPE_ALL</button>
+        </div>
+        
         <div id="review-list" style="margin-top:10px;"></div>
       </div>
     </div>
@@ -282,14 +308,14 @@ body {
 
 <div id="taskbar">
   <button class="btn-pixel" style="background:var(--win-red);">⊞ START</button>
-  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
+  <div class="t-divider" style="width:1px;height:20px;background:#999;margin:0 5px;"></div>
   <div id="taskbar-user" style="flex-grow:1;">User: Guest</div>
   <div class="contact-strip">
     <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹 Roblox</a>
     <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 Discord</a>
     <button onclick="copyEmail()">📧 Email</button>
   </div>
-  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
+  <div class="t-divider" style="width:1px;height:20px;background:#999;margin:0 5px;"></div>
   <div id="clock">00:00</div>
 </div>
 
@@ -310,10 +336,12 @@ const skills = [
   {name:"UI Design",pct:65,color:"var(--win-pink)"}
 ];
 
-// BOOT LOGIC
+let currentUser="Guest", currentRating=0, currentImageData="";
+
+// BOOT
 (function(){
   const el = document.getElementById('boot-log');
-  ["BIOS v2.1 ... OK", "Mounting drives ...", "Ready."].forEach((l,i)=>{
+  ["BIOS v2.1 ... OK", "Mounting drives ...", "Loading UI ...", "Ready."].forEach((l,i)=>{
     setTimeout(()=>{
       const d = document.createElement('div'); d.innerText="> "+l; el.appendChild(d);
     }, i*300);
@@ -322,16 +350,19 @@ const skills = [
 
 function login(){
   const val = document.getElementById('username-input').value;
-  document.getElementById('taskbar-user').innerText = "User: " + (val || "Guest");
+  currentUser = val || "Guest_" + Math.floor(Math.random()*999);
+  document.getElementById('taskbar-user').innerText = "User: " + currentUser;
   document.getElementById('boot-screen').style.display='none';
   document.getElementById('main-ui').style.display='block';
   document.getElementById('sidebar').style.display='flex';
-  buildSkills(); buildSysGrid();
+  
+  if(currentUser === "KCHOR_ADMIN") document.getElementById('admin-wipe').style.display='block';
+  
+  buildSkills(); buildSysGrid(); loadReviews();
+  log("Logged in as " + currentUser);
 }
 
-function randomizeName(){
-  document.getElementById('username-input').value = "User" + Math.floor(Math.random()*999);
-}
+function randomizeName(){ document.getElementById('username-input').value = "Dev" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
   const g=document.getElementById('skills-grid');
@@ -355,11 +386,12 @@ function buildSysGrid(){
   });
 }
 
+// DRAWER FIX
 function openDrawer(s){
   document.getElementById('inspector-drawer').classList.add('open');
   document.getElementById('det-title').innerText = s.name;
   document.getElementById('det-desc').innerText = s.desc;
-  document.getElementById('det-tags').innerHTML = s.tags.map(t=>`<span class="spec-pill">${t}</span>`).join('');
+  document.getElementById('det-tags').innerHTML = (s.tags || []).map(t=>`<span class="spec-pill">${t}</span>`).join('');
   
   const v = document.getElementById('main-player');
   const ns = document.getElementById('no-signal');
@@ -368,24 +400,91 @@ function openDrawer(s){
   } else {
     v.style.display='none'; ns.style.display='flex';
   }
+  log("Opened module: " + s.name);
 }
 
 function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
 
-// RESTORED playInspector function
 function playInspector(vid, title) {
-  openDrawer({ name: title, desc: "Project Media Preview", vid: vid, tags: ["Demo", "Gameplay"] });
+  openDrawer({ name: title, desc: "Project Preview", vid: vid, tags: ["Gameplay", "Physics"] });
 }
 
+// FEEDBACK LOGIC
+document.querySelectorAll('#star-rating span').forEach(s=>{
+  s.onclick=()=>{
+    currentRating = s.dataset.value;
+    document.querySelectorAll('#star-rating span').forEach(star=>{
+      star.innerText = star.dataset.value <= currentRating ? '★' : '☆';
+      star.style.color = star.dataset.value <= currentRating ? 'var(--win-yellow)' : '#ccc';
+    });
+  };
+});
+
+function handleImage(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = e => {
+      currentImageData = e.target.result;
+      document.getElementById('img-preview').src = e.target.result;
+      document.getElementById('preview-wrap').style.display = 'flex';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+function removeImage(){ currentImageData=""; document.getElementById('preview-wrap').style.display='none'; }
+
+function submitReview(){
+  const text = document.getElementById('rev-text').value.trim();
+  if(!text || currentRating == 0) return alert("Please add a rating and a message!");
+  
+  const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
+  reviews.push({ user: currentUser, rate: currentRating, msg: text, img: currentImageData });
+  localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
+  
+  document.getElementById('rev-text').value = "";
+  removeImage();
+  loadReviews();
+  log("Feedback submitted.");
+}
+
+function loadReviews(){
+  const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
+  const list = document.getElementById('review-list');
+  list.innerHTML = reviews.reverse().map(r => `
+    <div style="border-bottom:1px solid #eee; padding:7px 0;">
+      <b>${r.user}</b> ★${r.rate}
+      <p style="font-family:'Share Tech Mono',monospace; font-size:11px;">${r.msg}</p>
+      ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'Feedback Image')">` : ''}
+    </div>
+  `).join('');
+}
+
+function clearAll(){ localStorage.removeItem('kchor_reviews'); loadReviews(); }
+
+// UTILS
 function copyEmail(){
   navigator.clipboard.writeText("mandzkie65@gmail.com");
-  alert("Email copied!");
+  const toast = document.getElementById('email-toast');
+  toast.style.display = 'block';
+  setTimeout(()=>toast.style.display='none', 2000);
 }
 
-function jumpTo(id){
-  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+function toggleLog(){
+  const log = document.getElementById('activity-log');
+  const arrow = document.getElementById('log-arrow');
+  log.classList.toggle('open');
+  arrow.innerText = log.classList.contains('open') ? '▼' : '▲';
 }
 
+function log(msg){
+  const el = document.getElementById('activity-log');
+  const d = document.createElement('div');
+  d.innerText = "> " + msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function jumpTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
 function openLightbox(src, cap){
   document.getElementById('lightbox-img').src=src;
   document.getElementById('lightbox-caption').innerText=cap;
