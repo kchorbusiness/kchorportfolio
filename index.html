@@ -66,6 +66,14 @@ body.dark-mode .profile-info h1 {
   color: #c9e8ff !important;
 }
 
+body.dark-mode .sys-item strong {
+  color: #c9e8ff !important;
+}
+body.dark-mode .sys-item:hover {
+  background: #1e1e4a !important;
+  color: #c9e8ff !important;
+}
+
 /* --- ORIGINAL ANIMATIONS --- */
 .boot-note {
   margin-top: 10px;
@@ -430,6 +438,13 @@ function applyTheme(){
   document.getElementById('main-ui').style.display = 'block';
   document.getElementById('sidebar').style.display = 'flex';
   buildSkills(); buildSysGrid(); loadReviews();
+
+  if(selectedTheme === 'dark') {
+    document.body.classList.remove('dark-mode');
+    void document.body.offsetHeight;
+    document.body.classList.add('dark-mode');
+  }
+
   log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
   
