@@ -21,6 +21,60 @@
   --win-chrome: #cfd8dc;
   --col-width: 680px;
 }
+  
+body.dark-mode .sys-item {
+  background: #12122a !important;
+  color: #c9e8ff !important;
+  border-color: #334 !important;
+}
+body.dark-mode .system-grid {
+  background: #0d0d1a !important;
+}
+body.dark-mode .window {
+  background: #1a1a2e !important;
+  color: #c9e8ff !important;
+}
+body.dark-mode .title-bar {
+  background: #0d0d1a !important;
+  color: #88c0d8 !important;
+}
+body.dark-mode .project-card {
+  background: #12122a !important;
+  color: #c9e8ff !important;
+}
+body.dark-mode .project-header {
+  background: #0d0d1a !important;
+  color: #88c0d8 !important;
+}
+body.dark-mode .project-body p {
+  color: #c9e8ff !important;
+}
+body.dark-mode .skill-bar {
+  background: #0a0a1a !important;
+}
+body.dark-mode #taskbar {
+  background: #0d0d1a !important;
+  border-color: #334 !important;
+}
+body.dark-mode textarea, body.dark-mode input {
+  background: #0d0d1a !important;
+  color: #c9e8ff !important;
+  border-color: #445 !important;
+}
+body.dark-mode .profile-avatar {
+  background: #1e3a5f !important;
+}
+body.dark-mode #sidebar {
+  background: rgba(13,13,26,0.85) !important;
+}
+body.dark-mode #inspector-drawer {
+  background: #12122a !important;
+  color: #c9e8ff !important;
+}
+body.dark-mode #det-desc {
+  background: #0d0d1a !important;
+  color: #c9e8ff !important;
+}
 
 /* --- ORIGINAL ANIMATIONS --- */
 .boot-note {
@@ -377,39 +431,18 @@ function pickTheme(mode) {
 }
 function applyTheme(){
   if(selectedTheme === 'dark') {
-    document.documentElement.style.setProperty('--bg-main', '#0d0d1a');
-    document.body.style.backgroundImage = 'radial-gradient(#1e1e3a 1.5px, transparent 1.5px)';
+    document.body.classList.add('dark-mode');
     document.body.style.backgroundColor = '#0d0d1a';
-    document.querySelectorAll('.window').forEach(w => w.style.background = '#1a1a2e');
-    document.querySelectorAll('.window').forEach(w => w.style.color = '#c9e8ff');
-    document.getElementById('taskbar').style.background = '#0d0d1a';
-    document.querySelectorAll('.title-bar').forEach(t => { t.style.background = '#0d0d1a'; t.style.color = '#88c0d8'; });
-    document.querySelectorAll('.system-grid').forEach(g => g.style.background = '#0d0d1a');
-    document.querySelectorAll('.skill-bar').forEach(b => b.style.background = '#0a0a1a');
-    document.getElementById('taskbar').style.borderColor = '#334';
-    document.querySelectorAll('textarea, input').forEach(el => { el.style.background = '#0d0d1a'; el.style.color = '#c9e8ff'; el.style.borderColor = '#445'; });
-    document.querySelectorAll('.profile-avatar').forEach(a => a.style.background = '#1e3a5f');
+    document.body.style.backgroundImage = 'radial-gradient(#1e1e3a 1.5px, transparent 1.5px)';
   }
-
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
   document.getElementById('main-ui').style.display = 'block';
   document.getElementById('sidebar').style.display = 'flex';
   buildSkills(); buildSysGrid(); loadReviews();
-
-  if(selectedTheme === 'dark') {
-    document.querySelectorAll('.sys-item').forEach(s => {
-      s.style.background = '#12122a';
-      s.style.color = '#c9e8ff';
-      s.style.borderColor = '#334';
-    });
-    document.querySelectorAll('.project-card').forEach(c => { c.style.background = '#12122a'; c.style.color = '#c9e8ff'; });
-    document.querySelectorAll('.project-header').forEach(h => { h.style.background = '#0d0d1a'; h.style.color = '#88c0d8'; });
-  }
-
   log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
-
+  
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
