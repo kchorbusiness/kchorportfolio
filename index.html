@@ -549,7 +549,7 @@ body {
   .profile-body { flex-direction: column; }
 }
 
-
+</style>
 
 </head>
 
@@ -1071,7 +1071,11 @@ function login(){
 
   document.querySelector('.boot-log').style.display = 'none';
 
-  document.getElementById('theme-screen').style.display = 'flex';
+  // Start music immediately and show intro, then reveal theme picker
+  startMusic();
+  runIntro(() => {
+    document.getElementById('theme-screen').style.display = 'flex';
+  });
 
 }
 
@@ -1131,19 +1135,19 @@ function applyTheme(){
 
   document.getElementById('boot-screen').style.display = 'none';
 
-  // Start music immediately
-  startMusic();
+  document.getElementById('main-ui').style.display = 'block';
 
-  // Run intro, then reveal OS after
-  runIntro(() => {
-    document.getElementById('main-ui').style.display = 'block';
-    document.getElementById('sidebar').style.display = 'flex';
-    buildSkills();
-    buildSysGrid();
-    loadReviews();
-    setTimeout(() => sfx.boot(), 80);
-    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
-  });
+  document.getElementById('sidebar').style.display = 'flex';
+
+  buildSkills();
+
+  buildSysGrid();
+
+  loadReviews();
+
+  setTimeout(() => sfx.boot(), 80);
+
+  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 
 }
 
@@ -1344,9 +1348,9 @@ function closeLightbox(){ document.getElementById('lightbox').style.display='non
    INTRO SEQUENCE
    ========================================================= */
 const introLines = [
-  "Hello there.\nIt's kchor's workshop \nthank you for stopping by.",
+  "Hello there.\nIt's kchor's workshop —\nthank you for stopping by.",
   "Everything you're about to see\nis my journey inside Roblox Studio.\nEvery system, built from scratch.",
-  "I hope this brings you even a little bit of what it felt like to build it. Enjoy."
+  "I hope this brings you even a little bit\nof what it felt like to build it.\nEnjoy."
 ];
 
 function runIntro(onDone) {
