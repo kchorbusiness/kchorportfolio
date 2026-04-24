@@ -383,24 +383,30 @@ function applyTheme(){
     document.querySelectorAll('.window').forEach(w => w.style.background = '#1a1a2e');
     document.querySelectorAll('.window').forEach(w => w.style.color = '#c9e8ff');
     document.getElementById('taskbar').style.background = '#0d0d1a';
-
     document.querySelectorAll('.title-bar').forEach(t => { t.style.background = '#0d0d1a'; t.style.color = '#88c0d8'; });
-    document.querySelectorAll('.sys-item').forEach(s => { s.style.background = '#12122a'; s.style.color = '#c9e8ff'; s.style.borderColor = '#334'; });
     document.querySelectorAll('.system-grid').forEach(g => g.style.background = '#0d0d1a');
-    document.querySelectorAll('.project-card').forEach(c => { c.style.background = '#12122a'; c.style.color = '#c9e8ff'; });
-    document.querySelectorAll('.project-header').forEach(h => { h.style.background = '#0d0d1a'; h.style.color = '#88c0d8'; });
     document.querySelectorAll('.skill-bar').forEach(b => b.style.background = '#0a0a1a');
-    document.querySelectorAll('.login-box, #inspector-drawer').forEach(el => { el.style.background = '#12122a'; el.style.color = '#c9e8ff'; });
-    document.querySelector('#taskbar').style.borderColor = '#334';
+    document.getElementById('taskbar').style.borderColor = '#334';
     document.querySelectorAll('textarea, input').forEach(el => { el.style.background = '#0d0d1a'; el.style.color = '#c9e8ff'; el.style.borderColor = '#445'; });
     document.querySelectorAll('.profile-avatar').forEach(a => a.style.background = '#1e3a5f');
-    document.querySelector('#review-list') && (document.querySelector('#review-list').style.borderColor = '#334');
   }
+
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
   document.getElementById('main-ui').style.display = 'block';
   document.getElementById('sidebar').style.display = 'flex';
   buildSkills(); buildSysGrid(); loadReviews();
+
+  if(selectedTheme === 'dark') {
+    document.querySelectorAll('.sys-item').forEach(s => {
+      s.style.background = '#12122a';
+      s.style.color = '#c9e8ff';
+      s.style.borderColor = '#334';
+    });
+    document.querySelectorAll('.project-card').forEach(c => { c.style.background = '#12122a'; c.style.color = '#c9e8ff'; });
+    document.querySelectorAll('.project-header').forEach(h => { h.style.background = '#0d0d1a'; h.style.color = '#88c0d8'; });
+  }
+
   log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
 
