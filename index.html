@@ -22,6 +22,29 @@
   --col-width: 680px;
 }
 
+.boot-note {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid #0f0;
+  padding: 10px 14px;
+  width: 400px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #0f0;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,255,0,0.2);
+  animation: flicker 2s infinite alternate;
+}
+
+.boot-note p {
+  margin: 4px 0;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.75; }
+  100% { opacity: 1; }
+}  
+
 /* --- GLOBAL PIXEL ENFORCEMENT --- */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'VT323', monospace; }
 input, textarea, button, select { font-family: 'VT323', monospace !important; }
@@ -159,14 +182,28 @@ body {
 
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
+
   <div class="login-box">
     <h2 style="font-size:32px;">KCHOR_OS v2.1 <span class="blink">_</span></h2>
-    <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
-    <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-size:20px;margin:15px 0;" placeholder="Enter name...">
+    <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">
+      &gt; ACCESSED BY: EXTERNAL_VISITOR
+    </p>
+
+    <input type="text" id="username-input"
+      style="width:100%;padding:10px;border:3px solid #000;font-size:20px;margin:15px 0;"
+      placeholder="Enter name...">
+
     <div style="display:flex;gap:10px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
-      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
+      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">
+        ▶ INITIALIZE
+      </button>
     </div>
+  </div>
+
+  <div class="boot-note">
+    <p>⚡ PRESS F11 FOR FULL EXPERIENCE</p>
+    <p>🎁 FIRST 5 ORDERS WILL GET DISCOUNTED AS A TOKEN OF APPRECIATION</p>
   </div>
 </div>
 
