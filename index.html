@@ -321,10 +321,6 @@ body {
 <div id="taskbar">
   <button class="btn-pixel" style="background:var(--win-red);" onclick="toggleFullscreen()">⊞ START</button>
   <div class="t-divider"></div>
-  <span style="font-size:12px;font-family:'Share Tech Mono',monospace;color:#555;white-space:nowrap;">🔍</span>
-  <input type="range" min="0.6" max="1.4" step="0.05" value="1" id="zoom-slider" oninput="applyZoom(this.value)" style="width:70px;cursor:pointer;accent-color:#000;">
-  <span id="zoom-label" style="font-size:12px;font-family:'Share Tech Mono',monospace;min-width:32px;">100%</span>
-  <div class="t-divider"></div>
   <div style="flex-grow:1;" id="taskbar-user">User: Guest</div>
   <div class="t-divider"></div>
   <div class="contact-strip">
@@ -394,17 +390,16 @@ function resetStars(){stars.forEach(s=>{s.innerText='☆';s.style.color='#ccc';}
 function tick(){document.getElementById('clock').innerText=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 tick();setInterval(tick,1000);
 
-function applyZoom(v){
-  document.body.style.zoom=v;
-  document.getElementById('zoom-label').innerText=Math.round(v*100)+'%';
+function goFullscreen(){
+  if(!document.fullscreenElement)
+    document.documentElement.requestFullscreen().catch(()=>{});
 }
+document.addEventListener('click', goFullscreen, {once:true});
+document.addEventListener('keydown', goFullscreen, {once:true});
 
 function toggleFullscreen(){
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen().catch(()=>{});
-  } else {
-    document.exitFullscreen();
-  }
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
 }
 </script>
 </body>
