@@ -176,6 +176,29 @@ body {
       <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
     </div>
   </div>
+  
+<div id="theme-screen" style="display:none; flex-direction:column; align-items:center; gap:16px;">
+  <div class="login-box" style="width:420px;">
+    <h2 style="font-size:28px;">SELECT THEME.EXE <span class="blink">_</span></h2>
+    <p style="font-family:'Share Tech Mono'; font-size:11px; color:#555; margin-bottom:16px;">&gt; CHOOSE DISPLAY_MODE BEFORE INITIALIZATION</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+
+      <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative;">
+        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; position:absolute; top:-12px; left:50%; transform:translateX(-50%); white-space:nowrap;">★ DEFAULT</div>
+        <div style="font-size:48px; line-height:1; margin-bottom:8px;">☀️</div>
+        <div style="font-size:22px;">LIGHT</div>
+        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; margin-top:6px; display:inline-block;">MODE_01</div>
+      </div>
+
+      <div id="theme-dark" onclick="pickTheme('dark')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#1a1a2e; color:#c9e8ff; box-shadow:5px 5px 0 #000;">
+        <div style="font-size:48px; line-height:1; margin-bottom:8px;">🌙</div>
+        <div style="font-size:22px;">DARK</div>
+        <div style="font-family:'Share Tech Mono'; font-size:9px; background:#c9e8ff; color:#000; padding:2px 6px; margin-top:6px; display:inline-block;">MODE_02</div>
+      </div>
+    </div>
+    <button class="btn-pixel" style="background:var(--win-green); width:100%; font-size:20px; padding:10px;" onclick="applyTheme()">▶ CONFIRM &amp; BOOT</button>
+  </div>
+</div>
   <div class="boot-note">
     <p>PRESS F11 FOR FULL EXPERIENCE</p>
     <p>FIRST 5 ORDERS WILL GET DISCOUNTED AS A TOKEN OF APPRECIATION</p>
@@ -334,13 +357,40 @@ function escapeHTML(str) {
 function login(){
   const val = document.getElementById('username-input').value.trim();
   currentUser = val || "Guest_" + Math.floor(Math.random()*999);
-  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
-  document.getElementById('boot-screen').style.display='none';
-  document.getElementById('main-ui').style.display='block';
-  document.getElementById('sidebar').style.display='flex';
-  buildSkills(); buildSysGrid(); loadReviews();
-  log("Session started for " + currentUser);
+  document.querySelector('.login-box').style.display = 'none';
+  document.querySelector('.boot-log').style.display = 'none';
+  document.getElementById('theme-screen').style.display = 'flex';
 }
+
+let selectedTheme = 'light';
+function pickTheme(mode) {
+  selectedTheme = mode;
+  const light = document.getElementById('theme-light');
+  const dark = document.getElementById('theme-dark');
+  if(mode === 'light') {
+    light.style.outline = '4px solid #f1c37d'; light.style.boxShadow = '5px 5px 0 #f1c37d';
+    dark.style.outline = 'none'; dark.style.boxShadow = '5px 5px 0 #000';
+  } else {
+    dark.style.outline = '4px solid #88c0d8'; dark.style.boxShadow = '5px 5px 0 #88c0d8';
+    light.style.outline = 'none'; light.style.boxShadow = '5px 5px 0 #000';
+  }
+}
+function applyTheme(){
+  if(selectedTheme === 'dark') {
+    document.documentElement.style.setProperty('--bg-main', '#0d0d1a');
+    document.body.style.backgroundImage = 'radial-gradient(#1e1e3a 1.5px, transparent 1.5px)';
+    document.body.style.backgroundColor = '#0d0d1a';
+    document.querySelectorAll('.window').forEach(w => w.style.background = '#1a1a2e');
+    document.querySelectorAll('.window').forEach(w => w.style.color = '#c9e8ff');
+    document.getElementById('taskbar').style.background = '#0d0d1a';
+  }
+  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
+  document.getElementById('boot-screen').style.display = 'none';
+  document.getElementById('main-ui').style.display = 'block';
+  document.getElementById('sidebar').style.display = 'flex';
+  buildSkills(); buildSysGrid(); loadReviews();
+  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+} 
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
