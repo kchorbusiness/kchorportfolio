@@ -22,58 +22,45 @@
   --col-width: 680px;
 }
   
-body.dark-mode #inspector-drawer {
-  background: #12122a !important;
-  color: #c9e8ff !important;
-}
-body.dark-mode #det-title {
-  color: #c9e8ff !important;
-}
-body.dark-mode #det-desc {
-  background: #0d0d1a !important;
-  color: #c9e8ff !important;
-}
-body.dark-mode #det-content-scroll div {
-  color: #88c0d8 !important;
-}
-body.dark-mode .profile-body p {
-  color: #c9e8ff !important;
-}
-body.dark-mode .profile-info p {
-  color: #88c0d8 !important;
-}
-body.dark-mode .status-badge {
-  background: #1e3a5f !important;
-  color: #c9e8ff !important;
-  border-color: #88c0d8 !important;
-}
-body.dark-mode #taskbar-user {
-  color: #c9e8ff !important;
-}
-body.dark-mode #taskbar a,
-body.dark-mode #taskbar button {
-  color: #c9e8ff !important;
-}
-body.dark-mode #clock {
-  color: #c9e8ff !important;
-}
-body.dark-mode .btn-pixel {
-  background: #12122a !important;
-  color: #c9e8ff !important;
-  border-color: #445 !important;
-}
-body.dark-mode .profile-info h1 {
-  color: #c9e8ff !important;
+/* Optimized Dark Mode Overrides */
+body.dark-mode {
+    background-color: #0d0d1a !important;
+    background-image: radial-gradient(#1e1e3a 1.5px, transparent 1.5px) !important;
 }
 
-body.dark-mode .sys-item strong {
-  color: #c9e8ff !important;
-}
-body.dark-mode .sys-item:hover {
-  background: #1e1e4a !important;
-  color: #c9e8ff !important;
+body.dark-mode .window, 
+body.dark-mode .project-card,
+body.dark-mode .sys-item {
+    background: #12122a !important;
+    color: #c9e8ff !important;
+    border-color: #445 !important;
 }
 
+body.dark-mode .title-bar {
+    background: #1e1e3a !important;
+    color: #88c0d8 !important;
+    border-bottom: 3px solid #445 !important;
+}
+
+body.dark-mode .system-grid {
+    background: #0d0d1a !important;
+}
+
+body.dark-mode #rev-text {
+    background: #0d0d1a !important;
+    color: #c9e8ff !important;
+    border-color: #445 !important;
+}
+
+body.dark-mode .project-header {
+    background: #1e1e3a !important;
+    color: #c9e8ff !important;
+}
+
+body.dark-mode #sidebar {
+    background: rgba(18, 18, 42, 0.8) !important;
+    border-color: #445 !important;
+}
 /* --- ORIGINAL ANIMATIONS --- */
 .boot-note {
   margin-top: 10px;
@@ -429,27 +416,33 @@ function pickTheme(mode) {
   }
 }
 
-function applyTheme(){
-  if(selectedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    document.body.style.backgroundColor = '#0d0d1a';
-    document.body.style.backgroundImage = 'radial-gradient(#1e1e3a 1.5px, transparent 1.5px)';
-    document.documentElement.style.setProperty('--sys-bg', '#12122a');
-    document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
-  }
-  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
-  document.getElementById('boot-screen').style.display = 'none';
-  document.getElementById('main-ui').style.display = 'block';
-  document.getElementById('sidebar').style.display = 'flex';
-  buildSkills(); buildSysGrid(); loadReviews();
+function applyTheme() {
+    const body = document.body;
+    
+    if (selectedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        // Set CSS variables for elements using them
+        document.documentElement.style.setProperty('--sys-bg', '#12122a');
+        document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
+    } else {
+        body.classList.remove('dark-mode');
+        // Reset CSS variables
+        document.documentElement.style.setProperty('--sys-bg', '#fff');
+        document.documentElement.style.setProperty('--sys-color', '#000');
+    }
 
-  if(selectedTheme === 'dark') {
-    document.body.classList.remove('dark-mode');
-    void document.body.offsetHeight;
-    document.body.classList.add('dark-mode');
-  }
+    // Update UI elements
+    document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
+    document.getElementById('boot-screen').style.display = 'none';
+    document.getElementById('main-ui').style.display = 'block';
+    document.getElementById('sidebar').style.display = 'flex';
+    
+    // Initialize components
+    buildSkills(); 
+    buildSysGrid(); 
+    loadReviews();
 
-  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
