@@ -46,9 +46,21 @@ body.dark-mode .title-bar {
   border-bottom: var(--border-thick) solid #445 !important;
 }
 
+body.dark-mode .project-header {
+  background: #1e1e3a !important;
+  color: #c9e8ff !important;
+  border-bottom: 2px solid #445 !important;
+}
+
+body.dark-mode #rev-text {
+  background: #0d0d1a !important;
+  color: #c9e8ff !important;
+  border: 3px solid #445 !important;
+}
+
 body.dark-mode .profile-body p, 
 body.dark-mode .profile-info p {
-  color: #88c0d8 !important; /* Fix for the gray text */
+  color: #88c0d8 !important;
 }
 
 body.dark-mode #inspector-drawer {
@@ -108,7 +120,6 @@ body.dark-mode #sidebar {
 @keyframes flicker { 0% { opacity: 0.75; } 100% { opacity: 1; } }
 @keyframes blink { 50%{opacity:0} }
 
-/* --- GLOBAL PIXEL ENFORCEMENT --- */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'VT323', monospace; }
 input, textarea, button, select { font-family: 'VT323', monospace !important; }
 
@@ -120,18 +131,15 @@ body {
   overflow: hidden;
 }
 
-/* --- OVERLAY COMPONENTS --- */
 #lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
 #lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
 #email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; border:2px solid var(--win-blue); }
 
-/* --- BOOT SCREEN --- */
 #boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
 .boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
 .login-box { background:var(--win-gray);border:4px solid #000;padding:24px;width:400px;box-shadow:12px 12px 0 #000; }
 .blink { animation:blink 1s step-end infinite; }
 
-/* --- SIDEBAR --- */
 #sidebar {
   position: fixed; left: calc(50% - var(--col-width)/2 - 54px); top: 50%;
   transform: translateY(-50%); z-index: 200; display: none;
@@ -153,14 +161,12 @@ body {
 }
 .icon:hover .icon-tip { opacity:1; }
 
-/* --- MAIN WINDOWS --- */
 #main-ui { display:none;height:calc(100vh - 40px);overflow:hidden; }
 .workspace { height:100%; overflow-y:auto; padding:20px 0 100px; display:flex; flex-direction:column; align-items:center; gap:20px; }
 .window { width:var(--col-width); background:#fff; border:var(--border-thick) solid #000; box-shadow:var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink:0; }
 .title-bar { padding:6px 12px; border-bottom:var(--border-thick) solid #000; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:18px; background:var(--win-chrome); }
 .window.accented > .title-bar { background:var(--win-blue); color:#000; }
 
-/* --- PROFILE & SKILLS --- */
 .profile-body { display:flex;gap:15px;padding:15px; flex-wrap:wrap; }
 .profile-avatar { width:70px;height:70px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:4px 4px 0 #000; }
 .profile-info h1 { font-size:45px; line-height:0.8; }
@@ -170,7 +176,6 @@ body {
 .skill-bar { height:16px; border:2px solid #000; background:#eee; margin-top:4px; }
 .skill-fill { height:100%; transition:1.5s cubic-bezier(.4,0,.2,1); }
 
-/* --- SYSTEM GRID --- */
 .system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; padding:12px; background:#f0f0f0; }
 .sys-item { 
   border:2px solid #000; padding:10px; text-align:center; background:var(--sys-bg, #fff); color:var(--sys-color, #000);
@@ -179,7 +184,6 @@ body {
 .sys-item strong { color: inherit; }
 .sys-item:hover { background:var(--win-yellow); transform:translate(-1px,-1px); box-shadow:3px 3px 0 #000; }
 
-/* --- PORTFOLIO --- */
 .project-card { border:2px solid #000; background:#fff; box-shadow:5px 5px 0 #000; margin:12px; overflow:hidden; }
 .project-header { padding:8px 12px; border-bottom:2px solid #000; display:flex; justify-content:space-between; background:#f5f0e8; }
 .project-body { padding:15px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
@@ -187,7 +191,6 @@ body {
 .project-media video, .project-media img { width:100%; height:100%; object-fit:cover; display: block; }
 .media-label { position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.8); color:#fff; font-size:10px; padding:3px 8px; font-family:'Share Tech Mono'; }
 
-/* --- CYBER INSPECTOR --- */
 #inspector-drawer {
   position: fixed; top: 10px; right: 10px;
   width: 400px; height: calc(100vh - 60px);
@@ -215,7 +218,6 @@ body {
 #main-player { width:100%; height:100%; display:none; position:relative; z-index:1; }
 #no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0a0a0a; color:#444; }
 
-/* --- TASKBAR --- */
 #taskbar {
   position:fixed;bottom:0;width:100%;height:40px;
   background:var(--win-gray);border-top:3px solid #000;
