@@ -8,8 +8,8 @@
 <style>
 :root {
   --bg-main: #d8e4e9;
-  --border-thick: 4px;
-  --shadow-block: 8px;
+  --border-thick: 3px;
+  --shadow-block: 5px;
   --win-blue: #88c0d8;
   --win-green: #a3cc8d;
   --win-yellow: #f1c37d;
@@ -19,6 +19,7 @@
   --win-purple: #b8a3d8;
   --win-orange: #e8a87c;
   --win-chrome: #cfd8dc;
+  --col-width: 680px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -26,691 +27,368 @@
 body {
   background-color: var(--bg-main);
   background-image: radial-gradient(#adb5bd 1.5px, transparent 1.5px);
-  background-size: 30px 30px;
+  background-size: 28px 28px;
   font-family: 'VT323', monospace;
   height: 100vh;
   overflow: hidden;
 }
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #ccc; border-left: 1px solid #999; }
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #ccc; }
 ::-webkit-scrollbar-thumb { background: #888; }
 
-/* ── LIGHTBOX ── */
 #lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
-#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff;box-shadow:0 0 30px #000; }
-#lightbox-caption { color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px; }
+#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; }
+#lightbox-caption { color:#fff;font-family:'Share Tech Mono',monospace;font-size:12px; }
 
-/* ── BOOT SCREEN ── */
 #boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
-.boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:420px;height:76px;overflow:hidden;opacity:0.75; }
+.boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
 .boot-log div { animation:fadeIn 0.3s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
-.login-box { background:var(--win-gray);border:var(--border-thick) solid #fff;padding:28px;width:420px;box-shadow:10px 10px 0 #555; }
-.login-box h2 { font-size:30px;margin-bottom:4px; }
-.login-sub { font-family:'Share Tech Mono',monospace;font-size:12px;color:#666;margin-bottom:14px; }
+.login-box { background:var(--win-gray);border:4px solid #fff;padding:24px;width:400px;box-shadow:10px 10px 0 #555; }
+.login-box h2 { font-size:28px;margin-bottom:4px; }
+.login-sub { font-family:'Share Tech Mono',monospace;font-size:11px;color:#666;margin-bottom:12px; }
 .blink { animation:blink 1s step-end infinite; }
 @keyframes blink { 50%{opacity:0} }
 
-/* ── MAIN LAYOUT ── */
-#main-ui { display:none;grid-template-columns:54px 1fr;height:calc(100vh - 40px); }
-
-/* ── SIDEBAR ── */
-.desktop-icons {
-  padding:10px 4px;
-  display:flex;flex-direction:column;gap:8px;
-  border-right:2px solid #aaa;
-  align-items:center;
-  background:rgba(255,255,255,0.3);
-  backdrop-filter:blur(2px);
+/* floating sidebar — pinned left edge, vertically centered */
+#sidebar {
+  position: fixed;
+  left: calc(50% - var(--col-width)/2 - 54px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 8px 5px;
+  background: rgba(255,255,255,0.6);
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  backdrop-filter: blur(3px);
 }
-.icon {
-  position:relative;
-  text-align:center;cursor:pointer;
-}
+.icon { position:relative;cursor:pointer; }
 .icon-graphic {
-  width:38px;height:38px;
-  margin:0 auto;
-  border:2px solid #000;
-  background:#fff;
+  width:34px;height:34px;
+  border:2px solid #000;background:#fff;
   box-shadow:3px 3px 0 #000;
   display:flex;align-items:center;justify-content:center;
-  font-size:18px;
+  font-size:15px;
   transition:transform 0.1s,box-shadow 0.1s;
 }
 .icon-graphic:hover { transform:translate(-1px,-1px);box-shadow:4px 4px 0 #000; }
-/* tooltip */
 .icon-tip {
-  position:absolute;
-  left:calc(100% + 8px);
-  top:50%;transform:translateY(-50%);
-  background:#000;color:#fff;
-  font-size:13px;padding:2px 7px;
-  white-space:nowrap;
-  pointer-events:none;
-  opacity:0;transition:opacity 0.15s;
-  z-index:50;
+  position:absolute;left:calc(100% + 7px);top:50%;transform:translateY(-50%);
+  background:#000;color:#fff;font-size:12px;padding:2px 6px;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.12s;z-index:300;
 }
 .icon:hover .icon-tip { opacity:1; }
 
-/* ── WORKSPACE ── */
-.workspace { 
-  transform: scale(0.96);
-  transform-origin: top center;
-  padding:14px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-
-  max-width: 1100px;  
-  width: 100%;
-  margin: 0 auto;     
+/* main scroll area — full height, centers content */
+#main-ui { display:none;height:calc(100vh - 40px);overflow:hidden; }
+.workspace {
+  height:100%;overflow-y:auto;
+  padding:14px 0 14px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
 }
 
-/* ── WINDOWS — unified neutral chrome ── */
-.window { background:#fff;border:3px solid #000;box-shadow:6px 6px 0 #000; }
+/* windows — fixed width column */
+.window {
+  width:var(--col-width);
+  background:#fff;
+  border:var(--border-thick) solid #000;
+  box-shadow:var(--shadow-block) var(--shadow-block) 0 #000;
+  flex-shrink:0;
+}
 .title-bar {
-  padding:6px 10px;
-  border-bottom:3px solid #000;
+  padding:5px 10px;border-bottom:var(--border-thick) solid #000;
   display:flex;justify-content:space-between;align-items:center;
-  font-weight:bold;font-size:18px;
-  background:var(--win-chrome); /* unified neutral */
-  color:#000;
+  font-weight:bold;font-size:17px;background:var(--win-chrome);
 }
-/* accent: only the active/focused window gets color via .accented class */
 .window.accented > .title-bar { background:var(--win-blue); }
-.title-dots { display:flex;gap:5px; }
-.dot { width:11px;height:11px;border:2px solid #000; }
+.title-dots { display:flex;gap:4px; }
+.dot { width:10px;height:10px;border:2px solid #000; }
 
-/* ── PROFILE ── */
-.profile-body { display:flex;gap:14px;padding:14px;align-items:flex-start;flex-wrap:wrap; }
-.profile-avatar { width:72px;height:72px;border:4px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold;box-shadow:4px 4px 0 #000;flex-shrink:0; }
-.profile-info h1 { font-size:42px;line-height:0.9; }
-.profile-info .subtitle { font-family:'Share Tech Mono',monospace;font-size:12px;margin-top:5px;color:#444; }
-.status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 8px;font-size:15px;margin-top:6px; }
-.stat-row { display:flex;gap:6px;margin-top:6px;flex-wrap:wrap; }
-.stat-chip { background:#000;color:#fff;padding:1px 7px;font-size:15px; }
-.profile-bio { font-family:'Share Tech Mono',monospace;font-size:12px;color:#333;line-height:1.7;padding:0 4px;width:100%; }
+.profile-body { display:flex;gap:13px;padding:13px;align-items:flex-start;flex-wrap:wrap; }
+.profile-avatar { width:66px;height:66px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;box-shadow:4px 4px 0 #000;flex-shrink:0; }
+.profile-info h1 { font-size:40px;line-height:0.9; }
+.profile-info .subtitle { font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:4px;color:#444; }
+.status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:1px 8px;font-size:14px;margin-top:5px; }
+.stat-row { display:flex;gap:5px;margin-top:5px;flex-wrap:wrap; }
+.stat-chip { background:#000;color:#fff;padding:1px 6px;font-size:14px; }
+.profile-bio { font-family:'Share Tech Mono',monospace;font-size:11.5px;color:#333;line-height:1.65;width:100%; }
 
-/* ── SKILLS ── */
-.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px; }
-.skill-bar-wrap { display:flex;flex-direction:column;gap:4px; }
-.skill-label { font-size:17px;display:flex;justify-content:space-between; }
-.skill-bar { height:18px;border:2px solid #000;background:#eee; }
+.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:13px; }
+.skill-bar-wrap { display:flex;flex-direction:column;gap:3px; }
+.skill-label { font-size:16px;display:flex;justify-content:space-between; }
+.skill-bar { height:15px;border:2px solid #000;background:#eee; }
 .skill-fill { height:100%;transition:width 1.1s cubic-bezier(.4,0,.2,1); }
 
-/* ── SYSTEM DIRECTORY ── */
-.sys-dir-container { padding:12px;background:#f0f0f0; }
-.sys-hint { font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;margin-bottom:8px;padding:6px 8px;background:#fff;border:1px dashed #bbb;display:flex;align-items:center;gap:5px; }
-.system-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px; }
-.sys-item { border:2px solid #000;padding:8px;text-align:center;background:#fff;cursor:pointer;font-size:15px;transition:background 0.1s; }
+.sys-dir-container { padding:11px;background:#f0f0f0; }
+.sys-hint { font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;margin-bottom:7px;padding:5px 8px;background:#fff;border:1px dashed #bbb;display:flex;align-items:center;gap:5px; }
+.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:7px; }
+.sys-item { border:2px solid #000;padding:9px 7px;text-align:center;background:#fff;cursor:pointer;font-size:13px;transition:background 0.1s; }
 .sys-item:hover { background:var(--win-yellow); }
 .sys-item.active { background:var(--win-blue); }
 .sys-item-icon { font-size:20px;margin-bottom:3px; }
 
-/* ── PORTFOLIO ── */
-.projects-scroll { padding:12px;display:flex;flex-direction:column;gap:12px; }
-.project-card { border:3px solid #000;background:#fff;box-shadow:4px 4px 0 #000;overflow:hidden; }
-.project-header { padding:8px 12px;border-bottom:3px solid #000;display:flex;align-items:center;gap:8px;background:#f5f0e8; }
-.project-tag { padding:2px 7px;font-size:14px;border:2px solid #000; }
-.project-tag.wip { background:var(--win-orange);color:#000; }
-.project-tag.done { background:var(--win-green);color:#000; }
-.project-body { padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px; }
-.project-desc { font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.65;grid-column:span 2;color:#222; }
+.projects-scroll { padding:11px;display:flex;flex-direction:column;gap:9px; }
+.project-card { border:2px solid #000;background:#fff;box-shadow:4px 4px 0 #000;overflow:hidden; }
+.project-header { padding:7px 11px;border-bottom:2px solid #000;display:flex;align-items:center;gap:7px;background:#f5f0e8; }
+.project-tag { padding:1px 6px;font-size:13px;border:2px solid #000; }
+.project-tag.wip { background:var(--win-orange); }
+.project-tag.done { background:var(--win-green); }
+.project-body { padding:11px;display:grid;grid-template-columns:1fr 1fr;gap:7px; }
+.project-desc { font-family:'Share Tech Mono',monospace;font-size:11.5px;line-height:1.6;grid-column:span 2;color:#222; }
 .project-media { border:2px solid #000;overflow:hidden;cursor:pointer;position:relative;background:#111; }
-.project-media img { width:100%;height:110px;object-fit:cover;display:block;transition:transform 0.2s; }
+.project-media img { width:100%;height:100px;object-fit:cover;display:block;transition:transform 0.2s; }
 .project-media:hover img { transform:scale(1.05); }
-.project-media video { width:100%;height:110px;object-fit:cover;display:block; }
-.media-label { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.78);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;padding:3px 7px; }
-.media-hover-hint { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;text-align:center;opacity:0;transition:opacity 0.18s;pointer-events:none; }
+.project-media video { width:100%;height:100px;object-fit:cover;display:block; }
+.media-label { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:#fff;font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 6px; }
+.media-hover-hint { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;opacity:0;transition:opacity 0.15s;pointer-events:none; }
 .project-media:hover .media-hover-hint { opacity:1; }
 .project-specs { grid-column:span 2;display:flex;gap:5px;flex-wrap:wrap; }
-.spec-pill { border:2px solid #000;padding:1px 7px;font-size:14px;background:var(--win-gray); }
+.spec-pill { border:2px solid #000;padding:1px 6px;font-size:13px;background:var(--win-gray); }
 
-/* ── FEEDBACK ── */
-.feedback-body { padding:12px; }
-.feedback-hint { font-family:'Share Tech Mono',monospace;font-size:11px;color:#666;margin-bottom:8px; }
-.review-entry { border-bottom:2px solid #eee;padding:9px 0;position:relative;display:flex;flex-direction:column;gap:4px; }
-.review-meta { font-size:17px; }
-.review-msg { font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.55;color:#222; }
-.review-pic { max-width:180px;border:3px solid #000;cursor:zoom-in;margin-top:3px;box-shadow:3px 3px 0 #000; }
-.del-btn { background:var(--win-red);color:#fff;border:2px solid #000;padding:1px 7px;cursor:pointer;position:absolute;right:0;top:9px;font-family:inherit;font-size:14px; }
+.feedback-body { padding:11px; }
+.feedback-hint { font-family:'Share Tech Mono',monospace;font-size:11px;color:#666;margin-bottom:7px; }
+.review-entry { border-bottom:1px solid #eee;padding:7px 0;position:relative;display:flex;flex-direction:column;gap:3px; }
+.review-meta { font-size:15px; }
+.review-msg { font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.5;color:#222; }
+.review-pic { max-width:150px;border:2px solid #000;cursor:zoom-in;margin-top:3px;box-shadow:3px 3px 0 #000; }
+.del-btn { background:var(--win-red);color:#fff;border:2px solid #000;padding:1px 6px;cursor:pointer;position:absolute;right:0;top:7px;font-family:inherit;font-size:13px; }
 
-/* ── TASKBAR ── */
-.taskbar {
-  grid-column:span 2;
-  position:fixed;bottom:0;width:100%;height:40px;
-  background:var(--win-gray);border-top:3px solid #000;
-  display:flex;align-items:center;padding:0 10px;z-index:100;
-  font-size:17px;gap:8px;
-}
-.btn-pixel { background:var(--win-blue);border:2px solid #000;padding:3px 9px;font-family:inherit;cursor:pointer;box-shadow:2px 2px 0 #000;font-size:16px; }
-.btn-pixel:hover { box-shadow:3px 3px 0 #000; }
-.t-divider { width:1px;height:22px;background:#999; }
-
-/* contact strip in taskbar */
-.contact-strip { display:flex;gap:6px;align-items:center; }
-.contact-strip a, .contact-strip button {
-  background:#fff;border:2px solid #000;
-  padding:2px 8px;font-family:'VT323',monospace;font-size:16px;
-  cursor:pointer;box-shadow:2px 2px 0 #000;
-  text-decoration:none;color:#000;
-  display:flex;align-items:center;gap:3px;
-}
-.contact-strip a:hover, .contact-strip button:hover { background:var(--win-yellow); }
-
-/* email toast */
-#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:6px 12px;font-family:'Share Tech Mono',monospace;font-size:12px;display:none;z-index:200; }
-
-/* ── INSPECTOR DRAWER ── */
+/* inspector drawer */
 #inspector-drawer {
-  position:fixed;
-  top:0;right:0;
-  width:360px;height:calc(100vh - 40px);
-  background:#fff;
-  border-left:3px solid #000;
-  box-shadow:-6px 0 0 #000;
-  transform:translateX(100%);
-  transition:transform 0.22s ease;
-  z-index:500;
-  display:flex;flex-direction:column;
+  position:fixed;top:0;right:0;
+  width:320px;height:calc(100vh - 40px);
+  background:#fff;border-left:3px solid #000;box-shadow:-5px 0 0 #000;
+  transform:translateX(100%);transition:transform 0.2s ease;
+  z-index:500;display:flex;flex-direction:column;
 }
 #inspector-drawer.open { transform:translateX(0); }
-#drawer-titlebar {
-  background:var(--win-chrome);
-  border-bottom:3px solid #000;
-  padding:7px 10px;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:17px;font-weight:bold;flex-shrink:0;
-}
-#drawer-close {
-  background:var(--win-red);border:2px solid #000;
-  width:26px;height:26px;cursor:pointer;font-family:inherit;font-size:16px;
-  display:flex;align-items:center;justify-content:center;
-}
-#drawer-body { overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:0; }
-
-/* Video in drawer */
+#drawer-titlebar { background:var(--win-chrome);border-bottom:3px solid #000;padding:5px 9px;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:bold;flex-shrink:0; }
+#drawer-close { background:var(--win-red);border:2px solid #000;width:22px;height:22px;cursor:pointer;font-family:inherit;font-size:14px;display:flex;align-items:center;justify-content:center; }
+#drawer-body { overflow-y:auto;flex:1;display:flex;flex-direction:column; }
 #player-wrap { position:relative;background:#000;flex-shrink:0; }
 #main-player { width:100%;aspect-ratio:16/9;display:none; }
-#no-signal { aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#0d0d0d; }
-#no-signal .ns-icon { font-size:26px; }
-#no-signal p { font-family:'Share Tech Mono',monospace;font-size:11px;text-align:center;line-height:1.65;color:#555; }
-
-/* Specs in drawer */
-.detail-box { padding:12px;border-bottom:2px solid #eee; }
-#det-title { font-size:20px;line-height:1.15; }
-#det-desc { font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.6;color:#444;margin-top:5px; }
-#det-tags { display:flex;gap:5px;flex-wrap:wrap;margin-top:8px; }
-
-/* Activity log — collapsible */
-#log-section { flex-shrink:0;border-top:2px solid #000; }
-#log-toggle {
-  background:#111;color:#0f0;
-  padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;
-  display:flex;justify-content:space-between;align-items:center;cursor:pointer;
-}
-#activity-log {
-  padding:8px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;
-  height:100px;overflow-y:auto;background:#0d0d0d;color:#0f0;line-height:1.75;
-  display:none;
-}
+#no-signal { aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#0d0d0d; }
+#no-signal p { font-family:'Share Tech Mono',monospace;font-size:10px;text-align:center;line-height:1.6;color:#555; }
+.detail-box { padding:11px;border-bottom:1px solid #eee; }
+#det-title { font-size:18px;line-height:1.15; }
+#det-desc { font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.6;color:#444;margin-top:4px; }
+#det-tags { display:flex;gap:4px;flex-wrap:wrap;margin-top:7px; }
+#log-section { flex-shrink:0;border-top:2px solid #000;margin-top:auto; }
+#log-toggle { background:#111;color:#0f0;padding:4px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer; }
+#activity-log { padding:6px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;height:85px;overflow-y:auto;background:#0d0d0d;color:#0f0;line-height:1.7;display:none; }
 #activity-log.open { display:block; }
+
+/* taskbar */
+#taskbar {
+  position:fixed;bottom:0;width:100%;height:40px;
+  background:var(--win-gray);border-top:3px solid #000;
+  display:flex;align-items:center;padding:0 10px;z-index:100;font-size:15px;gap:7px;
+}
+.btn-pixel { background:var(--win-blue);border:2px solid #000;padding:3px 8px;font-family:inherit;cursor:pointer;box-shadow:2px 2px 0 #000;font-size:14px; }
+.btn-pixel:hover { box-shadow:3px 3px 0 #000; }
+.t-divider { width:1px;height:20px;background:#999; }
+.contact-strip { display:flex;gap:5px;align-items:center; }
+.contact-strip a,.contact-strip button { background:#fff;border:2px solid #000;padding:2px 7px;font-family:'VT323',monospace;font-size:14px;cursor:pointer;box-shadow:2px 2px 0 #000;text-decoration:none;color:#000;display:flex;align-items:center;gap:3px; }
+.contact-strip a:hover,.contact-strip button:hover { background:var(--win-yellow); }
+#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; }
 </style>
 </head>
 <body>
 
-<!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src="">
-  <div id="lightbox-caption"></div>
+  <img id="lightbox-img" src=""><div id="lightbox-caption"></div>
 </div>
-
-<!-- EMAIL TOAST -->
 <div id="email-toast">✓ mandzkie65@gmail.com copied!</div>
 
-<!-- BOOT SCREEN -->
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
   <div class="login-box">
     <h2>KCHOR_OS v2.1 <span class="blink">_</span></h2>
     <p class="login-sub">&gt; Roblox Developer Portfolio — enter a name to boot</p>
-    <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-family:inherit;font-size:20px;margin:14px 0;" placeholder="Enter visitor name...">
-    <div style="display:flex;gap:10px;">
+    <input type="text" id="username-input" style="width:100%;padding:9px;border:3px solid #000;font-family:inherit;font-size:19px;margin:12px 0;" placeholder="Enter visitor name...">
+    <div style="display:flex;gap:8px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
       <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ BOOT_OS</button>
     </div>
   </div>
 </div>
 
-<!-- INSPECTOR DRAWER (slide-in) -->
+<!-- floating sidebar -->
+<div id="sidebar">
+  <div class="icon" onclick="jumpTo('win-profile')"><div class="icon-graphic" style="background:var(--win-pink)">👤</div><span class="icon-tip">PROFILE</span></div>
+  <div class="icon" onclick="jumpTo('win-skills')"><div class="icon-graphic" style="background:var(--win-purple)">📊</div><span class="icon-tip">SKILLS</span></div>
+  <div class="icon" onclick="jumpTo('win-sysdir')"><div class="icon-graphic" style="background:var(--win-yellow)">💾</div><span class="icon-tip">SYSTEMS</span></div>
+  <div class="icon" onclick="jumpTo('win-portfolio')"><div class="icon-graphic" style="background:var(--win-orange)">📁</div><span class="icon-tip">PROJECTS</span></div>
+  <div class="icon" onclick="jumpTo('win-feedback')"><div class="icon-graphic" style="background:var(--win-green)">📝</div><span class="icon-tip">FEEDBACK</span></div>
+  <div style="width:100%;height:1px;background:#aaa;margin:1px 0;"></div>
+  <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span class="icon-tip">REBOOT</span></div>
+</div>
+
+<!-- inspector drawer -->
 <div id="inspector-drawer">
-  <div id="drawer-titlebar">
-    <span id="feed-label">MODULE_VIEWER</span>
-    <button id="drawer-close" onclick="closeDrawer()">✕</button>
-  </div>
+  <div id="drawer-titlebar"><span id="feed-label">MODULE_VIEWER</span><button id="drawer-close" onclick="closeDrawer()">✕</button></div>
   <div id="drawer-body">
     <div id="player-wrap">
       <video id="main-player" controls autoplay muted loop></video>
-      <div id="no-signal">
-        <div class="ns-icon">📺</div>
-        <p>No video for<br>this module.</p>
-      </div>
+      <div id="no-signal"><div style="font-size:22px;">📺</div><p>No video for<br>this module.</p></div>
     </div>
     <div class="detail-box">
       <h2 id="det-title" style="color:#888;">—</h2>
-      <p id="det-desc" style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#888;line-height:1.6;">Select a module to view details.</p>
+      <p id="det-desc" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#888;">Select a module.</p>
       <div id="det-tags"></div>
     </div>
     <div id="log-section">
-      <div id="log-toggle" onclick="toggleLog()">
-        <span>ACTIVITY_LOG <span class="blink">■</span></span>
-        <span id="log-arrow">▼</span>
-      </div>
-      <div id="activity-log">
-        <div>> KCHOR_OS v2.1 INITIALIZED</div>
-        <div>> AWAITING USER LOGIN...</div>
-      </div>
+      <div id="log-toggle" onclick="toggleLog()"><span>ACTIVITY_LOG <span class="blink">■</span></span><span id="log-arrow">▼</span></div>
+      <div id="activity-log"><div>> KCHOR_OS v2.1 INITIALIZED</div><div>> AWAITING LOGIN...</div></div>
     </div>
   </div>
 </div>
 
-<!-- MAIN UI -->
 <div id="main-ui">
-
-  <!-- SIDEBAR — icon only, tooltip on hover -->
-  <div class="desktop-icons">
-    <div class="icon" onclick="jumpTo('win-profile')">
-      <div class="icon-graphic" style="background:var(--win-pink)">👤</div>
-      <span class="icon-tip">PROFILE</span>
-    </div>
-    <div class="icon" onclick="jumpTo('win-skills')">
-      <div class="icon-graphic" style="background:var(--win-purple)">📊</div>
-      <span class="icon-tip">SKILLS</span>
-    </div>
-    <div class="icon" onclick="jumpTo('win-sysdir')">
-      <div class="icon-graphic" style="background:var(--win-yellow)">💾</div>
-      <span class="icon-tip">SYSTEMS</span>
-    </div>
-    <div class="icon" onclick="jumpTo('win-portfolio')">
-      <div class="icon-graphic" style="background:var(--win-orange)">📁</div>
-      <span class="icon-tip">PROJECTS</span>
-    </div>
-    <div class="icon" onclick="jumpTo('win-feedback')">
-      <div class="icon-graphic" style="background:var(--win-green)">📝</div>
-      <span class="icon-tip">FEEDBACK</span>
-    </div>
-    <div class="icon" onclick="location.reload()" style="margin-top:auto;">
-      <div class="icon-graphic" style="background:var(--win-red)">⚡</div>
-      <span class="icon-tip">REBOOT</span>
-    </div>
-  </div>
-
-  <!-- WORKSPACE (full width now) -->
   <div class="workspace" id="workspace">
 
-    <!-- PROFILE — accented (first thing seen = one pop of color) -->
     <div class="window accented" id="win-profile">
-      <div class="title-bar">
-        <span>USER_PROFILE.INF</span>
-        <div class="title-dots">
-          <div class="dot" style="background:var(--win-yellow)"></div>
-          <div class="dot" style="background:var(--win-green)"></div>
-          <div class="dot" style="background:var(--win-red)"></div>
-        </div>
-      </div>
+      <div class="title-bar"><span>USER_PROFILE.INF</span><div class="title-dots"><div class="dot" style="background:var(--win-yellow)"></div><div class="dot" style="background:var(--win-green)"></div><div class="dot" style="background:var(--win-red)"></div></div></div>
       <div class="profile-body">
         <div class="profile-avatar">K</div>
         <div class="profile-info">
           <h1>KCHOR</h1>
           <p class="subtitle">Roblox Systems Architect</p>
           <span class="status-badge">● AVAILABLE FOR HIRE</span>
-          <div class="stat-row">
-            <span class="stat-chip">3+ YRS EXP</span>
-            <span class="stat-chip">LUAU</span>
-            <span class="stat-chip">STUDIO</span>
-            <span class="stat-chip">TEAMWORK</span>
-          </div>
+          <div class="stat-row"><span class="stat-chip">3+ YRS EXP</span><span class="stat-chip">LUAU</span><span class="stat-chip">STUDIO</span><span class="stat-chip">TEAMWORK</span></div>
         </div>
-        <p class="profile-bio">
-          Building robust game systems in Roblox Studio. Specializing in game loops,
-          combat mechanics, data persistence, and dynamic environments.
-          Always shipping clean, scalable Luau code.
-        </p>
+        <p class="profile-bio">Building robust game systems in Roblox Studio. Specializing in game loops, combat mechanics, data persistence, and dynamic environments. Always shipping clean, scalable Luau code.</p>
       </div>
     </div>
 
-    <!-- SKILLS -->
     <div class="window" id="win-skills">
-      <div class="title-bar">
-        <span>SKILL_TREE.EXE</span>
-      </div>
+      <div class="title-bar"><span>SKILL_TREE.EXE</span></div>
       <div class="skills-grid" id="skills-grid"></div>
     </div>
 
-    <!-- SYSTEM DIRECTORY -->
     <div class="window" id="win-sysdir">
-      <div class="title-bar">
-        <span>SYSTEM_DIRECTORY</span>
-      </div>
+      <div class="title-bar"><span>SYSTEM_DIRECTORY</span></div>
       <div class="sys-dir-container">
-        <div class="sys-hint">
-          <span>👆</span> <span>Click any module to open its video &amp; specs →</span>
-        </div>
+        <div class="sys-hint"><span>👆</span><span>Click any module to open its viewer →</span></div>
         <div class="system-grid" id="sysGrid"></div>
       </div>
     </div>
 
-    <!-- PORTFOLIO -->
     <div class="window" id="win-portfolio">
-      <div class="title-bar">
-        <span>PORTFOLIO.DIR — 1 PROJECT(S)</span>
-      </div>
+      <div class="title-bar"><span>PORTFOLIO.DIR — 1 PROJECT(S)</span></div>
       <div class="projects-scroll">
         <div class="project-card">
-          <div class="project-header">
-            <span style="font-size:20px;font-weight:bold;">🌉 Build A Bridge</span>
-            <span class="project-tag wip">● WIP</span>
-          </div>
+          <div class="project-header"><span style="font-size:17px;font-weight:bold;">🌉 Build A Bridge</span><span class="project-tag wip">● WIP</span></div>
           <div class="project-body">
-            <p class="project-desc">
-              A Roblox game where players race to construct bridges across gaps using
-              collected parts, then survive the chaos of everyone crossing at once.
-              Features a full round system, part physics, and PvP sabotage mechanics.
-            </p>
-            <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge — Gameplay Demo')">
-              <video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()">
-                <source src="videos/bridge_demo1.mp4" type="video/mp4">
-              </video>
-              <div class="media-label">▶ Gameplay Demo</div>
-              <div class="media-hover-hint">Open in viewer →</div>
-            </div>
-            <div class="project-media" onclick="playInspector('videos/bridge_demo2.mp4','Build A Bridge — Bridge Physics')">
-              <video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()">
-                <source src="videos/bridge_demo2.mp4" type="video/mp4">
-              </video>
-              <div class="media-label">▶ Bridge Physics</div>
-              <div class="media-hover-hint">Open in viewer →</div>
-            </div>
-            <div class="project-media" onclick="openLightbox('images/bridge_map.png','Build A Bridge — Map Overview')">
-              <img src="images/bridge_map.png" alt="Map overview" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-              <div class="media-label">🗺 Map Overview</div>
-              <div class="media-hover-hint">Enlarge 🔍</div>
-            </div>
-            <div class="project-media" onclick="openLightbox('images/bridge_ui.png','Build A Bridge — UI Design')">
-              <img src="images/bridge_ui.png" alt="UI design" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-              <div class="media-label">🖥 UI Design</div>
-              <div class="media-hover-hint">Enlarge 🔍</div>
-            </div>
-            <div class="project-specs">
-              <span class="spec-pill">Luau</span>
-              <span class="spec-pill">Custom Physics</span>
-              <span class="spec-pill">Round System</span>
-              <span class="spec-pill">DataStore</span>
-              <span class="spec-pill">GUI</span>
-            </div>
+            <p class="project-desc">A Roblox game where players race to construct bridges across gaps using collected parts, then survive the chaos of everyone crossing at once. Features a full round system, part physics, and PvP sabotage mechanics.</p>
+            <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge — Gameplay Demo')"><video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"><source src="videos/bridge_demo1.mp4" type="video/mp4"></video><div class="media-label">▶ Gameplay Demo</div><div class="media-hover-hint">Open viewer →</div></div>
+            <div class="project-media" onclick="playInspector('videos/bridge_demo2.mp4','Build A Bridge — Bridge Physics')"><video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"><source src="videos/bridge_demo2.mp4" type="video/mp4"></video><div class="media-label">▶ Bridge Physics</div><div class="media-hover-hint">Open viewer →</div></div>
+            <div class="project-media" onclick="openLightbox('images/bridge_map.png','Map Overview')"><img src="images/bridge_map.png" alt="Map" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'"><div class="media-label">🗺 Map Overview</div><div class="media-hover-hint">Enlarge 🔍</div></div>
+            <div class="project-media" onclick="openLightbox('images/bridge_ui.png','UI Design')"><img src="images/bridge_ui.png" alt="UI" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'"><div class="media-label">🖥 UI Design</div><div class="media-hover-hint">Enlarge 🔍</div></div>
+            <div class="project-specs"><span class="spec-pill">Luau</span><span class="spec-pill">Custom Physics</span><span class="spec-pill">Round System</span><span class="spec-pill">DataStore</span><span class="spec-pill">GUI</span></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- FEEDBACK -->
     <div class="window" id="win-feedback">
-      <div class="title-bar">
-        <span>FEEDBACK_LOG.LOG</span>
-      </div>
+      <div class="title-bar"><span>FEEDBACK_LOG.LOG</span></div>
       <div class="feedback-body">
         <p class="feedback-hint">Rate KCHOR's work and leave a note.</p>
-        <div id="star-rating" style="font-size:32px;cursor:pointer;color:#ccc;margin-bottom:6px;">
-          <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
-        </div>
-        <div id="preview-wrap" style="display:none;margin:6px 0;align-items:center;gap:8px;">
-          <img id="img-preview" style="width:54px;height:54px;border:2px solid #000;object-fit:cover;">
-          <button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">✕</button>
-        </div>
-        <textarea id="rev-text" style="width:100%;height:58px;border:3px solid #000;margin:6px 0;padding:8px;font-family:'Share Tech Mono',monospace;font-size:12px;resize:none;" placeholder="Write your report here..."></textarea>
-        <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+        <div id="star-rating" style="font-size:28px;cursor:pointer;color:#ccc;margin-bottom:5px;"><span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span></div>
+        <div id="preview-wrap" style="display:none;margin:5px 0;align-items:center;gap:7px;"><img id="img-preview" style="width:48px;height:48px;border:2px solid #000;object-fit:cover;"><button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">✕</button></div>
+        <textarea id="rev-text" style="width:100%;height:52px;border:3px solid #000;margin:5px 0;padding:6px;font-family:'Share Tech Mono',monospace;font-size:11px;resize:none;" placeholder="Write your report here..."></textarea>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
           <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ IMAGE</button>
           <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
           <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-green);">▶ SUBMIT</button>
           <button id="admin-wipe" class="btn-pixel" onclick="clearAll()" style="background:var(--win-red);display:none;margin-left:auto;">WIPE_ALL</button>
         </div>
-        <div id="review-list" style="margin-top:10px;"></div>
+        <div id="review-list" style="margin-top:8px;"></div>
       </div>
     </div>
 
-  </div><!-- /workspace -->
-
-  <!-- TASKBAR -->
-  <div class="taskbar">
-    <button class="btn-pixel" style="background:var(--win-red);">⊞ START</button>
-    <div class="t-divider"></div>
-    <div style="flex-grow:1;" id="taskbar-user">User: Guest</div>
-    <div class="t-divider"></div>
-    <!-- contact links live here now — always visible, never a separate window -->
-    <div class="contact-strip">
-      <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹 Roblox</a>
-      <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 Discord</a>
-      <button onclick="copyEmail()">📧 Email</button>
-    </div>
-    <div class="t-divider"></div>
-    <div id="clock">00:00</div>
+    <div style="height:6px;flex-shrink:0;"></div>
   </div>
+</div>
 
-</div><!-- /main-ui -->
+<div id="taskbar">
+  <button class="btn-pixel" style="background:var(--win-red);">⊞ START</button>
+  <div class="t-divider"></div>
+  <div style="flex-grow:1;" id="taskbar-user">User: Guest</div>
+  <div class="t-divider"></div>
+  <div class="contact-strip">
+    <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹 Roblox</a>
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 Discord</a>
+    <button onclick="copyEmail()">📧 Email</button>
+  </div>
+  <div class="t-divider"></div>
+  <div id="clock">00:00</div>
+</div>
 
 <script>
-const systems = [
-  { name:"Round System",   icon:"🔄", desc:"Global loop handling intermissions, countdowns and map voting. Drives the entire game flow.", vid:"videos/Testing1.mp4", tags:["Luau","RemoteEvents","Voting"] },
-  { name:"Combat System",  icon:"⚔️",  desc:"Raycast-based weapon system with custom hitboxes, damage falloff, and server-side validation.", vid:"", tags:["Raycast","Server-side","Hitbox"] },
-  { name:"Weather System", icon:"🌦️", desc:"Dynamic lighting and atmosphere manipulation — cycles through rain, fog, and sun based on game state.", vid:"", tags:["Lighting","Atmosphere","Tweens"] },
-  { name:"Data Saving",    icon:"💾", desc:"ProfileService integration for player data persistence. Handles session locking, retries, and fallback.", vid:"", tags:["ProfileService","DataStore","Sessions"] },
-  { name:"Bridge Builder", icon:"🌉", desc:"Core mechanic for Build A Bridge — handles part placement, snap grids, and structural validation.", vid:"videos/bridge_demo1.mp4", tags:["Physics","Constraints","Grid"] },
-  { name:"UI Framework",   icon:"🖥️", desc:"Modular HUD system with tweened popups, crosshairs, leaderboards, and mobile support.", vid:"", tags:["ScreenGui","Tweens","Mobile"] },
-];
+const systems=[{name:"Round System",icon:"🔄",desc:"Global loop handling intermissions, countdowns and map voting. Drives the entire game flow.",vid:"videos/Testing1.mp4",tags:["Luau","RemoteEvents","Voting"]},{name:"Combat System",icon:"⚔️",desc:"Raycast-based weapon system with custom hitboxes, damage falloff, and server-side validation.",vid:"",tags:["Raycast","Server-side","Hitbox"]},{name:"Weather System",icon:"🌦️",desc:"Dynamic lighting and atmosphere manipulation — cycles through rain, fog, and sun.",vid:"",tags:["Lighting","Atmosphere","Tweens"]},{name:"Data Saving",icon:"💾",desc:"ProfileService integration for player data persistence. Handles session locking, retries, and fallback.",vid:"",tags:["ProfileService","DataStore","Sessions"]},{name:"Bridge Builder",icon:"🌉",desc:"Core mechanic for Build A Bridge — handles part placement, snap grids, and structural validation.",vid:"videos/bridge_demo1.mp4",tags:["Physics","Constraints","Grid"]},{name:"UI Framework",icon:"🖥️",desc:"Modular HUD system with tweened popups, crosshairs, leaderboards, and mobile support.",vid:"",tags:["ScreenGui","Tweens","Mobile"]}];
+const skills=[{name:"Luau / Scripting",pct:85,color:"var(--win-blue)"},{name:"Game Architecture",pct:80,color:"var(--win-purple)"},{name:"Studio / Building",pct:70,color:"var(--win-yellow)"},{name:"UI Design",pct:65,color:"var(--win-pink)"}];
+let currentUser="Guest",currentRating=0,currentImageData="";
 
-const skills = [
-  { name:"Luau / Scripting",  pct:85, color:"var(--win-blue)"   },
-  { name:"Game Architecture", pct:80, color:"var(--win-purple)"  },
-  { name:"Studio / Building", pct:70, color:"var(--win-yellow)"  },
-  { name:"UI Design",         pct:65, color:"var(--win-pink)"    },
-];
+const bootLines=["BIOS v2.1 ... OK","Mounting portfolio drive ...","Loading KCHOR_OS kernel ... OK","Initializing display driver ...","Ready. Awaiting login."];
+(function(){const el=document.getElementById('boot-log');bootLines.forEach((l,i)=>setTimeout(()=>{const d=document.createElement('div');d.innerText="> "+l;el.appendChild(d);},i*320));})();
 
-let currentUser = "Guest", currentRating = 0, currentImageData = "";
+function jumpTo(id){const el=document.getElementById(id),ws=document.getElementById('workspace');if(el&&ws)ws.scrollTo({top:el.offsetTop-14,behavior:'smooth'});}
 
-/* BOOT */
-const bootLines = ["BIOS v2.1 ... OK","Mounting portfolio drive ...","Loading KCHOR_OS kernel ... OK","Initializing display driver ...","Ready. Awaiting login."];
-(function animateBoot() {
-  const el = document.getElementById('boot-log');
-  bootLines.forEach((line, i) => setTimeout(() => { const d = document.createElement('div'); d.innerText = "> " + line; el.appendChild(d); }, i * 320));
-})();
+function login(){
+  const val=document.getElementById('username-input').value.trim();
+  currentUser=val||"Guest_"+Math.floor(Math.random()*999);
+  document.getElementById('boot-screen').style.display='none';
+  document.getElementById('main-ui').style.display='block';
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('taskbar-user').innerText="User: "+currentUser;
+  if(currentUser==="KCHOR_ADMIN")document.getElementById('admin-wipe').style.display='inline-block';
+  log("Logged in as "+currentUser);
+  loadReviews();buildSkills();buildSysGrid();
+}
+function randomizeName(){const n=["Void_Dev","StudioHero","RoBuilder","LuauPro","ScriptKid","NPC_User"];document.getElementById('username-input').value=n[Math.floor(Math.random()*n.length)]+Math.floor(Math.random()*99);}
+document.getElementById('username-input').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
 
-/* NAV */
-function jumpTo(id) {
-  const el = document.getElementById(id);
-  const ws = document.getElementById('workspace');
-  if (el && ws) ws.scrollTo({ top: el.offsetTop - 14, behavior: 'smooth' });
-}
+function log(msg){const el=document.getElementById('activity-log');const d=document.createElement('div');d.innerText="> "+msg;el.appendChild(d);el.scrollTop=el.scrollHeight;}
+function toggleLog(){const l=document.getElementById('activity-log'),a=document.getElementById('log-arrow');l.classList.toggle('open');a.innerText=l.classList.contains('open')?'▲':'▼';}
 
-/* LOGIN */
-function login() {
-  const val = document.getElementById('username-input').value.trim();
-  currentUser = val || "Guest_" + Math.floor(Math.random()*999);
-  document.getElementById('boot-screen').style.display = 'none';
-  document.getElementById('main-ui').style.display = 'grid';
-  document.getElementById('taskbar-user').innerText = "User: " + currentUser;
-  if (currentUser === "KCHOR_ADMIN") document.getElementById('admin-wipe').style.display = 'inline-block';
-  log("Logged in as " + currentUser);
-  loadReviews(); buildSkills(); buildSysGrid();
-}
-function randomizeName() {
-  const names = ["Void_Dev","StudioHero","RoBuilder","LuauPro","ScriptKid","NPC_User"];
-  document.getElementById('username-input').value = names[Math.floor(Math.random()*names.length)] + Math.floor(Math.random()*99);
-}
-document.getElementById('username-input').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+function buildSkills(){const g=document.getElementById('skills-grid');g.innerHTML="";skills.forEach(s=>{const w=document.createElement('div');w.className='skill-bar-wrap';w.innerHTML=`<div class="skill-label"><span>${s.name}</span><span>${s.pct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0;background:${s.color};" data-pct="${s.pct}"></div></div>`;g.appendChild(w);});setTimeout(()=>document.querySelectorAll('.skill-fill').forEach(f=>f.style.width=f.dataset.pct+'%'),200);}
 
-/* LOG */
-function log(msg) {
-  const el = document.getElementById('activity-log');
-  const d = document.createElement('div'); d.innerText = "> " + msg;
-  el.appendChild(d); el.scrollTop = el.scrollHeight;
-}
-function toggleLog() {
-  const log = document.getElementById('activity-log');
-  const arrow = document.getElementById('log-arrow');
-  log.classList.toggle('open');
-  arrow.innerText = log.classList.contains('open') ? '▲' : '▼';
-}
+function buildSysGrid(){const grid=document.getElementById('sysGrid');systems.forEach(s=>{const div=document.createElement('div');div.className='sys-item';div.innerHTML=`<div class="sys-item-icon">${s.icon}</div><strong>${s.name}</strong>`;div.onclick=()=>{document.querySelectorAll('.sys-item').forEach(i=>i.classList.remove('active'));div.classList.add('active');openDrawer(s);};grid.appendChild(div);});}
 
-/* SKILLS */
-function buildSkills() {
-  const g = document.getElementById('skills-grid'); g.innerHTML = "";
-  skills.forEach(s => {
-    const w = document.createElement('div'); w.className = 'skill-bar-wrap';
-    w.innerHTML = `<div class="skill-label"><span>${s.name}</span><span>${s.pct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0;background:${s.color};" data-pct="${s.pct}"></div></div>`;
-    g.appendChild(w);
-  });
-  setTimeout(() => document.querySelectorAll('.skill-fill').forEach(f => f.style.width = f.dataset.pct + '%'), 200);
-}
+function openDrawer(s){document.getElementById('det-title').innerText=s.icon+" "+s.name;document.getElementById('det-title').style.color='#000';document.getElementById('det-desc').innerText=s.desc+(s.vid?"":"\n\n[No video for this module]");document.getElementById('det-desc').style.color='#333';document.getElementById('det-tags').innerHTML=(s.tags||[]).map(t=>`<span class="spec-pill">${t}</span>`).join('');document.getElementById('feed-label').innerText=s.name;s.vid?loadVideo(s.vid):clearVideo();document.getElementById('inspector-drawer').classList.add('open');log("Module: "+s.name);}
+function closeDrawer(){document.getElementById('inspector-drawer').classList.remove('open');document.querySelectorAll('.sys-item').forEach(i=>i.classList.remove('active'));}
 
-/* SYSTEM GRID */
-function buildSysGrid() {
-  const grid = document.getElementById('sysGrid');
-  systems.forEach(s => {
-    const div = document.createElement('div'); div.className = 'sys-item';
-    div.innerHTML = `<div class="sys-item-icon">${s.icon}</div><strong>${s.name}</strong>`;
-    div.onclick = () => {
-      document.querySelectorAll('.sys-item').forEach(i => i.classList.remove('active'));
-      div.classList.add('active');
-      openDrawer(s);
-    };
-    grid.appendChild(div);
-  });
-}
+function loadVideo(src){const vp=document.getElementById('main-player'),ns=document.getElementById('no-signal');vp.src=src;vp.load();vp.play().catch(()=>{});vp.style.display='block';ns.style.display='none';}
+function clearVideo(){const vp=document.getElementById('main-player'),ns=document.getElementById('no-signal');vp.src="";vp.style.display='none';ns.style.display='flex';}
+function playInspector(src,label){document.getElementById('det-title').innerText=label;document.getElementById('det-title').style.color='#000';document.getElementById('det-desc').innerText='';document.getElementById('det-tags').innerHTML='';document.getElementById('feed-label').innerText=label;loadVideo(src);document.getElementById('inspector-drawer').classList.add('open');log("Playing: "+label);}
 
-/* DRAWER */
-function openDrawer(s) {
-  document.getElementById('det-title').innerText = s.icon + " " + s.name;
-  document.getElementById('det-title').style.color = '#000';
-  document.getElementById('det-desc').innerText = s.desc + (s.vid ? "" : "\n\n[No video for this module]");
-  document.getElementById('det-desc').style.color = '#333';
-  document.getElementById('det-tags').innerHTML = (s.tags||[]).map(t=>`<span class="spec-pill">${t}</span>`).join('');
-  document.getElementById('feed-label').innerText = s.name;
-  if (s.vid) { loadVideo(s.vid, s.name); } else { clearVideo(); }
-  document.getElementById('inspector-drawer').classList.add('open');
-  log("Module loaded: " + s.name);
-}
-function closeDrawer() {
-  document.getElementById('inspector-drawer').classList.remove('open');
-  document.querySelectorAll('.sys-item').forEach(i => i.classList.remove('active'));
-}
+function openLightbox(src,caption){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox-caption').innerText=caption||"";document.getElementById('lightbox').style.display='flex';}
+function closeLightbox(){document.getElementById('lightbox').style.display='none';}
 
-/* VIDEO */
-function loadVideo(src, label) {
-  const vp = document.getElementById('main-player');
-  const ns = document.getElementById('no-signal');
-  vp.src = src; vp.load(); vp.play().catch(()=>{});
-  vp.style.display = 'block'; ns.style.display = 'none';
-}
-function clearVideo() {
-  const vp = document.getElementById('main-player');
-  const ns = document.getElementById('no-signal');
-  vp.src = ""; vp.style.display = 'none'; ns.style.display = 'flex';
-}
-function playInspector(src, label) {
-  document.getElementById('det-title').innerText = label;
-  document.getElementById('det-title').style.color = '#000';
-  document.getElementById('det-desc').innerText = '';
-  document.getElementById('det-tags').innerHTML = '';
-  document.getElementById('feed-label').innerText = label;
-  loadVideo(src, label);
-  document.getElementById('inspector-drawer').classList.add('open');
-  log("Playing: " + label);
-}
+function copyEmail(){navigator.clipboard.writeText('mandzkie65@gmail.com').then(()=>{const t=document.getElementById('email-toast');t.style.display='block';log("Email copied.");setTimeout(()=>t.style.display='none',2800);}).catch(()=>prompt("Copy this:","mandzkie65@gmail.com"));}
 
-/* LIGHTBOX */
-function openLightbox(src, caption) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox-caption').innerText = caption || "";
-  document.getElementById('lightbox').style.display = 'flex';
-}
-function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+function handleImage(input){const r=new FileReader();r.onload=e=>{currentImageData=e.target.result;document.getElementById('img-preview').src=currentImageData;document.getElementById('preview-wrap').style.display='flex';};r.readAsDataURL(input.files[0]);}
+function removeImage(){currentImageData="";document.getElementById('preview-wrap').style.display='none';document.getElementById('file-input').value="";}
 
-/* CONTACT */
-function copyEmail() {
-  navigator.clipboard.writeText('mandzkie65@gmail.com').then(() => {
-    const t = document.getElementById('email-toast');
-    t.style.display = 'block'; log("Email copied.");
-    setTimeout(() => t.style.display = 'none', 2800);
-  }).catch(() => prompt("Copy this:", "mandzkie65@gmail.com"));
-}
+function submitReview(){const text=document.getElementById('rev-text').value.trim();if(!text||currentRating===0)return alert("Please add a star rating and a comment!");const logs=JSON.parse(localStorage.getItem('kchor_v9')||'[]');logs.push({user:currentUser,rate:currentRating,msg:text,pic:currentImageData,ts:Date.now()});localStorage.setItem('kchor_v9',JSON.stringify(logs));document.getElementById('rev-text').value="";removeImage();currentRating=0;resetStars();loadReviews();log("Review by "+currentUser);}
+function loadReviews(){const logs=JSON.parse(localStorage.getItem('kchor_v9')||'[]'),list=document.getElementById('review-list');list.innerHTML="";if(!logs.length){list.innerHTML='<p style="font-family:\'Share Tech Mono\',monospace;font-size:11px;color:#999;padding:6px 0;">No entries yet — be the first!</p>';return;}[...logs].reverse().forEach((r,i)=>{const entry=document.createElement('div');entry.className='review-entry';const del=(r.user===currentUser||currentUser==="KCHOR_ADMIN")?`<button class="del-btn" onclick="delRev(${logs.length-1-i})">DEL</button>`:"";const pic=r.pic?`<img src="${r.pic}" class="review-pic" onclick="openLightbox('${r.pic}','')">` :"";const date=r.ts?new Date(r.ts).toLocaleDateString():"";entry.innerHTML=`<div class="review-meta"><b>${r.user}</b> <span style="color:orange">${'★'.repeat(r.rate)}${'☆'.repeat(5-r.rate)}</span> <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#aaa;">${date}</span>${del}</div><p class="review-msg">${r.msg}</p>${pic}`;list.appendChild(entry);});}
+function delRev(i){if(!confirm("Delete?"))return;let l=JSON.parse(localStorage.getItem('kchor_v9')||'[]');l.splice(i,1);localStorage.setItem('kchor_v9',JSON.stringify(l));loadReviews();}
+function clearAll(){if(!confirm("Wipe ALL?"))return;localStorage.removeItem('kchor_v9');loadReviews();}
 
-/* IMAGE UPLOAD */
-function handleImage(input) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    currentImageData = e.target.result;
-    document.getElementById('img-preview').src = currentImageData;
-    document.getElementById('preview-wrap').style.display = 'flex';
-  };
-  reader.readAsDataURL(input.files[0]);
-}
-function removeImage() {
-  currentImageData = "";
-  document.getElementById('preview-wrap').style.display = 'none';
-  document.getElementById('file-input').value = "";
-}
+const stars=document.querySelectorAll('#star-rating span');
+stars.forEach(s=>{s.onclick=()=>{currentRating=parseInt(s.getAttribute('data-value'));stars.forEach(star=>{const v=parseInt(star.getAttribute('data-value'));star.innerText=v<=currentRating?'★':'☆';star.style.color=v<=currentRating?'orange':'#ccc';});};s.onmouseenter=()=>{const v=parseInt(s.getAttribute('data-value'));stars.forEach(star=>star.innerText=parseInt(star.getAttribute('data-value'))<=v?'★':'☆');};s.onmouseleave=()=>{stars.forEach(star=>{const v=parseInt(star.getAttribute('data-value'));star.innerText=v<=currentRating?'★':'☆';star.style.color=v<=currentRating?'orange':'#ccc';});};});
+function resetStars(){stars.forEach(s=>{s.innerText='☆';s.style.color='#ccc';});}
 
-/* REVIEWS */
-function submitReview() {
-  const text = document.getElementById('rev-text').value.trim();
-  if (!text || currentRating === 0) return alert("Please add a star rating and a comment!");
-  const logs = JSON.parse(localStorage.getItem('kchor_v9') || '[]');
-  logs.push({ user:currentUser, rate:currentRating, msg:text, pic:currentImageData, ts:Date.now() });
-  localStorage.setItem('kchor_v9', JSON.stringify(logs));
-  document.getElementById('rev-text').value = "";
-  removeImage(); currentRating = 0; resetStars(); loadReviews();
-  log("Review submitted by " + currentUser);
-}
-function loadReviews() {
-  const logs = JSON.parse(localStorage.getItem('kchor_v9') || '[]');
-  const list = document.getElementById('review-list'); list.innerHTML = "";
-  if (!logs.length) { list.innerHTML = '<p style="font-family:\'Share Tech Mono\',monospace;font-size:12px;color:#999;padding:6px 0;">No entries yet — be the first!</p>'; return; }
-  [...logs].reverse().forEach((r, i) => {
-    const entry = document.createElement('div'); entry.className = 'review-entry';
-    const del = (r.user === currentUser || currentUser === "KCHOR_ADMIN") ? `<button class="del-btn" onclick="delRev(${logs.length-1-i})">DEL</button>` : "";
-    const pic = r.pic ? `<img src="${r.pic}" class="review-pic" onclick="openLightbox('${r.pic}','')">` : "";
-    const date = r.ts ? new Date(r.ts).toLocaleDateString() : "";
-    entry.innerHTML = `<div class="review-meta"><b>${r.user}</b> <span style="color:orange">${'★'.repeat(r.rate)}${'☆'.repeat(5-r.rate)}</span> <span style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#aaa;">${date}</span>${del}</div><p class="review-msg">${r.msg}</p>${pic}`;
-    list.appendChild(entry);
-  });
-}
-function delRev(i) {
-  if (!confirm("Delete this entry?")) return;
-  let l = JSON.parse(localStorage.getItem('kchor_v9') || '[]');
-  l.splice(i, 1); localStorage.setItem('kchor_v9', JSON.stringify(l)); loadReviews();
-}
-function clearAll() {
-  if (!confirm("Wipe ALL entries?")) return;
-  localStorage.removeItem('kchor_v9'); loadReviews();
-}
-
-/* STARS */
-const stars = document.querySelectorAll('#star-rating span');
-stars.forEach(s => {
-  s.onclick = () => {
-    currentRating = parseInt(s.getAttribute('data-value'));
-    stars.forEach(star => { const v = parseInt(star.getAttribute('data-value')); star.innerText = v <= currentRating ? '★' : '☆'; star.style.color = v <= currentRating ? 'orange' : '#ccc'; });
-  };
-  s.onmouseenter = () => { const v = parseInt(s.getAttribute('data-value')); stars.forEach(star => star.innerText = parseInt(star.getAttribute('data-value')) <= v ? '★' : '☆'); };
-  s.onmouseleave = () => { stars.forEach(star => { const v = parseInt(star.getAttribute('data-value')); star.innerText = v <= currentRating ? '★' : '☆'; star.style.color = v <= currentRating ? 'orange' : '#ccc'; }); };
-});
-function resetStars() { stars.forEach(s => { s.innerText='☆'; s.style.color='#ccc'; }); }
-
-/* CLOCK */
-function tick() { document.getElementById('clock').innerText = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }); }
-tick(); setInterval(tick, 1000);
+function tick(){document.getElementById('clock').innerText=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+tick();setInterval(tick,1000);
 </script>
 </body>
 </html>
