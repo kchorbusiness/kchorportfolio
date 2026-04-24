@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | OS v2.1</title>
+<title>KCHOR.EXE | OS v2.1 Professional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg-main: #d8e4e9;
   --border-thick: 3px;
-  --shadow-block: 5px;
+  --shadow-block: 6px;
   --win-blue: #88c0d8;
   --win-green: #a3cc8d;
   --win-yellow: #f1c37d;
@@ -33,159 +33,136 @@ body {
   overflow: hidden;
 }
 
-::-webkit-scrollbar { width: 7px; }
-::-webkit-scrollbar-track { background: #ccc; }
-::-webkit-scrollbar-thumb { background: #888; }
+/* --- OVERLAY COMPONENTS --- */
+#lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
+#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; border:2px solid var(--win-blue); }
 
-#lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
-#lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; }
-#lightbox-caption { color:#fff;font-family:'Share Tech Mono',monospace;font-size:12px; }
-
+/* --- BOOT SCREEN --- */
 #boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
 .boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
-.boot-log div { animation:fadeIn 0.3s ease; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
-.login-box { background:var(--win-gray);border:4px solid #fff;padding:24px;width:400px;box-shadow:10px 10px 0 #555; }
-.login-box h2 { font-size:28px;margin-bottom:4px; }
-.login-sub { font-family:'Share Tech Mono',monospace;font-size:11px;color:#666;margin-bottom:12px; }
+.login-box { background:var(--win-gray);border:4px solid #000;padding:24px;width:400px;box-shadow:12px 12px 0 #000; }
 .blink { animation:blink 1s step-end infinite; }
 @keyframes blink { 50%{opacity:0} }
 
+/* --- SIDEBAR --- */
 #sidebar {
-  position: fixed;
-  left: calc(50% - var(--col-width)/2 - 54px);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 200;
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  align-items: center;
-  padding: 8px 5px;
-  background: rgba(255,255,255,0.6);
-  border: 2px solid #000;
-  box-shadow: 4px 4px 0 #000;
-  backdrop-filter: blur(3px);
+  position: fixed; left: calc(50% - var(--col-width)/2 - 54px); top: 50%;
+  transform: translateY(-50%); z-index: 200; display: none;
+  flex-direction: column; gap: 6px; align-items: center;
+  padding: 10px 6px; background: rgba(255,255,255,0.7);
+  border: 3px solid #000; box-shadow: 5px 5px 0 #000; backdrop-filter: blur(5px);
 }
 .icon { position:relative;cursor:pointer; }
 .icon-graphic {
-  width:34px;height:34px;
-  border:2px solid #000;background:#fff;
-  box-shadow:3px 3px 0 #000;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;
-  transition:transform 0.1s,box-shadow 0.1s;
+  width:36px;height:36px; border:2px solid #000; background:#fff;
+  box-shadow:3px 3px 0 #000; display:flex; align-items:center; justify-content:center;
+  font-size:18px; transition:0.1s;
 }
-.icon-graphic:hover { transform:translate(-1px,-1px);box-shadow:4px 4px 0 #000; }
+.icon-graphic:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 #000; }
 .icon-tip {
-  position:absolute;left:calc(100% + 7px);top:50%;transform:translateY(-50%);
-  background:#000;color:#fff;font-size:12px;padding:2px 6px;
-  white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.12s;z-index:300;
+  position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
+  background:#000;color:#fff;font-size:12px;padding:3px 8px;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:0.2s;z-index:300;
 }
 .icon:hover .icon-tip { opacity:1; }
 
+/* --- MAIN WINDOWS --- */
 #main-ui { display:none;height:calc(100vh - 40px);overflow:hidden; }
-.workspace {
-  height:100%;overflow-y:auto;
-  padding:14px 0 14px;
-  display:flex;flex-direction:column;align-items:center;gap:12px;
+.workspace { height:100%; overflow-y:auto; padding:20px 0; display:flex; flex-direction:column; align-items:center; gap:20px; }
+.window { width:var(--col-width); background:#fff; border:var(--border-thick) solid #000; box-shadow:var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink:0; }
+.title-bar { padding:6px 12px; border-bottom:var(--border-thick) solid #000; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:18px; background:var(--win-chrome); }
+.window.accented > .title-bar { background:var(--win-blue); color:#000; }
+
+/* --- PROFILE & SKILLS --- */
+.profile-body { display:flex;gap:15px;padding:15px; flex-wrap:wrap; }
+.profile-avatar { width:70px;height:70px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:4px 4px 0 #000; }
+.profile-info h1 { font-size:45px; line-height:0.8; }
+.status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 10px;font-size:14px;margin-top:8px; }
+.stat-chip { background:#000;color:#fff;padding:2px 8px;font-size:13px; }
+.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px; }
+.skill-bar { height:16px; border:2px solid #000; background:#eee; margin-top:4px; }
+.skill-fill { height:100%; transition:1.5s cubic-bezier(.4,0,.2,1); }
+
+/* --- SYSTEM GRID --- */
+.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; padding:12px; background:#f0f0f0; }
+.sys-item { 
+  border:2px solid #000; padding:10px; text-align:center; background:#fff; 
+  cursor:pointer; font-size:14px; transition:0.1s; display:flex; flex-direction:column; align-items:center; gap:5px;
 }
+.sys-item:hover { background:var(--win-yellow); transform:translate(-1px,-1px); box-shadow:3px 3px 0 #000; }
 
-.window {
-  width:var(--col-width);
-  background:#fff;
-  border:var(--border-thick) solid #000;
-  box-shadow:var(--shadow-block) var(--shadow-block) 0 #000;
-  flex-shrink:0;
-}
-.title-bar {
-  padding:5px 10px;border-bottom:var(--border-thick) solid #000;
-  display:flex;justify-content:space-between;align-items:center;
-  font-weight:bold;font-size:17px;background:var(--win-chrome);
-}
-.window.accented > .title-bar { background:var(--win-blue); }
+/* --- PORTFOLIO --- */
+.project-card { border:2px solid #000; background:#fff; box-shadow:5px 5px 0 #000; margin:12px; overflow:hidden; }
+.project-header { padding:8px 12px; border-bottom:2px solid #000; display:flex; justify-content:space-between; background:#f5f0e8; }
+.project-body { padding:15px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.project-media { border:2px solid #000; overflow:hidden; cursor:pointer; position:relative; background:#111; height:110px; }
+.project-media video, .project-media img { width:100%; height:100%; object-fit:cover; }
+.media-label { position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.8); color:#fff; font-size:10px; padding:3px 8px; font-family:'Share Tech Mono'; }
 
-.profile-body { display:flex;gap:13px;padding:13px;align-items:flex-start;flex-wrap:wrap; }
-.profile-avatar { width:66px;height:66px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;box-shadow:4px 4px 0 #000;flex-shrink:0; }
-.profile-info h1 { font-size:40px;line-height:0.9; }
-.profile-info .subtitle { font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:4px;color:#444; }
-.status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:1px 8px;font-size:14px;margin-top:5px; }
-.stat-row { display:flex;gap:5px;margin-top:5px;flex-wrap:wrap; }
-.stat-chip { background:#000;color:#fff;padding:1px 6px;font-size:14px; }
-.profile-bio { font-family:'Share Tech Mono',monospace;font-size:11.5px;color:#333;line-height:1.65;width:100%; }
-
-.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:13px; }
-.skill-bar-wrap { display:flex;flex-direction:column;gap:3px; }
-.skill-label { font-size:16px;display:flex;justify-content:space-between; }
-.skill-bar { height:15px;border:2px solid #000;background:#eee; }
-.skill-fill { height:100%;transition:width: 1.1s cubic-bezier(.4,0,.2,1); }
-
-.sys-dir-container { padding:11px;background:#f0f0f0; }
-.sys-hint { font-family:'Share Tech Mono',monospace;font-size:11px;color:#555;margin-bottom:7px;padding:5px 8px;background:#fff;border:1px dashed #bbb;display:flex;align-items:center;gap:5px; }
-.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:7px; }
-.sys-item { border:2px solid #000;padding:9px 7px;text-align:center;background:#fff;cursor:pointer;font-size:13px;transition:background 0.1s; min-height:65px; display:flex; flex-direction:column; justify-content:center; }
-.sys-item:hover { background:var(--win-yellow); }
-
-.projects-scroll { padding:11px;display:flex;flex-direction:column;gap:9px; }
-.project-card { border:2px solid #000;background:#fff;box-shadow:4px 4px 0 #000;overflow:hidden; }
-.project-header { padding:7px 11px;border-bottom:2px solid #000;display:flex;align-items:center;gap:7px;background:#f5f0e8; }
-.project-tag { padding:1px 6px;font-size:13px;border:2px solid #000; }
-.project-tag.wip { background:var(--win-orange); }
-.project-body { padding:11px;display:grid;grid-template-columns:1fr 1fr;gap:7px; }
-.project-desc { font-family:'Share Tech Mono',monospace;font-size:11.5px;line-height:1.6;grid-column:span 2;color:#222; }
-.project-media { border:2px solid #000;overflow:hidden;cursor:pointer;position:relative;background:#111; }
-.project-media img, .project-media video { width:100%;height:100px;object-fit:cover;display:block; }
-.media-label { position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:#fff;font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 6px; }
-.media-hover-hint { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:#fff;font-family:'Share Tech Mono',monospace;font-size:11px;opacity:0;transition:opacity 0.15s;pointer-events:none; }
-.project-media:hover .media-hover-hint { opacity:1; }
-.project-specs { grid-column:span 2;display:flex;gap:5px;flex-wrap:wrap; }
-.spec-pill { border:2px solid #000;padding:1px 6px;font-size:13px;background:var(--win-gray); }
-
+/* --- THE NEW CYBER INSPECTOR DRAWER --- */
 #inspector-drawer {
-  position:fixed;top:0;right:0;
-  width:320px;height:calc(100vh - 40px);
-  background:#fff;border-left:3px solid #000;box-shadow:-5px 0 0 #000;
-  transform:translateX(100%);transition:transform 0.2s ease;
-  z-index:500;display:flex;flex-direction:column;
+  position: fixed; top: 10px; right: 10px;
+  width: 400px; height: calc(100vh - 60px);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  border: 4px solid #000;
+  box-shadow: -10px 10px 0 rgba(0,0,0,0.15);
+  transform: translateX(120%);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  z-index: 500; display: flex; flex-direction: column; overflow: hidden;
 }
-#inspector-drawer.open { transform:translateX(0); }
-#drawer-titlebar { background:var(--win-chrome);border-bottom:3px solid #000;padding:5px 9px;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:bold; }
-#drawer-close { background:var(--win-red);border:2px solid #000;width:22px;height:22px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+#inspector-drawer.open { transform: translateX(0); }
+#drawer-titlebar { background: #000; color: #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; }
+#drawer-close { background:var(--win-red); border:2px solid #fff; color:#fff; width:24px; height:24px; cursor:pointer; }
 
-#player-wrap { position:relative;background:#000;flex-shrink:0; aspect-ratio:16/9; }
-#main-player { width:100%; height:100%; display:none; }
-#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0d0d0d; color:#555; font-size:12px; }
+#player-wrap { 
+  position: relative; background: #000; margin: 15px; 
+  border: 3px solid #000; box-shadow: 5px 5px 0 var(--win-blue);
+  aspect-ratio: 16/9; overflow: hidden;
+}
+#player-wrap::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  background-size: 100% 4px; z-index: 2; pointer-events: none;
+}
+#main-player { width:100%; height:100%; display:none; position:relative; z-index:1; }
+#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0a0a0a; color:#444; }
 
-#activity-log { padding:6px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;height:85px;overflow-y:auto;background:#0d0d0d;color:#0f0;line-height:1.7; display:none; }
-#activity-log.open { display:block; }
+#det-content-scroll { padding: 0 20px 20px; flex: 1; overflow-y: auto; }
+.info-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #888; text-transform: uppercase; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+#det-title { font-size: 34px; color: #000; margin-top: 5px; }
+#det-desc { font-family: 'Share Tech Mono', monospace; font-size: 13px; line-height: 1.6; color: #333; margin-top: 10px; background: #fdfdfd; padding: 12px; border-left: 5px solid #000; }
+.tech-sheet { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.tech-item { background: #f0f0f0; padding: 6px; font-size: 12px; border: 1px solid #ddd; font-family: 'Share Tech Mono'; }
 
+/* --- TASKBAR --- */
 #taskbar {
   position:fixed;bottom:0;width:100%;height:40px;
   background:var(--win-gray);border-top:3px solid #000;
-  display:flex;align-items:center;padding:0 10px;z-index:100;font-size:15px;gap:7px;
+  display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px;
 }
-.btn-pixel { background:var(--win-blue);border:2px solid #000;padding:3px 8px;font-family:inherit;cursor:pointer;box-shadow:2px 2px 0 #000; }
-.contact-strip { display:flex;gap:5px; }
-.contact-strip a, .contact-strip button { background:#fff;border:2px solid #000;padding:2px 7px;font-family:'VT323',monospace;font-size:14px;cursor:pointer;box-shadow:2px 2px 0 #000;text-decoration:none;color:#000; }
-#email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; }
+
+#activity-log { background:#000; color:#0f0; font-family:'Share Tech Mono'; font-size:10px; height:0; transition: 0.3s; overflow-y:auto; }
+#activity-log.open { height:100px; padding:8px; border-top:2px solid #333; }
 </style>
 </head>
 <body>
 
 <div id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src=""><div id="lightbox-caption"></div>
+  <img id="lightbox-img" src=""><div id="lightbox-caption" style="color:#fff; font-family:'Share Tech Mono'"></div>
 </div>
 <div id="email-toast">✓ mandzkie65@gmail.com copied!</div>
 
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
   <div class="login-box">
-    <h2>KCHOR_OS v2.1 <span class="blink">_</span></h2>
-    <p class="login-sub">&gt; Roblox Developer Portfolio — enter a name to boot</p>
-    <input type="text" id="username-input" style="width:100%;padding:9px;border:3px solid #000;font-family:inherit;font-size:19px;margin:12px 0;" placeholder="Enter visitor name...">
-    <div style="display:flex;gap:8px;">
+    <h2 style="font-size:32px;">KCHOR_OS v2.1 <span class="blink">_</span></h2>
+    <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
+    <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-family:inherit;font-size:20px;margin:15px 0;" placeholder="Enter name...">
+    <div style="display:flex;gap:10px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
-      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ BOOT_OS</button>
+      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
     </div>
   </div>
 </div>
@@ -200,178 +177,209 @@ body {
 </div>
 
 <div id="inspector-drawer">
-  <div id="drawer-titlebar"><span>MODULE_VIEWER</span><button id="drawer-close" onclick="closeDrawer()">✕</button></div>
+  <div id="drawer-titlebar">
+    <span>SYSTEM_INSPECTOR_V2.0</span>
+    <button id="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  
   <div id="player-wrap">
     <video id="main-player" controls autoplay muted loop></video>
-    <div id="no-signal">📺 No video for this module.</div>
+    <div id="no-signal">
+      <div style="font-size:30px;">📡</div>
+      <p style="font-family:'Share Tech Mono'; font-size:11px;">FEED_UNAVAILABLE</p>
+    </div>
   </div>
-  <div style="padding:15px; flex:1; overflow-y:auto;">
-    <h2 id="det-title">—</h2>
-    <p id="det-desc" style="font-family:'Share Tech Mono',monospace; font-size:11px; color:#444; margin-top:8px; line-height:1.4;"></p>
-    <div id="det-tags" style="margin-top:10px; display:flex; gap:5px; flex-wrap:wrap;"></div>
+
+  <div id="det-content-scroll">
+    <div class="info-label">Active Module</div>
+    <h2 id="det-title">SYSTEM</h2>
+
+    <div class="info-label">Technical Overview</div>
+    <p id="det-desc">Initialize a system to view documentation.</p>
+
+    <div class="info-label">Classifications</div>
+    <div id="det-tags" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;"></div>
+
+    <div class="info-label">Environment Metrics</div>
+    <div class="tech-sheet">
+      <div class="tech-item"><strong>Uptime:</strong> 100%</div>
+      <div class="tech-item"><strong>State:</strong> Stable</div>
+      <div class="tech-item"><strong>Type:</strong> Modular</div>
+      <div class="tech-item"><strong>Security:</strong> Encrypted</div>
+    </div>
   </div>
-  <div id="log-section" style="border-top:2px solid #000;">
-    <div id="log-toggle" onclick="toggleLog()" style="background:#111;color:#0f0;padding:4px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;display:flex;justify-content:space-between;">
-      <span>ACTIVITY_LOG</span><span id="log-arrow">▼</span>
+
+  <div id="log-section">
+    <div id="log-toggle" onclick="toggleLog()" style="background:#000; color:#0f0; padding:8px 15px; font-family:'Share Tech Mono'; font-size:11px; cursor:pointer; display:flex; justify-content:space-between;">
+      <span>TERMINAL_OUTPUT</span><span id="log-arrow">▲</span>
     </div>
     <div id="activity-log"></div>
   </div>
 </div>
 
 <div id="main-ui">
-  <div class="workspace" id="workspace">
+  <div class="workspace">
+    
     <div class="window accented" id="win-profile">
-      <div class="title-bar"><span>USER_PROFILE.INF</span></div>
+      <div class="title-bar"><span>USER_IDENTITY.INF</span></div>
       <div class="profile-body">
         <div class="profile-avatar">K</div>
         <div class="profile-info">
           <h1>KCHOR</h1>
-          <p class="subtitle">Roblox Systems Architect</p>
-          <span class="status-badge">● AVAILABLE FOR HIRE</span>
-          <div class="stat-row"><span class="stat-chip">3+ YRS EXP</span><span class="stat-chip">LUAU</span><span class="stat-chip">SYSTEMS DESIGN</span></div>
+          <p style="font-family:'Share Tech Mono'; font-size:12px;">Systems Architect & Backend Lead</p>
+          <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
+          <div style="margin-top:10px; display:flex; gap:6px;">
+            <span class="stat-chip">3+ YRS</span><span class="stat-chip">ADV_LUAU</span><span class="stat-chip">DATA_ARCH</span>
+          </div>
         </div>
-        <p class="profile-bio">Highly specialized Roblox developer focusing on modular game architecture. I build optimized, scalable backend systems including complex game loops, custom movement, and persistent data management.</p>
+        <p style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">
+          Expert in building high-performance Roblox systems. I specialize in turning complex game design concepts into optimized, modular code structures that are easy to maintain and scale.
+        </p>
       </div>
     </div>
 
     <div class="window" id="win-skills">
-      <div class="title-bar"><span>SKILL_TREE.EXE</span></div>
+      <div class="title-bar"><span>CAPABILITY_METRICS.EXE</span></div>
       <div class="skills-grid" id="skills-grid"></div>
     </div>
 
     <div class="window" id="win-sysdir">
-      <div class="title-bar"><span>SYSTEM_DIRECTORY</span></div>
-      <div class="sys-dir-container">
-        <div class="sys-hint"><span>💾</span><span>Core Modular Systems implemented by KCHOR:</span></div>
+      <div class="title-bar"><span>MODULAR_SYSTEMS_LIBRARY</span></div>
+      <div style="padding:15px;">
+        <p style="font-family:'Share Tech Mono'; font-size:11px; margin-bottom:10px; color:#666;">[!] Click any module below to launch the Inspector Viewer.</p>
         <div class="system-grid" id="sysGrid"></div>
       </div>
     </div>
 
     <div class="window" id="win-portfolio">
-      <div class="title-bar"><span>PORTFOLIO.DIR</span></div>
-      <div class="projects-scroll">
-        <div class="project-card">
-          <div class="project-header"><span style="font-size:17px;font-weight:bold;">🌉 Build A Bridge</span><span class="project-tag wip">● WIP</span></div>
-          <div class="project-body">
-            <p class="project-desc">A complex showcase involving physics-based construction and multi-stage round management.</p>
-            <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge — Demo')">
-              <video muted loop preload="metadata"><source src="videos/bridge_demo1.mp4" type="video/mp4"></video>
-              <div class="media-label">▶ Gameplay Demo</div><div class="media-hover-hint">Open viewer →</div>
-            </div>
-            <div class="project-media" onclick="playInspector('videos/Testing1.mp4','Round System Logic')">
-              <video muted loop><source src="videos/Testing1.mp4" type="video/mp4"></video>
-              <div class="media-label">▶ System Logic</div><div class="media-hover-hint">Open viewer →</div>
-            </div>
-            <div class="project-media" onclick="openLightbox('videos/image.png','Environment Overview')">
-              <img src="videos/image.png" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-              <div class="media-label">🗺 Environment</div>
-            </div>
-            <div class="project-media" onclick="openLightbox('videos/image1.png','UI Architecture')">
-              <img src="videos/image1.png" onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-              <div class="media-label">🖥 Interface</div>
-            </div>
-            <div class="project-specs"><span class="spec-pill">Modular Luau</span><span class="spec-pill">Raycasting</span><span class="spec-pill">DataService</span></div>
+      <div class="title-bar"><span>ACTIVE_PROJECTS.DIR</span></div>
+      <div class="project-card">
+        <div class="project-header">
+          <span style="font-weight:bold; font-size:18px;">🌉 Build A Bridge</span>
+          <span class="project-tag wip" style="border:2px solid #000; padding:0 5px; font-size:12px;">PROTOTYPE</span>
+        </div>
+        <div class="project-body">
+          <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">
+            A sophisticated construction physics game. Players compete to build the most stable bridges while managing resources and real-time physics stressors.
+          </p>
+          <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')">
+            <video muted loop onmouseover="this.play()" onmouseout="this.pause()"><source src="videos/bridge_demo1.mp4"></video>
+            <div class="media-label">VIEW_GAMEPLAY</div>
+          </div>
+          <div class="project-media" onclick="playInspector('videos/Testing1.mp4','System Logic')">
+            <video muted loop onmouseover="this.play()" onmouseout="this.pause()"><source src="videos/Testing1.mp4"></video>
+            <div class="media-label">VIEW_LOGIC</div>
+          </div>
+          <div style="grid-column:span 2; display:flex; gap:5px;">
+            <span class="stat-chip" style="background:var(--win-blue); color:#000;">PHYSICS</span>
+            <span class="stat-chip" style="background:var(--win-purple); color:#fff;">TWEENING</span>
+            <span class="stat-chip" style="background:var(--win-orange); color:#000;">DATASTORE</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="window" id="win-feedback">
-      <div class="title-bar"><span>FEEDBACK_LOG.LOG</span></div>
+      <div class="title-bar"><span>COMMUNICATION_LINK.LOG</span></div>
       <div style="padding:15px;">
-        <div id="star-rating" style="font-size:28px;cursor:pointer;color:#ccc;margin-bottom:5px;">
+        <div id="star-rating" style="font-size:30px; cursor:pointer; color:#ccc; margin-bottom:8px;">
           <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
         </div>
-        <div id="preview-wrap" style="display:none;margin:5px 0;align-items:center;gap:7px;">
-          <img id="img-preview" style="width:48px;height:48px;border:2px solid #000;object-fit:cover;">
-          <button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">✕</button>
+        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; font-family:'Share Tech Mono'; font-size:12px; resize:none;" placeholder="Type your message to KCHOR..."></textarea>
+        
+        <div id="preview-wrap" style="display:none; margin:8px 0; align-items:center; gap:10px;">
+          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;">
+          <button class="btn-pixel" style="background:var(--win-red); padding:2px 8px;" onclick="removeImage()">REMOVE</button>
         </div>
-        <textarea id="rev-text" style="width:100%;height:52px;border:3px solid #000;margin:5px 0;padding:6px;font-family:'Share Tech Mono',monospace;font-size:11px;resize:none;" placeholder="System feedback..."></textarea>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ IMG</button>
+
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ ATTACH IMAGE</button>
           <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-          <button class="btn-pixel" onclick="submitReview()" style="background:var(--win-green);">▶ SEND</button>
+          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="submitReview()">▶ SEND_MESSAGE</button>
         </div>
-        <div id="review-list" style="margin-top:10px;"></div>
+        <div id="review-list" style="margin-top:15px; border-top:2px solid #000; padding-top:10px;"></div>
       </div>
     </div>
+
   </div>
 </div>
 
 <div id="taskbar">
-  <button class="btn-pixel" style="background:var(--win-red);">⊞ START</button>
-  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
-  <div id="taskbar-user" style="flex-grow:1;">User: Guest</div>
+  <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
+  <div style="width:2px; height:20px; background:#aaa;"></div>
+  <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px;">SYSTEM_OFFLINE</div>
   <div class="contact-strip">
-    <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹 Roblox</a>
-    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 Discord</a>
-    <button onclick="copyEmail()">📧 Email</button>
+    <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹️ ROBLOX</a>
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 DISCORD</a>
+    <button onclick="copyEmail()">📧 EMAIL</button>
   </div>
-  <div class="t-divider" style="width:1px;height:20px;background:#999;"></div>
-  <div id="clock">00:00</div>
+  <div style="width:2px; height:20px; background:#aaa;"></div>
+  <div id="clock" style="font-family:'Share Tech Mono'; font-size:13px;">00:00</div>
 </div>
 
 <script>
-// FULL SYSTEM DATABASE RESTORED & EXPANDED
+// --- SYSTEM DATABASE ---
 const systems = [
-  {name:"Round System",icon:"🔄",desc:"Advanced server-side game loop managing Intermission, Map Loading, Match Duration, and automated Player Respawn mechanics.",vid:"videos/Testing1.mp4",tags:["Server Logic","Loop"]},
-  {name:"Flower Gen",icon:"🌸",desc:"Dynamic procedural generation system that creates randomized flower sizes and types across the game world for natural variety.",vid:"",tags:["Procedural"]},
-  {name:"Weather System",icon:"🌦️",desc:"Atmospheric system that cycles through weather types, dynamically altering Lighting, Fog, and ColorCorrection via Luau.",vid:"",tags:["Atmosphere"]},
-  {name:"Title System",icon:"📜",desc:"Dynamic player labeling system where titles are unlocked via EXP milestones or specific gameplay achievements.",vid:"",tags:["Player Info"]},
-  {name:"EXP System",icon:"⭐",desc:"Granular experience gain framework connected to specific player actions, feeding directly into the Title and Leveling systems.",vid:"",tags:["Progression"]},
-  {name:"Backpack System",icon:"🎒",desc:"Custom inventory solution capable of storing world objects (like flowers/items) with data-persistent sorting.",vid:"",tags:["Inventory"]},
-  {name:"Upgrade System",icon:"🛠️",desc:"Scaling system designed to improve specific player stats or item capabilities using in-game resources.",vid:"",tags:["Scaling"]},
-  {name:"Announcements",icon:"📢",desc:"Global messaging framework inspired by 'Grow A Garden', allowing server-wide priority broadcasts to all players.",vid:"",tags:["Messaging"]},
-  {name:"Global Ban UI",icon:"🚫",desc:"Advanced Administrative Tool that bans players through a custom UI and integrates with the official Roblox Ban API list.",vid:"",tags:["Admin/API"]},
-  {name:"Bridge System",icon:"🌉",desc:"Sophisticated construction mechanic featuring building effects and flying parts that procedurally assemble onto the bridge.",vid:"videos/bridge_demo1.mp4",tags:["Physics/Tween"]},
-  {name:"Power System",icon:"⚡",desc:"Modular skill framework allowing players to equip/unequip specific powers with clean cooldown and activation logic.",vid:"",tags:["Skillset"]},
-  {name:"Generator System",icon:"⚙️",desc:"Maintainable world object requiring repair and fuel management to power dependent game systems.",vid:"",tags:["Mechanic"]},
-  {name:"Combat System",icon:"⚔️",desc:"Precision combat framework supporting M1 combos, damage registration, and hit-detection feedback.",vid:"",tags:["Combat"]},
-  {name:"Shop System",icon:"💰",desc:"Currency-based marketplace integrated with DataStore for secure purchasing and item ownership tracking.",vid:"",tags:["Economy"]},
-  {name:"Killer/Captain",icon:"🎭",desc:"Role selection system that weights player probability of becoming the Killer or Captain based on playtime and selection preferences.",vid:"",tags:["Roleplay"]},
-  {name:"Data Saving",icon:"💾",desc:"Robust persistence layer utilizing ProfileService/DataStore2 to ensure player stats and inventories save without loss.",vid:"",tags:["Backend"]},
-  {name:"Movement Pro",icon:"🏃",desc:"Advanced character controller adding Crouch, Vault, and Sliding mechanics to standard Roblox movement.",vid:"",tags:["Movement"]},
-  {name:"Weapon Choose",icon:"🔫",desc:"Integrated UI interface allowing players to select and swap weapons directly from their tactical backpack.",vid:"",tags:["GUI/Inv"]},
-  {name:"NPC Behavior",icon:"🤖",desc:"AI Intelligence system including state-machine logic for NPCs to react to danger (running) or interact with the environment.",vid:"",tags:["AI/FSM"]}
+  {name:"Round System",icon:"🔄",desc:"A robust server-authoritative loop managing intermissions, map cycling, player teleportation, and persistent round-state respawn mechanics.",tags:["Server-Side","Loop"]},
+  {name:"Flower Gen",icon:"🌸",desc:"Advanced procedural generation algorithm creating natural variety in flower sizes, offsets, and rarities throughout the environment.",tags:["Math","Procedural"]},
+  {name:"Weather System",icon:"🌦️",desc:"Global atmospheric controller that manipulates Lighting, Fog, and Atmosphere objects using Luau for immersive environmental transitions.",tags:["Lighting","Tween"]},
+  {name:"Title System",icon:"📜",desc:"Dynamic player overhead and UI labeling system. Titles unlock automatically based on experience milestones and achievement flags.",tags:["UI","Progression"]},
+  {name:"EXP System",icon:"⭐",desc:"Granular experience framework that rewards specific player actions. Designed with debounce protection to prevent exploit-based leveling.",tags:["Data","Security"]},
+  {name:"Backpack System",icon:"🎒",desc:"A custom object-oriented inventory. Supports 3D item world-dropping, stacking, and persistent state saving through DataStores.",tags:["Inventory","OOP"]},
+  {name:"Upgrade System",icon:"🛠️",desc:"Scaling modifier system that improves character attributes or tool efficiency. Features mathematical curves for balanced progression.",tags:["Balancing"]},
+  {name:"Global Alerts",icon:"📢",desc:"Priority broadcast system inspired by 'Grow A Garden'. Allows real-time administrative messaging to all active game servers.",tags:["Messaging","API"]},
+  {name:"Global Ban UI",icon:"🚫",desc:"Administrative dashboard integrated with Roblox's official Ban API. Allows permanent removals with logged reason tracking.",tags:["Admin","API"]},
+  {name:"Bridge System",icon:"🌉",desc:"Sophisticated construction mechanic where parts fly into place with tweening effects, building complex structures dynamically.",tags:["Tweening","Physics"]},
+  {name:"Power System",icon:"⚡",desc:"Skill management framework. Players can equip/unequip specific abilities with clean cooldown management and visual indicators.",tags:["Skills"]},
+  {name:"Gen System",icon:"⚙️",desc:"Repairable world object logic. Requires player maintenance and fuel to keep global game power active, driving teamwork.",tags:["Mechanic"]},
+  {name:"Combat System",icon:"⚔️",desc:"M1-based melee framework. Features raycast hit detection, knockback, and frame-accurate damage registration.",tags:["Combat","Raycast"]},
+  {name:"Shop System",icon:"💰",desc:"Full marketplace solution. Securely processes transactions via DataStore with checks to prevent currency loss during server shifts.",tags:["Economy"]},
+  {name:"Killer System",icon:"🎭",desc:"Probability-based role selection system. Factors in player history and 'pity' mechanics to choose Killers or Captains.",tags:["Probability"]},
+  {name:"Data Saving",icon:"💾",desc:"Ultra-secure persistence layer utilizing ProfileService logic. Features session-locking to prevent item duplication/loss.",tags:["Backend"]},
+  {name:"Movement Pro",icon:"🏃",desc:"Enhanced character controller supporting custom Crouch, Vaulting, and Sliding logic via client-side raycasting.",tags:["Movement"]},
+  {name:"Weapon UI",icon:"🔫",desc:"Integrated tactical backpack interface. Players can swap weapons and modify loadouts in real-time through a clean GUI.",tags:["GUI"]},
+  {name:"NPC AI",icon:"🤖",desc:"State-machine based NPC logic. Actors react to environmental threats, flee from danger, and interact with player objects.",tags:["AI","Behavior"]}
 ];
 
 const skills = [
-  {name:"Luau Programming",pct:85,color:"var(--win-blue)"},
-  {name:"Backend Logic",pct:82,color:"var(--win-purple)"},
-  {name:"GUI Design",pct:70,color:"var(--win-yellow)"},
-  {name:"Data Persistence",pct:75,color:"var(--win-pink)"}
+  {name:"Advanced Luau",pct:95,color:"var(--win-blue)"},
+  {name:"Game Architecture",pct:90,color:"var(--win-purple)"},
+  {name:"Data Persistence",pct:85,color:"var(--win-pink)"},
+  {name:"UI/UX Implementation",pct:80,color:"var(--win-yellow)"}
 ];
 
 let currentUser="Guest", currentRating=0, currentImageData="";
 
-(function(){
+// --- CORE FUNCTIONS ---
+(function boot(){
   const el = document.getElementById('boot-log');
-  ["KCHOR_OS v2.1 booting...", "Mounting modular_systems ...", "Loading portfolio_data ...", "Ready."].forEach((l,i)=>{
-    setTimeout(()=>{
-      const d = document.createElement('div'); d.innerText="> "+l; el.appendChild(d);
-    }, i*300);
+  const logs = ["KCHOR_OS v2.1 booting...", "Mounting modular_systems...", "Connecting to DataStore...", "Interface initialized."];
+  logs.forEach((msg, i) => {
+    setTimeout(() => {
+      const d = document.createElement('div'); d.innerText = "> " + msg; el.appendChild(d);
+    }, i * 400);
   });
 })();
 
 function login(){
   const val = document.getElementById('username-input').value;
   currentUser = val || "Guest_" + Math.floor(Math.random()*999);
-  document.getElementById('taskbar-user').innerText = "User: " + currentUser;
+  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display='none';
   document.getElementById('main-ui').style.display='block';
   document.getElementById('sidebar').style.display='flex';
   buildSkills(); buildSysGrid(); loadReviews();
-  log("User " + currentUser + " connected.");
+  log("Session started for " + currentUser);
 }
 
-function randomizeName(){ document.getElementById('username-input').value = "Dev" + Math.floor(Math.random()*999); }
+function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
   const g=document.getElementById('skills-grid');
   g.innerHTML = skills.map(s=>`
-    <div class="skill-bar-wrap">
-      <div class="skill-label"><span>${s.name}</span><span>${s.pct}%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%;background:${s.color}"></div></div>
+    <div>
+      <div style="display:flex; justify-content:space-between; font-size:14px;"><span>${s.name}</span><span>${s.pct}%</span></div>
+      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%; background:${s.color}"></div></div>
     </div>
   `).join('');
 }
@@ -382,41 +390,52 @@ function buildSysGrid(){
   systems.forEach(s=>{
     const div=document.createElement('div');
     div.className='sys-item';
-    div.innerHTML=`<div style="font-size:20px;">${s.icon}</div><strong>${s.name}</strong>`;
+    div.innerHTML=`<div style="font-size:22px;">${s.icon}</div><strong>${s.name}</strong>`;
     div.onclick=()=>openDrawer(s);
     grid.appendChild(div);
   });
 }
 
 function openDrawer(s){
-  document.getElementById('inspector-drawer').classList.add('open');
-  document.getElementById('det-title').innerText = s.name;
-  document.getElementById('det-desc').innerText = s.desc;
-  document.getElementById('det-tags').innerHTML = (s.tags || []).map(t=>`<span class="spec-pill">${t}</span>`).join('');
+  const drawer = document.getElementById('inspector-drawer');
+  drawer.classList.add('open');
   
+  const content = document.getElementById('det-content-scroll');
+  content.style.opacity = 0;
+  
+  setTimeout(() => {
+    document.getElementById('det-title').innerText = s.name;
+    document.getElementById('det-desc').innerText = s.desc;
+    document.getElementById('det-tags').innerHTML = (s.tags || []).map(t => 
+      `<span class="stat-chip" style="background:var(--win-yellow); color:#000;">${t}</span>`
+    ).join('');
+    content.style.transition = "opacity 0.4s";
+    content.style.opacity = 1;
+  }, 150);
+
   const v = document.getElementById('main-player');
   const ns = document.getElementById('no-signal');
-  if(s.vid){
-    v.src=s.vid; v.style.display='block'; ns.style.display='none'; v.play().catch(()=>{});
+  if(s.vid) {
+    v.src = s.vid; v.style.display = 'block'; ns.style.display = 'none'; v.play().catch(()=>{});
   } else {
-    v.style.display='none'; ns.style.display='flex';
+    v.style.display = 'none'; ns.style.display = 'flex';
   }
-  log("Inspecting system: " + s.name);
+  log("Inspecting: " + s.name);
 }
 
 function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
 
 function playInspector(vid, title) {
-  openDrawer({ name: title, desc: "System Visual Preview", vid: vid, tags: ["Demo"] });
+  openDrawer({ name: title, desc: "Visual data feed from project archives.", vid: vid, tags: ["Visual","Feed"] });
 }
 
-// FEEDBACK LOGIC
+// --- FEEDBACK & UTILS ---
 document.querySelectorAll('#star-rating span').forEach(s=>{
   s.onclick=()=>{
     currentRating = s.dataset.value;
     document.querySelectorAll('#star-rating span').forEach(star=>{
       star.innerText = star.dataset.value <= currentRating ? '★' : '☆';
-      star.style.color = star.dataset.value <= currentRating ? 'var(--win-yellow)' : '#ccc';
+      star.style.color = star.dataset.value <= currentRating ? 'var(--win-orange)' : '#ccc';
     });
   };
 });
@@ -432,48 +451,49 @@ function handleImage(input){
     reader.readAsDataURL(input.files[0]);
   }
 }
+
 function removeImage(){ currentImageData=""; document.getElementById('preview-wrap').style.display='none'; }
 
 function submitReview(){
   const text = document.getElementById('rev-text').value.trim();
-  if(!text || currentRating == 0) return alert("Please provide a rating and a note.");
+  if(!text || currentRating == 0) return alert("System requires rating and message.");
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
   reviews.push({ user: currentUser, rate: currentRating, msg: text, img: currentImageData });
   localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
   document.getElementById('rev-text').value = "";
-  removeImage(); loadReviews(); log("Feedback log updated.");
+  removeImage(); loadReviews(); log("Feedback log written.");
 }
 
 function loadReviews(){
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
   const list = document.getElementById('review-list');
   list.innerHTML = reviews.reverse().map(r => `
-    <div style="border-bottom:1px solid #ddd; padding:8px 0;">
-      <b>${r.user}</b> <span style="color:var(--win-orange)">★${r.rate}</span>
-      <p style="font-family:'Share Tech Mono',monospace; font-size:11px;">${r.msg}</p>
-      ${r.img ? `<img src="${r.img}" style="max-width:80px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'Feedback Attachment')">` : ''}
+    <div style="border-bottom:1px solid #ddd; padding:10px 0;">
+      <div style="display:flex; justify-content:space-between;"><b>${r.user}</b> <span style="color:var(--win-orange)">★${r.rate}</span></div>
+      <p style="font-family:'Share Tech Mono'; font-size:11px; color:#444;">${r.msg}</p>
+      ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'User Attachment')">` : ''}
     </div>
   `).join('');
 }
 
 function copyEmail(){
   navigator.clipboard.writeText("mandzkie65@gmail.com");
-  const toast = document.getElementById('email-toast');
-  toast.style.display = 'block';
-  setTimeout(()=>toast.style.display='none', 2000);
+  const t = document.getElementById('email-toast');
+  t.style.display = 'block';
+  setTimeout(()=>t.style.display='none', 2000);
 }
 
 function toggleLog(){
-  const log = document.getElementById('activity-log');
-  const arrow = document.getElementById('log-arrow');
-  log.classList.toggle('open');
-  arrow.innerText = log.classList.contains('open') ? '▼' : '▲';
+  const l = document.getElementById('activity-log');
+  const a = document.getElementById('log-arrow');
+  l.classList.toggle('open');
+  a.innerText = l.classList.contains('open') ? '▼' : '▲';
 }
 
 function log(msg){
   const el = document.getElementById('activity-log');
   const d = document.createElement('div');
-  d.innerText = "> " + msg;
+  d.innerText = "> [" + new Date().toLocaleTimeString() + "] " + msg;
   el.appendChild(d);
   el.scrollTop = el.scrollHeight;
 }
