@@ -1071,11 +1071,7 @@ function login(){
 
   document.querySelector('.boot-log').style.display = 'none';
 
-  // Start music immediately and show intro, then reveal theme picker
-  startMusic();
-  runIntro(() => {
-    document.getElementById('theme-screen').style.display = 'flex';
-  });
+  document.getElementById('theme-screen').style.display = 'flex';
 
 }
 
@@ -1129,25 +1125,38 @@ function applyTheme(){
 
   }
 
-  
-
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
 
   document.getElementById('boot-screen').style.display = 'none';
 
-  document.getElementById('main-ui').style.display = 'block';
+  // Start music immediately then run themed intro
+  startMusic();
 
-  document.getElementById('sidebar').style.display = 'flex';
+  runIntro(() => {
+    // Fade the main UI in after intro
+    const ui = document.getElementById('main-ui');
+    const sb = document.getElementById('sidebar');
+    ui.style.opacity = '0';
+    ui.style.transition = 'opacity 1.2s ease';
+    ui.style.display = 'block';
+    sb.style.opacity = '0';
+    sb.style.transition = 'opacity 1.2s ease';
+    sb.style.display = 'flex';
 
-  buildSkills();
+    buildSkills();
+    buildSysGrid();
+    loadReviews();
 
-  buildSysGrid();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ui.style.opacity = '1';
+        sb.style.opacity = '1';
+      });
+    });
 
-  loadReviews();
-
-  setTimeout(() => sfx.boot(), 80);
-
-  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+    setTimeout(() => sfx.boot(), 400);
+    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  });
 
 }
 
@@ -1356,9 +1365,20 @@ const introLines = [
 function runIntro(onDone) {
   const screen = document.getElementById('intro-screen');
   const text   = document.getElementById('intro-text');
+  const line   = screen.querySelector('div');
+
+  // Apply theme colors to intro screen
+  if (selectedTheme === 'dark') {
+    screen.style.background = '#0d0d1a';
+    text.style.color = '#c9e8ff';
+    if (line) line.style.background = '#445';
+  } else {
+    screen.style.background = '#fff8e7';
+    text.style.color = '#3a2a0a';
+    if (line) line.style.background = '#c8a96a';
+  }
 
   screen.style.display = 'flex';
-  // Fade screen in
   requestAnimationFrame(() => {
     requestAnimationFrame(() => { screen.style.opacity = '1'; });
   });
@@ -1366,7 +1386,6 @@ function runIntro(onDone) {
   let i = 0;
   function showLine() {
     if (i >= introLines.length) {
-      // Fade whole screen out then launch OS
       screen.style.opacity = '0';
       setTimeout(() => {
         screen.style.display = 'none';
@@ -1379,7 +1398,6 @@ function runIntro(onDone) {
       text.innerText = introLines[i];
       text.style.opacity = '1';
       i++;
-      // Hold for reading, then fade out and show next
       setTimeout(() => {
         text.style.opacity = '0';
         setTimeout(showLine, 1000);
@@ -1387,7 +1405,6 @@ function runIntro(onDone) {
     }, 200);
   }
 
-  // Small delay so the screen fade-in lands first
   setTimeout(showLine, 600);
 }
 
