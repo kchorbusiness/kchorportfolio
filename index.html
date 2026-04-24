@@ -427,6 +427,7 @@ function pickTheme(mode) {
     light.style.outline = 'none'; light.style.boxShadow = '5px 5px 0 #000';
   }
 }
+
 function applyTheme(){
   if(selectedTheme === 'dark') {
     document.body.classList.add('dark-mode');
@@ -447,7 +448,7 @@ function applyTheme(){
 
   log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
-  
+
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
@@ -473,7 +474,7 @@ function openDrawer(s){
   document.getElementById('det-desc').innerText = s.desc;
   document.getElementById('det-tags').innerHTML = (s.tags || []).map(t => `<span class="stat-chip" style="background:var(--win-yellow); color:#000;">${t}</span>`).join('');
   const v = document.getElementById('main-player');
-  if(s.vid) { v.src = s.vid; v.style.display = 'block'; v.play().catch(()=>{}); } 
+  if(s.vid) { v.src = s.vid; v.style.display = 'block'; v.play().catch(()=>{}); }
   else { v.style.display = 'none'; }
 }
 
@@ -509,11 +510,11 @@ function submitReview(){
 }
 
 function deleteReview(id) {
-    if(currentUser !== "KCHOR_ADMIN") return;
-    let reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
-    reviews = reviews.filter(r => r.id !== id);
-    localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
-    loadReviews();
+  if(currentUser !== "KCHOR_ADMIN") return;
+  let reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
+  reviews = reviews.filter(r => r.id !== id);
+  localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
+  loadReviews();
 }
 
 function loadReviews(){
