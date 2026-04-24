@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KCHOR.EXE | OS v2.2 Professional</title>
+<title>KCHOR.EXE | OS v2.1 Professional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -22,6 +22,23 @@
   --col-width: 680px;
 }
 
+/* --- ORIGINAL ANIMATIONS --- */
+.boot-note {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid #0f0;
+  padding: 10px 14px;
+  width: 400px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #0f0;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,255,0,0.2);
+  animation: flicker 2s infinite alternate;
+}
+@keyframes flicker { 0% { opacity: 0.75; } 100% { opacity: 1; } }
+@keyframes blink { 50%{opacity:0} }
+
 /* --- GLOBAL PIXEL ENFORCEMENT --- */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'VT323', monospace; }
 input, textarea, button, select { font-family: 'VT323', monospace !important; }
@@ -34,28 +51,25 @@ body {
   overflow: hidden;
 }
 
-/* --- OVERLAYS --- */
+/* --- OVERLAY COMPONENTS --- */
 #lightbox { position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10000;cursor:zoom-out;flex-direction:column;gap:10px; }
 #lightbox img { max-width:88%;max-height:85%;border:4px solid #fff; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
 #email-toast { position:fixed;bottom:48px;right:12px;background:#000;color:#fff;padding:8px 15px;font-family:'Share Tech Mono',monospace;font-size:11px;display:none;z-index:300; border:2px solid var(--win-blue); }
 
 /* --- BOOT SCREEN --- */
-#boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; padding: 20px; }
-.boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:100%;max-width:400px;height:72px;overflow:hidden;opacity:0.75; }
-.login-box { background:var(--win-gray);border:4px solid #000;padding:24px;width:100%;max-width:400px;box-shadow:12px 12px 0 #000; }
+#boot-screen { position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px; }
+.boot-log { color:#0f0;font-family:'Share Tech Mono',monospace;font-size:12px;width:400px;height:72px;overflow:hidden;opacity:0.75; }
+.login-box { background:var(--win-gray);border:4px solid #000;padding:24px;width:400px;box-shadow:12px 12px 0 #000; }
 .blink { animation:blink 1s step-end infinite; }
-@keyframes blink { 50%{opacity:0} }
 
 /* --- SIDEBAR --- */
 #sidebar {
-  position: fixed; left: 10px; top: 50%;
+  position: fixed; left: calc(50% - var(--col-width)/2 - 54px); top: 50%;
   transform: translateY(-50%); z-index: 200; display: none;
-  flex-direction: column; gap: 8px; align-items: center;
+  flex-direction: column; gap: 6px; align-items: center;
   padding: 10px 6px; background: rgba(255,255,255,0.7);
-  border: 3px solid #000; box-shadow: 4px 4px 0 #000; backdrop-filter: blur(5px);
+  border: 3px solid #000; box-shadow: 5px 5px 0 #000; backdrop-filter: blur(5px);
 }
-@media (min-width: 900px) { #sidebar { left: calc(50% - var(--col-width)/2 - 65px); } }
-
 .icon { position:relative;cursor:pointer; }
 .icon-graphic {
   width:36px;height:36px; border:2px solid #000; background:#fff;
@@ -63,26 +77,32 @@ body {
   font-size:18px; transition:0.1s;
 }
 .icon-graphic:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 #000; }
+.icon-tip {
+  position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
+  background:#000;color:#fff;font-size:12px;padding:3px 8px;
+  white-space:nowrap;pointer-events:none;opacity:0;transition:0.2s;z-index:300;
+}
+.icon:hover .icon-tip { opacity:1; }
 
 /* --- MAIN WINDOWS --- */
 #main-ui { display:none;height:calc(100vh - 40px);overflow:hidden; }
-.workspace { height:100%; overflow-y:auto; padding:20px 10px 80px; display:flex; flex-direction:column; align-items:center; gap:25px; }
-.window { width:100%; max-width:var(--col-width); background:#fff; border:var(--border-thick) solid #000; box-shadow:var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink:0; }
+.workspace { height:100%; overflow-y:auto; padding:20px 0 100px; display:flex; flex-direction:column; align-items:center; gap:20px; }
+.window { width:var(--col-width); background:#fff; border:var(--border-thick) solid #000; box-shadow:var(--shadow-block) var(--shadow-block) 0 #000; flex-shrink:0; }
 .title-bar { padding:6px 12px; border-bottom:var(--border-thick) solid #000; display:flex; justify-content:space-between; align-items:center; font-weight:bold; font-size:18px; background:var(--win-chrome); }
-.window.accented > .title-bar { background:var(--win-blue); }
+.window.accented > .title-bar { background:var(--win-blue); color:#000; }
 
 /* --- PROFILE & SKILLS --- */
 .profile-body { display:flex;gap:15px;padding:15px; flex-wrap:wrap; }
 .profile-avatar { width:70px;height:70px;border:3px solid #000;background:var(--win-blue);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:4px 4px 0 #000; }
 .profile-info h1 { font-size:45px; line-height:0.8; }
 .status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 10px;font-size:14px;margin-top:8px; }
-.stat-chip { background:#000;color:#fff;padding:2px 8px;font-size:13px; margin: 2px; display:inline-block;}
-.skills-grid { display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;padding:15px; }
+.stat-chip { background:#000;color:#fff;padding:2px 8px;font-size:13px; }
+.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px; }
 .skill-bar { height:16px; border:2px solid #000; background:#eee; margin-top:4px; }
 .skill-fill { height:100%; transition:1.5s cubic-bezier(.4,0,.2,1); }
 
 /* --- SYSTEM GRID --- */
-.system-grid { display:grid;grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));gap:8px; padding:12px; background:#f0f0f0; }
+.system-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; padding:12px; background:#f0f0f0; }
 .sys-item { 
   border:2px solid #000; padding:10px; text-align:center; background:#fff; 
   cursor:pointer; font-size:14px; transition:0.1s; display:flex; flex-direction:column; align-items:center; gap:5px;
@@ -93,27 +113,44 @@ body {
 .project-card { border:2px solid #000; background:#fff; box-shadow:5px 5px 0 #000; margin:12px; overflow:hidden; }
 .project-header { padding:8px 12px; border-bottom:2px solid #000; display:flex; justify-content:space-between; background:#f5f0e8; }
 .project-body { padding:15px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
-@media (max-width: 500px) { .project-body { grid-template-columns: 1fr; } }
 .project-media { border:2px solid #000; overflow:hidden; cursor:pointer; position:relative; background:#111; height:115px; }
 .project-media video, .project-media img { width:100%; height:100%; object-fit:cover; display: block; }
 .media-label { position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.8); color:#fff; font-size:10px; padding:3px 8px; font-family:'Share Tech Mono'; }
 
 /* --- CYBER INSPECTOR --- */
 #inspector-drawer {
-  position: fixed; top: 0; right: 0;
-  width: 100%; max-width: 400px; height: 100vh;
-  background: #fff; border-left: 4px solid #000;
-  transform: translateX(110%); transition: transform 0.4s ease;
-  z-index: 500; display: flex; flex-direction: column;
+  position: fixed; top: 10px; right: 10px;
+  width: 400px; height: calc(100vh - 60px);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  border: 4px solid #000;
+  box-shadow: -10px 10px 0 rgba(0,0,0,0.15);
+  transform: translateX(120%);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  z-index: 500; display: flex; flex-direction: column; overflow: hidden;
 }
 #inspector-drawer.open { transform: translateX(0); }
-#drawer-titlebar { background: #000; color: #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+#drawer-titlebar { background: #000; color: #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; }
+#drawer-close { background:var(--win-red); border:2px solid #fff; color:#fff; width:24px; height:24px; cursor:pointer; }
+
+#player-wrap { 
+  position: relative; background: #000; margin: 15px; 
+  border: 3px solid #000; box-shadow: 5px 5px 0 var(--win-blue);
+  aspect-ratio: 16/9; overflow: hidden;
+}
+#player-wrap::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+  background-size: 100% 4px; z-index: 2; pointer-events: none;
+}
+#main-player { width:100%; height:100%; display:none; position:relative; z-index:1; }
+#no-signal { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0a0a0a; color:#444; }
 
 /* --- TASKBAR --- */
 #taskbar {
   position:fixed;bottom:0;width:100%;height:40px;
   background:var(--win-gray);border-top:3px solid #000;
-  display:flex;align-items:center;padding:0 10px;z-index:1000;gap:8px;
+  display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px;
 }
 .btn-pixel { border:2px solid #000; padding:4px 10px; background:#fff; cursor:pointer; box-shadow:2px 2px 0 #000; }
 .btn-pixel:active { box-shadow:0 0 0 #000; transform:translate(2px,2px); }
@@ -125,64 +162,64 @@ body {
 <body>
 
 <div id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src=""><div id="lightbox-caption" style="color:#fff;"></div>
+  <img id="lightbox-img" src=""><div id="lightbox-caption" style="color:#fff; font-family:'Share Tech Mono'"></div>
 </div>
-
 <div id="email-toast">✓ mandzkie65@gmail.com copied!</div>
 
 <div id="boot-screen">
   <div class="boot-log" id="boot-log"></div>
   <div class="login-box">
-    <h2 style="font-size:32px;">KCHOR_OS v2.2 <span class="blink">_</span></h2>
-    <p style="font-size:12px; color:#555;">&gt; ACCESS CONTROL PROTOCOL</p>
+    <h2 style="font-size:32px;">KCHOR_OS v2.1 <span class="blink">_</span></h2>
+    <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
     <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-size:20px;margin:15px 0;" placeholder="Enter name...">
     <div style="display:flex;gap:10px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
       <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
     </div>
   </div>
+  <div class="boot-note">
+    <p>⚡ PRESS F11 FOR FULL EXPERIENCE</p>
+    <p>🎁 FIRST 5 ORDERS WILL GET DISCOUNTED AS A TOKEN OF APPRECIATION</p>
+  </div>
 </div>
 
 <div id="sidebar">
-  <div class="icon" onclick="jumpTo('win-profile')"><div class="icon-graphic" style="background:var(--win-pink)">👤</div></div>
-  <div class="icon" onclick="jumpTo('win-skills')"><div class="icon-graphic" style="background:var(--win-purple)">📊</div></div>
-  <div class="icon" onclick="jumpTo('win-sysdir')"><div class="icon-graphic" style="background:var(--win-yellow)">💾</div></div>
-  <div class="icon" onclick="jumpTo('win-portfolio')"><div class="icon-graphic" style="background:var(--win-orange)">📁</div></div>
-  <div class="icon" onclick="jumpTo('win-feedback')"><div class="icon-graphic" style="background:var(--win-green)">📝</div></div>
+  <div class="icon" onclick="jumpTo('win-profile')"><div class="icon-graphic" style="background:var(--win-pink)">👤</div><span class="icon-tip">PROFILE</span></div>
+  <div class="icon" onclick="jumpTo('win-skills')"><div class="icon-graphic" style="background:var(--win-purple)">📊</div><span class="icon-tip">SKILLS</span></div>
+  <div class="icon" onclick="jumpTo('win-sysdir')"><div class="icon-graphic" style="background:var(--win-yellow)">💾</div><span class="icon-tip">SYSTEMS</span></div>
+  <div class="icon" onclick="jumpTo('win-portfolio')"><div class="icon-graphic" style="background:var(--win-orange)">📁</div><span class="icon-tip">PROJECTS</span></div>
+  <div class="icon" onclick="jumpTo('win-feedback')"><div class="icon-graphic" style="background:var(--win-green)">📝</div><span class="icon-tip">FEEDBACK</span></div>
+  <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span class="icon-tip">REBOOT</span></div>
 </div>
 
 <div id="inspector-drawer">
-  <div id="drawer-titlebar">
-    <span>SYSTEM_INSPECTOR</span>
-    <button onclick="closeDrawer()" style="background:var(--win-red); border:2px solid #fff; color:#fff; width:24px; cursor:pointer;">✕</button>
+  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()">✕</button></div>
+  <div id="player-wrap">
+    <video id="main-player" controls autoplay muted loop></video>
+    <div id="no-signal"><div style="font-size:30px;">📡</div><p style="font-family:'Share Tech Mono'; font-size:11px;">FEED_UNAVAILABLE</p></div>
   </div>
-  <div id="player-wrap" style="background:#000; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;">
-    <video id="main-player" controls autoplay muted loop style="width:100%; display:none;"></video>
-    <div id="no-signal" style="color:#555;">[ NO_SIGNAL ]</div>
+  <div id="det-content-scroll" style="padding: 0 20px 20px; flex: 1; overflow-y: auto;">
+    <div style="font-family: 'Share Tech Mono'; font-size: 11px; color: #888; text-transform: uppercase; margin-top: 15px;">Active Module</div>
+    <h2 id="det-title">SYSTEM</h2>
+    <div id="det-desc" style="font-family: 'Share Tech Mono'; font-size: 13px; line-height: 1.6; color: #333; margin-top: 10px; background: #fdfdfd; padding: 12px; border-left: 5px solid #000;">Initialize a system to view documentation.</div>
+    <div id="det-tags" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;"></div>
   </div>
-  <div id="det-content-scroll" style="padding:20px; overflow-y:auto; flex:1;">
-    <h2 id="det-title">MODULE</h2>
-    <div id="det-desc" style="margin:10px 0; border-left:4px solid #000; padding-left:10px; font-family:'Share Tech Mono'; font-size:13px;"></div>
-    <div id="det-tags"></div>
+  <div id="log-section">
+    <div id="log-toggle" onclick="toggleLog()" style="background:#000; color:#0f0; padding:8px 15px; font-family:'Share Tech Mono'; font-size:11px; cursor:pointer; display:flex; justify-content:space-between;">
+      <span>TERMINAL_OUTPUT</span><span id="log-arrow">▲</span>
+    </div>
+    <div id="activity-log"></div>
   </div>
-  <div id="activity-log"></div>
 </div>
 
 <div id="main-ui">
   <div class="workspace">
-    
     <div class="window accented" id="win-profile">
       <div class="title-bar"><span>USER_IDENTITY.INF</span></div>
       <div class="profile-body">
         <div class="profile-avatar">K</div>
-        <div class="profile-info">
-          <h1>KCHOR</h1>
-          <p style="font-family:'Share Tech Mono'; font-size:12px;">Systems Architect & Backend Lead</p>
-          <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
-        </div>
-        <p style="width:100%; font-family:'Share Tech Mono'; font-size:13px; margin-top:10px;">
-          Advanced Roblox developer focusing on high-performance backends and modular design.
-        </p>
+        <div class="profile-info"><h1>KCHOR</h1><p style="font-family:'Share Tech Mono'; font-size:12px;">Systems Architect & Backend Lead</p><span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span></div>
+        <p style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Expert in building high-performance Roblox systems. Specializing in optimized, modular code structures.</p>
       </div>
     </div>
 
@@ -193,25 +230,19 @@ body {
 
     <div class="window" id="win-sysdir">
       <div class="title-bar"><span>MODULAR_SYSTEMS_LIBRARY</span></div>
-      <div style="padding:15px;">
-        <div class="system-grid" id="sysGrid"></div>
-      </div>
+      <div style="padding:15px;"><div class="system-grid" id="sysGrid"></div></div>
     </div>
 
     <div class="window" id="win-portfolio">
       <div class="title-bar"><span>ACTIVE_PROJECTS.DIR</span></div>
       <div class="project-card">
-        <div class="project-header"><span>🌉 Build A Bridge</span><span class="stat-chip" style="background:var(--win-orange)">WIP</span></div>
+        <div class="project-header"><span style="font-weight:bold; font-size:18px;">🌉 Build A Bridge</span><span class="stat-chip" style="background:var(--win-orange);">PROTOTYPE</span></div>
         <div class="project-body">
-          <p style="grid-column:1/-1;">Physics-based construction engine.</p>
-          <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')">
-            <video muted loop><source src="videos/bridge_demo1.mp4"></video>
-            <div class="media-label">DEMO_01.MP4</div>
-          </div>
-          <div class="project-media" onclick="playInspector('videos/Testing1.mp4','Bridge Logic')">
-            <video muted loop><source src="videos/Testing1.mp4"></video>
-            <div class="media-label">LOGIC_TEST.MP4</div>
-          </div>
+          <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">Sophisticated construction physics engine.</p>
+          <div class="project-media" onclick="openLightbox('videos/image.png', 'Environment Architecture')"><img src="videos/image.png"><div class="media-label">MAP_PREVIEW.PNG</div></div>
+          <div class="project-media" onclick="openLightbox('videos/image1.png', 'Modular System UI')"><img src="videos/image1.png"><div class="media-label">INTERFACE_DESIGN.PNG</div></div>
+          <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')"><video muted loop><source src="videos/bridge_demo1.mp4"></video><div class="media-label">VIEW_GAMEPLAY.MP4</div></div>
+          <div class="project-media" onclick="playInspector('videos/Testing1.mp4','System Logic')"><video muted loop><source src="videos/Testing1.mp4"></video><div class="media-label">VIEW_LOGIC.MP4</div></div>
         </div>
       </div>
     </div>
@@ -219,94 +250,97 @@ body {
     <div class="window" id="win-feedback">
       <div class="title-bar"><span>COMMUNICATION_LINK.LOG</span></div>
       <div style="padding:15px;">
-        <div id="star-rating" style="font-size:30px; cursor:pointer; color:#ccc; margin-bottom:10px;">
+        <div id="star-rating" style="font-size:30px; cursor:pointer; color:#ccc; margin-bottom:8px;">
           <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
         </div>
-        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; resize:none;" placeholder="Type your message..."></textarea>
-        
-        <div id="preview-wrap" style="display:none; margin:10px 0; align-items:center; gap:10px;">
-          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;">
-          <button class="btn-pixel" style="background:var(--win-red)" onclick="removeImage()">REMOVE</button>
+        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; font-size:14px; resize:none;" placeholder="Type your message to KCHOR..."></textarea>
+        <div id="preview-wrap" style="display:none; margin:8px 0; align-items:center; gap:10px;">
+          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;"><button class="btn-pixel" style="background:var(--win-red); padding:2px 8px;" onclick="removeImage()">REMOVE</button>
         </div>
-
         <div style="display:flex; gap:8px; margin-top:10px;">
-          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ IMAGE</button>
+          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ ATTACH IMAGE</button>
           <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
-          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="submitReview()">▶ SEND</button>
+          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="submitReview()">▶ SEND_MESSAGE</button>
         </div>
-        <div id="review-list" style="margin-top:20px; border-top:2px solid #000; padding-top:10px;"></div>
+        <div id="review-list" style="margin-top:15px; border-top:2px solid #000; padding-top:10px;"></div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div id="taskbar">
   <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
-  <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px; padding-left:10px;">OFFLINE</div>
-  <div class="contact-strip" style="display:flex; gap:12px; font-size:12px;">
-    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="color:#000; text-decoration:none;">DISCORD</a>
-    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer; font-weight:bold;">EMAIL</button>
+  <div style="width:2px; height:20px; background:#aaa;"></div>
+  <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px;">SYSTEM_OFFLINE</div>
+  <div class="contact-strip" style="display:flex; gap:10px;">
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;">💬 DISCORD</a>
+    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer;">📧 EMAIL</button>
   </div>
-  <div id="clock" style="font-family:'Share Tech Mono'; padding-left:10px;">00:00</div>
+  <div style="width:2px; height:20px; background:#aaa;"></div>
+  <div id="clock" style="font-family:'Share Tech Mono'; font-size:13px;">00:00</div>
 </div>
 
 <script>
 const systems = [
-  {name:"Round System",icon:"🔄",desc:"Server-authoritative loop managing map cycling and player state.",tags:["Server","Loop"]},
-  {name:"Data Saving",icon:"💾",desc:"Ultra-secure persistence layer using ProfileService logic.",tags:["Backend","Security"]},
-  {name:"Combat System",icon:"⚔️",desc:"Raycast melee framework with frame-accurate registration.",tags:["Combat","Raycast"]},
-  {name:"NPC AI",icon:"🤖",desc:"State-machine based logic for environmental reactivity.",tags:["AI"]},
-  {name:"Shop System",icon:"💰",desc:"Full marketplace with DataStore verification.",tags:["Economy"]}
+  {name:"Round System",icon:"🔄",desc:"Server-authoritative loop managing map cycling.",tags:["Server-Side","Loop"]},
+  {name:"Flower Gen",icon:"🌸",desc:"Advanced procedural generation algorithm.",tags:["Math","Procedural"]},
+  {name:"Weather System",icon:"🌦️",desc:"Global atmospheric lighting controller.",tags:["Lighting","Tween"]},
+  {name:"Title System",icon:"📜",desc:"Dynamic player overhead and UI labels.",tags:["UI","Progression"]},
+  {name:"EXP System",icon:"⭐",desc:"Granular experience framework with security.",tags:["Data","Security"]},
+  {name:"Backpack System",icon:"🎒",desc:"Custom OOP inventory with item dropping.",tags:["Inventory","OOP"]},
+  {name:"Upgrade System",icon:"🛠️",desc:"Scaling modifier system for attributes.",tags:["Balancing"]},
+  {name:"Global Alerts",icon:"📢",desc:"Priority broadcast API system.",tags:["Messaging","API"]},
+  {name:"Global Ban UI",icon:"🚫",desc:"Admin dashboard for Roblox Ban API.",tags:["Admin","API"]},
+  {name:"Bridge System",icon:"🌉",desc:"Tweened construction physics logic.",tags:["Tweening","Physics"]},
+  {name:"Power System",icon:"⚡",desc:"Skill management with cooldown logic.",tags:["Skills"]},
+  {name:"Gen System",icon:"⚙️",desc:"Repairable world object mechanics.",tags:["Mechanic"]},
+  {name:"Combat System",icon:"⚔️",desc:"Raycast hit detection melee framework.",tags:["Combat","Raycast"]},
+  {name:"Shop System",icon:"💰",desc:"Marketplace solution with DataStore checks.",tags:["Economy"]},
+  {name:"Killer System",icon:"🎭",desc:"Probability-based role selection pities.",tags:["Probability"]},
+  {name:"Data Saving",icon:"💾",desc:"Ultra-secure persistence via ProfileService.",tags:["Backend"]},
+  {name:"Movement Pro",icon:"🏃",desc:"Enhanced character controller with vaulting.",tags:["Movement"]},
+  {name:"Weapon UI",icon:"🔫",desc:"Integrated tactical backpack interface.",tags:["GUI"]},
+  {name:"NPC AI",icon:"🤖",desc:"State-machine based NPC behavior logic.",tags:["AI","Behavior"]}
 ];
 
 const skills = [
   {name:"Advanced Luau",pct:95,color:"var(--win-blue)"},
   {name:"Game Architecture",pct:90,color:"var(--win-purple)"},
-  {name:"Data Persistence",pct:85,color:"var(--win-pink)"}
+  {name:"Data Persistence",pct:85,color:"var(--win-pink)"},
+  {name:"UI/UX Implementation",pct:80,color:"var(--win-yellow)"}
 ];
 
-let currentUser = "Guest", currentRating = 0, currentImageData = "";
+let currentUser="Guest", currentRating=0, currentImageData="";
 
-// SECURITY: Prevent hackers from injecting scripts
 function escapeHTML(str) {
-    const p = document.createElement('p');
-    p.textContent = str;
-    return p.innerHTML;
+  const p = document.createElement('p'); p.textContent = str; return p.innerHTML;
 }
 
 (function boot(){
   const el = document.getElementById('boot-log');
-  const logs = ["KCHOR_OS v2.2 booting...", "Checking Admin Privileges...", "Interface initialized."];
-  logs.forEach((msg, i) => {
-    setTimeout(() => {
-      const d = document.createElement('div'); d.innerText = "> " + msg; el.appendChild(d);
-    }, i * 400);
-  });
+  const logs = ["KCHOR_OS v2.1 booting...", "Mounting modular_systems...", "Admin protocols ready.", "Interface initialized."];
+  logs.forEach((msg, i) => setTimeout(() => {
+    const d = document.createElement('div'); d.innerText = "> " + msg; el.appendChild(d);
+  }, i * 400));
 })();
 
 function login(){
   const val = document.getElementById('username-input').value.trim();
   currentUser = val || "Guest_" + Math.floor(Math.random()*999);
-  
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display='none';
   document.getElementById('main-ui').style.display='block';
   document.getElementById('sidebar').style.display='flex';
-  
   buildSkills(); buildSysGrid(); loadReviews();
-  log("Session started as " + currentUser);
+  log("Session started for " + currentUser);
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
 
 function buildSkills(){
-  const g=document.getElementById('skills-grid');
-  g.innerHTML = skills.map(s=>`
-    <div>
-      <div style="display:flex; justify-content:space-between; font-size:14px;"><span>${s.name}</span><span>${s.pct}%</span></div>
-      <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%; background:${s.color}"></div></div>
-    </div>
+  document.getElementById('skills-grid').innerHTML = skills.map(s=>`
+    <div><div style="display:flex; justify-content:space-between; font-size:14px;"><span>${s.name}</span><span>${s.pct}%</span></div>
+    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%; background:${s.color}"></div></div></div>
   `).join('');
 }
 
@@ -314,11 +348,9 @@ function buildSysGrid(){
   const grid=document.getElementById('sysGrid');
   grid.innerHTML="";
   systems.forEach(s=>{
-    const div=document.createElement('div');
-    div.className='sys-item';
+    const div=document.createElement('div'); div.className='sys-item';
     div.innerHTML=`<div style="font-size:22px;">${s.icon}</div><strong>${s.name}</strong>`;
-    div.onclick=()=>openDrawer(s);
-    grid.appendChild(div);
+    div.onclick=()=>openDrawer(s); grid.appendChild(div);
   });
 }
 
@@ -326,20 +358,15 @@ function openDrawer(s){
   document.getElementById('inspector-drawer').classList.add('open');
   document.getElementById('det-title').innerText = s.name;
   document.getElementById('det-desc').innerText = s.desc;
-  document.getElementById('det-tags').innerHTML = (s.tags || []).map(t => `<span class="stat-chip">${t}</span>`).join('');
-  
+  document.getElementById('det-tags').innerHTML = (s.tags || []).map(t => `<span class="stat-chip" style="background:var(--win-yellow); color:#000;">${t}</span>`).join('');
   const v = document.getElementById('main-player');
-  if(s.vid) { v.src = s.vid; v.style.display = 'block'; v.play(); } 
+  if(s.vid) { v.src = s.vid; v.style.display = 'block'; v.play().catch(()=>{}); } 
   else { v.style.display = 'none'; }
 }
 
 function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
+function playInspector(vid, title) { openDrawer({ name: title, desc: "Visual data feed.", vid: vid, tags: ["Visual"] }); }
 
-function playInspector(vid, title) {
-  openDrawer({ name: title, desc: "Visual data feed from project archives.", vid: vid, tags: ["Visual","Feed"] });
-}
-
-// RATING LOGIC
 document.querySelectorAll('#star-rating span').forEach(s=>{
   s.onclick=()=>{
     currentRating = s.dataset.value;
@@ -353,91 +380,48 @@ document.querySelectorAll('#star-rating span').forEach(s=>{
 function handleImage(input){
   if(input.files && input.files[0]){
     const reader = new FileReader();
-    reader.onload = e => {
-      currentImageData = e.target.result;
-      document.getElementById('img-preview').src = e.target.result;
-      document.getElementById('preview-wrap').style.display = 'flex';
-    };
+    reader.onload = e => { currentImageData = e.target.result; document.getElementById('img-preview').src = e.target.result; document.getElementById('preview-wrap').style.display = 'flex'; };
     reader.readAsDataURL(input.files[0]);
   }
 }
-
 function removeImage(){ currentImageData=""; document.getElementById('preview-wrap').style.display='none'; }
 
 function submitReview(){
   const text = document.getElementById('rev-text').value.trim();
   if(!text || currentRating == 0) return alert("System requires rating and message.");
-  
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
-  reviews.push({ 
-    id: Date.now(), 
-    user: currentUser, 
-    rate: currentRating, 
-    msg: text, 
-    img: currentImageData 
-  });
-  
+  reviews.push({ id: Date.now(), user: currentUser, rate: currentRating, msg: text, img: currentImageData });
   localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
-  document.getElementById('rev-text').value = "";
-  removeImage(); loadReviews();
+  document.getElementById('rev-text').value = ""; removeImage(); loadReviews();
 }
 
-// ADMIN FUNCTION: Delete Review
 function deleteReview(id) {
     if(currentUser !== "KCHOR_ADMIN") return;
     let reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
     reviews = reviews.filter(r => r.id !== id);
     localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
     loadReviews();
-    log("Admin action: Deleted review " + id);
 }
 
 function loadReviews(){
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
-  const list = document.getElementById('review-list');
-  
-  list.innerHTML = reviews.reverse().map(r => `
+  document.getElementById('review-list').innerHTML = reviews.reverse().map(r => `
     <div style="border-bottom:1px solid #ddd; padding:10px 0; position:relative;">
-      <div style="display:flex; justify-content:space-between;">
-        <b>${escapeHTML(r.user)}</b> 
-        <span style="color:var(--win-orange)">★${r.rate}</span>
-      </div>
-      <p style="font-family:'Share Tech Mono'; font-size:12px; color:#444;">${escapeHTML(r.msg)}</p>
+      <b>${escapeHTML(r.user)}</b> <span style="color:var(--win-orange)">★${r.rate}</span>
+      <p style="font-family:'Share Tech Mono'; font-size:11px;">${escapeHTML(r.msg)}</p>
       ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'Attachment')">` : ''}
-      
-      ${currentUser === "KCHOR_ADMIN" ? 
-        `<button onclick="deleteReview(${r.id})" style="position:absolute; right:0; bottom:5px; background:var(--win-red); color:#fff; border:1px solid #000; font-size:10px; cursor:pointer; padding:2px 5px;">DELETE</button>` 
-        : ''}
+      ${currentUser === "KCHOR_ADMIN" ? `<button onclick="deleteReview(${r.id})" style="position:absolute; right:0; bottom:5px; background:var(--win-red); color:#fff; border:1px solid #000; font-size:10px; cursor:pointer; padding:2px 5px;">DELETE</button>` : ''}
     </div>
   `).join('');
 }
 
-function copyEmail(){
-  navigator.clipboard.writeText("mandzkie65@gmail.com");
-  const t = document.getElementById('email-toast');
-  t.style.display = 'block';
-  setTimeout(()=>t.style.display='none', 2000);
-}
-
-function log(msg){
-  const el = document.getElementById('activity-log');
-  const d = document.createElement('div');
-  d.innerText = "> [" + new Date().toLocaleTimeString() + "] " + msg;
-  el.appendChild(d);
-  el.scrollTop = el.scrollHeight;
-}
-
+function copyEmail(){ navigator.clipboard.writeText("mandzkie65@gmail.com"); document.getElementById('email-toast').style.display = 'block'; setTimeout(()=>document.getElementById('email-toast').style.display='none', 2000); }
+function toggleLog(){ const l = document.getElementById('activity-log'); l.classList.toggle('open'); document.getElementById('log-arrow').innerText = l.classList.contains('open') ? '▼' : '▲'; }
+function log(msg){ const el = document.getElementById('activity-log'); const d = document.createElement('div'); d.innerText = "> [" + new Date().toLocaleTimeString() + "] " + msg; el.appendChild(d); el.scrollTop = el.scrollHeight; }
 function jumpTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
-function openLightbox(src, cap){
-  document.getElementById('lightbox-img').src=src;
-  document.getElementById('lightbox-caption').innerText=cap;
-  document.getElementById('lightbox').style.display='flex';
-}
+function openLightbox(src, cap){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-caption').innerText=cap; document.getElementById('lightbox').style.display='flex'; }
 function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
-
-setInterval(()=>{
-  document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-}, 1000);
+setInterval(()=>document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), 1000);
 </script>
 </body>
 </html>
