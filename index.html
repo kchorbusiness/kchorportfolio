@@ -512,9 +512,9 @@ body {
 
     <div style="display:flex;gap:10px;">
 
-      <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
+      <button class="btn-pixel" onclick="sfx.click(); randomizeName()">RANDOM</button>
 
-      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
+      <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="sfx.click(); login()">▶ INITIALIZE</button>
 
     </div>
 
@@ -534,7 +534,7 @@ body {
 
 
 
-      <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative; color:#000;">
+      <div id="theme-light" onclick="sfx.click(); pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative; color:#000;">
 
         <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; position:absolute; top:-12px; left:50%; transform:translateX(-50%); white-space:nowrap;">★ DEFAULT</div>
 
@@ -548,7 +548,7 @@ body {
 
 
 
-      <div id="theme-dark" onclick="pickTheme('dark')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#1a1a2e; color:#c9e8ff; box-shadow:5px 5px 0 #000;">
+      <div id="theme-dark" onclick="sfx.click(); pickTheme('dark')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#1a1a2e; color:#c9e8ff; box-shadow:5px 5px 0 #000;">
 
         <div style="font-size:48px; line-height:1; margin-bottom:8px;">🌙</div>
 
@@ -560,7 +560,7 @@ body {
 
     </div>
 
-    <button class="btn-pixel" style="background:var(--win-green); width:100%; font-size:20px; padding:10px;" onclick="applyTheme()">▶ CONFIRM &amp; BOOT</button>
+    <button class="btn-pixel" style="background:var(--win-green); width:100%; font-size:20px; padding:10px;" onclick="sfx.click(); applyTheme()">▶ CONFIRM &amp; BOOT</button>
 
   </div>
 
@@ -580,17 +580,17 @@ body {
 
 <div id="sidebar">
 
-  <div class="icon" onclick="jumpTo('win-profile')"><div class="icon-graphic" style="background:var(--win-pink)">👤</div><span class="icon-tip">PROFILE</span></div>
+  <div class="icon" onclick="sfx.click(); jumpTo('win-profile')" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-pink)">👤</div><span class="icon-tip">PROFILE</span></div>
 
-  <div class="icon" onclick="jumpTo('win-skills')"><div class="icon-graphic" style="background:var(--win-purple)">📊</div><span class="icon-tip">SKILLS</span></div>
+  <div class="icon" onclick="sfx.click(); jumpTo('win-skills')" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-purple)">📊</div><span class="icon-tip">SKILLS</span></div>
 
-  <div class="icon" onclick="jumpTo('win-sysdir')"><div class="icon-graphic" style="background:var(--win-yellow)">💾</div><span class="icon-tip">SYSTEMS</span></div>
+  <div class="icon" onclick="sfx.click(); jumpTo('win-sysdir')" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-yellow)">💾</div><span class="icon-tip">SYSTEMS</span></div>
 
-  <div class="icon" onclick="jumpTo('win-portfolio')"><div class="icon-graphic" style="background:var(--win-orange)">📁</div><span class="icon-tip">PROJECTS</span></div>
+  <div class="icon" onclick="sfx.click(); jumpTo('win-portfolio')" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-orange)">📁</div><span class="icon-tip">PROJECTS</span></div>
 
-  <div class="icon" onclick="jumpTo('win-feedback')"><div class="icon-graphic" style="background:var(--win-green)">📝</div><span class="icon-tip">FEEDBACK</span></div>
+  <div class="icon" onclick="sfx.click(); jumpTo('win-feedback')" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-green)">📝</div><span class="icon-tip">FEEDBACK</span></div>
 
-  <div class="icon" onclick="location.reload()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span class="icon-tip">REBOOT</span></div>
+  <div class="icon" onclick="sfx.click(); location.reload()" onmouseenter="sfx.tick()"><div class="icon-graphic" style="background:var(--win-red)">⚡</div><span class="icon-tip">REBOOT</span></div>
 
 </div>
 
@@ -598,7 +598,7 @@ body {
 
 <div id="inspector-drawer">
 
-  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()" style="background:var(--win-red); color:#fff; border:2px solid #fff; width:24px; cursor:pointer;">✕</button></div>
+  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="sfx.click(); closeDrawer()" style="background:var(--win-red); color:#fff; border:2px solid #fff; width:24px; cursor:pointer;">✕</button></div>
 
   <div id="player-wrap">
 
@@ -622,7 +622,7 @@ body {
 
   <div id="log-section">
 
-    <div id="log-toggle" onclick="toggleLog()" style="background:#000; color:#0f0; padding:8px 15px; font-family:'Share Tech Mono'; font-size:11px; cursor:pointer; display:flex; justify-content:space-between;">
+    <div id="log-toggle" onclick="sfx.click(); toggleLog()" style="background:#000; color:#0f0; padding:8px 15px; font-family:'Share Tech Mono'; font-size:11px; cursor:pointer; display:flex; justify-content:space-between;">
 
       <span>TERMINAL_OUTPUT</span><span id="log-arrow">▲</span>
 
@@ -658,13 +658,13 @@ body {
 
                 <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
 
-                <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue); font-size:12px; text-decoration:none; color:#000; padding:2px 8px; margin-top:8px; display:inline-block;">ROBLOX PROFILE</a>
+                <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue); font-size:12px; text-decoration:none; color:#000; padding:2px 8px; margin-top:8px; display:inline-block;" onclick="sfx.click()">ROBLOX PROFILE</a>
 
             </div>
 
         </div>
 
-        <p class="bio-text" style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Hi, I’m kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I’m also a versatile developer capable of working on UI design specially Pixel Art, animation, and building.
+        <p class="bio-text" style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Hi, I'm kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I'm also a versatile developer capable of working on UI design specially Pixel Art, animation, and building.
 
        (Note: I do not work with sound design.)</p>
 
@@ -704,15 +704,15 @@ body {
 
         <div class="project-body">
 
-          <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">“Build A Bridge” is a minigame project focused on improving my development skills while also serving as a fully playable game experience</p>
+          <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">"Build A Bridge" is a minigame project focused on improving my development skills while also serving as a fully playable game experience</p>
 
-          <div class="project-media" onclick="openLightbox('videos/image.png', 'Environment Architecture')"><img src="videos/image.png"><div class="media-label">MAP_PREVIEW.PNG</div></div>
+          <div class="project-media" onclick="sfx.click(); openLightbox('videos/image.png', 'Environment Architecture')"><img src="videos/image.png"><div class="media-label">MAP_PREVIEW.PNG</div></div>
 
-          <div class="project-media" onclick="openLightbox('videos/image1.png', 'Modular System UI')"><img src="videos/image1.png"><div class="media-label">INTERFACE_DESIGN.PNG</div></div>
+          <div class="project-media" onclick="sfx.click(); openLightbox('videos/image1.png', 'Modular System UI')"><img src="videos/image1.png"><div class="media-label">INTERFACE_DESIGN.PNG</div></div>
 
-          <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')"><video muted loop><source src="videos/bridge_demo1.mp4"></video><div class="media-label">VIEW_GAMEPLAY.MP4</div></div>
+          <div class="project-media" onclick="sfx.click(); playInspector('videos/bridge_demo1.mp4','Build A Bridge')"><video muted loop><source src="videos/bridge_demo1.mp4"></video><div class="media-label">VIEW_GAMEPLAY.MP4</div></div>
 
-          <div class="project-media" onclick="playInspector('videos/Testing1.mp4','System Logic')"><video muted loop><source src="videos/Testing1.mp4"></video><div class="media-label">VIEW_LOGIC.MP4</div></div>
+          <div class="project-media" onclick="sfx.click(); playInspector('videos/Testing1.mp4','System Logic')"><video muted loop><source src="videos/Testing1.mp4"></video><div class="media-label">VIEW_LOGIC.MP4</div></div>
 
         </div>
 
@@ -738,17 +738,17 @@ body {
 
         <div id="preview-wrap" style="display:none; margin:8px 0; align-items:center; gap:10px;">
 
-          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;"><button class="btn-pixel" style="background:var(--win-red); padding:2px 8px;" onclick="removeImage()">REMOVE</button>
+          <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;"><button class="btn-pixel" style="background:var(--win-red); padding:2px 8px;" onclick="sfx.click(); removeImage()">REMOVE</button>
 
         </div>
 
         <div style="display:flex; gap:8px; margin-top:10px;">
 
-          <button class="btn-pixel" onclick="document.getElementById('file-input').click()">+ ATTACH IMAGE</button>
+          <button class="btn-pixel" onclick="sfx.click(); document.getElementById('file-input').click()">+ ATTACH IMAGE</button>
 
           <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleImage(this)">
 
-          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="submitReview()">▶ SEND_MESSAGE</button>
+          <button class="btn-pixel" style="background:var(--win-green); flex-grow:1;" onclick="sfx.click(); submitReview()">▶ SEND_MESSAGE</button>
 
         </div>
 
@@ -764,9 +764,11 @@ body {
 
 
 
+<audio id="bg-music" src="videos/musicbackground.mp3" loop></audio>
+
 <div id="taskbar">
 
-  <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
+  <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;" onclick="sfx.click()">START</button>
 
   <div style="width:2px; height:20px; background:#aaa;"></div>
 
@@ -774,10 +776,19 @@ body {
 
   <div class="contact-strip" style="display:flex; gap:10px;">
 
-    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;">💬 DISCORD</a>
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;" onclick="sfx.click()">💬 DISCORD</a>
 
-    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer; color:#000;">📧 EMAIL</button>
+    <button onclick="sfx.click(); copyEmail()" style="border:none; background:none; cursor:pointer; color:#000;">📧 EMAIL</button>
 
+  </div>
+
+  <div style="width:2px; height:20px; background:#aaa;"></div>
+
+  <div style="display:flex; align-items:center; gap:6px;">
+    <button id="mute-btn" onclick="toggleMute()" style="border:none; background:none; cursor:pointer; font-size:15px; padding:0; line-height:1;">🔊</button>
+    <input type="range" id="vol-slider" min="0" max="100" value="30"
+      style="width:60px; height:6px; cursor:pointer; accent-color:#000;"
+      oninput="setVolume(this.value)" onmouseenter="sfx.tick()">
   </div>
 
   <div style="width:2px; height:20px; background:#aaa;"></div>
@@ -790,6 +801,87 @@ body {
 
 <script>
 
+/* =========================================================
+   SOUND EFFECTS MODULE
+   All sounds synthesized via Web Audio API — no external files.
+   ========================================================= */
+const sfx = (() => {
+  let _ctx = null;
+  const ctx = () => {
+    if (!_ctx) _ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return _ctx;
+  };
+
+  // Short mechanical pixel blip — use on all button clicks
+  function click() {
+    const c = ctx(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'square';
+    o.frequency.setValueAtTime(880, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440, c.currentTime + 0.04);
+    g.gain.setValueAtTime(0.12, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.06);
+    o.start(); o.stop(c.currentTime + 0.06);
+  }
+
+  // Very subtle tick — use on sidebar icon hover
+  function tick() {
+    const c = ctx(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'sine'; o.frequency.value = 1200;
+    g.gain.setValueAtTime(0.04, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.025);
+    o.start(); o.stop(c.currentTime + 0.025);
+  }
+
+  // Two-tone ascending chime — use on OS boot
+  function boot() {
+    const c = ctx();
+    [440, 660].forEach((freq, i) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'sine'; o.frequency.value = freq;
+      const t = c.currentTime + i * 0.2;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.18, t + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+      o.start(t); o.stop(t + 0.35);
+    });
+  }
+
+  // Descending swoosh — use when inspector drawer opens
+  function drawerOpen() {
+    const c = ctx(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.type = 'sine';
+    o.frequency.setValueAtTime(600, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(200, c.currentTime + 0.2);
+    g.gain.setValueAtTime(0.1, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.22);
+    o.start(); o.stop(c.currentTime + 0.22);
+  }
+
+  // Double harsh buzz — use for invalid/error actions
+  function error() {
+    const c = ctx();
+    [0, 0.07].forEach(delay => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'sawtooth'; o.frequency.value = 180;
+      const t = c.currentTime + delay;
+      g.gain.setValueAtTime(0.13, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+      o.start(t); o.stop(t + 0.06);
+    });
+  }
+
+  return { click, tick, boot, drawerOpen, error };
+})();
+
+
+/* =========================================================
+   DATA
+   ========================================================= */
 const systems = [
 
   {name:"Round System", icon:"🔄", vid:"videos/Round.mp4", desc:"Server-authoritative loop managing map cycling.", tags:["Server-Side","Loop"]},
@@ -958,7 +1050,9 @@ function applyTheme(){
 
   loadReviews();
 
-
+  
+  // Boot chime plays after a short delay so it lands after the screen transition
+  setTimeout(() => { sfx.boot(); startMusic(); }, 80);
 
   log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 
@@ -996,7 +1090,9 @@ function buildSysGrid(){
 
     div.innerHTML=`<div style="font-size:22px;">${s.icon}</div><strong>${s.name}</strong>`;
 
-    div.onclick=()=>openDrawer(s); grid.appendChild(div);
+    div.onclick=()=>{ sfx.click(); openDrawer(s); };
+    div.onmouseenter=()=>{ sfx.tick(); };
+    grid.appendChild(div);
 
   });
 
@@ -1007,6 +1103,13 @@ function buildSysGrid(){
 function openDrawer(s){
 
   document.getElementById('inspector-drawer').classList.add('open');
+
+  sfx.drawerOpen();
+
+  // Duck background music while video plays
+  const music = document.getElementById('bg-music');
+  music._prevVol = music.volume;
+  music.volume = Math.min(music.volume, 0.08);
 
   document.getElementById('det-title').innerText = s.name;
 
@@ -1024,13 +1127,20 @@ function openDrawer(s){
 
 
 
-function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
+function closeDrawer(){
+  document.getElementById('inspector-drawer').classList.remove('open');
+  // Restore music volume
+  const music = document.getElementById('bg-music');
+  if (music._prevVol !== undefined) music.volume = music._prevVol;
+}
 
 function playInspector(vid, title) { openDrawer({ name: title, desc: "Visual data feed.", vid: vid, tags: ["Visual"] }); }
 
 
 
 document.querySelectorAll('#star-rating span').forEach(s=>{
+
+  s.onmouseenter=()=>{ sfx.tick(); };
 
   s.onclick=()=>{
 
@@ -1072,7 +1182,10 @@ function submitReview(){
 
   const text = document.getElementById('rev-text').value.trim();
 
-  if(!text || currentRating == 0) return alert("System requires rating and message.");
+  if(!text || currentRating == 0) {
+    sfx.error();
+    return alert("System requires rating and message.");
+  }
 
   const reviews = JSON.parse(localStorage.getItem('kchor_reviews') || '[]');
 
@@ -1114,9 +1227,9 @@ function loadReviews(){
 
       <p style="font-family:'Share Tech Mono'; font-size:11px;">${escapeHTML(r.msg)}</p>
 
-      ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="openLightbox('${r.img}', 'Attachment')">` : ''}
+      ${r.img ? `<img src="${r.img}" style="max-width:100px; border:2px solid #000; margin-top:5px; cursor:zoom-in;" onclick="sfx.click(); openLightbox('${r.img}', 'Attachment')">` : ''}
 
-      ${currentUser === "KCHOR_ADMIN" ? `<button onclick="deleteReview(${r.id})" style="position:absolute; right:0; bottom:5px; background:var(--win-red); color:#fff; border:1px solid #000; font-size:10px; cursor:pointer; padding:2px 5px;">DELETE</button>` : ''}
+      ${currentUser === "KCHOR_ADMIN" ? `<button onclick="sfx.click(); deleteReview(${r.id})" style="position:absolute; right:0; bottom:5px; background:var(--win-red); color:#fff; border:1px solid #000; font-size:10px; cursor:pointer; padding:2px 5px;">DELETE</button>` : ''}
 
     </div>
 
@@ -1137,6 +1250,45 @@ function jumpTo(id){ document.getElementById(id).scrollIntoView({behavior:'smoot
 function openLightbox(src, cap){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-caption').innerText=cap; document.getElementById('lightbox').style.display='flex'; }
 
 function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+
+/* =========================================================
+   BACKGROUND MUSIC
+   ========================================================= */
+let _muted = false;
+
+function startMusic() {
+  const music = document.getElementById('bg-music');
+  music.volume = 0.3;
+  music.play().catch(() => {});
+}
+
+function setVolume(val) {
+  const music = document.getElementById('bg-music');
+  const v = val / 100;
+  music.volume = v;
+  _muted = v === 0;
+  document.getElementById('mute-btn').innerText = v === 0 ? '🔇' : v < 0.5 ? '🔉' : '🔊';
+}
+
+function toggleMute() {
+  const music = document.getElementById('bg-music');
+  const slider = document.getElementById('vol-slider');
+  if (_muted) {
+    const restore = slider._prevVol || 30;
+    slider.value = restore;
+    setVolume(restore);
+  } else {
+    slider._prevVol = parseInt(slider.value);
+    slider.value = 0;
+    setVolume(0);
+  }
+}
+
+// Global hover tick — covers all interactive elements including dynamically added ones
+document.addEventListener('mouseenter', e => {
+  const el = e.target.closest('button, .btn-pixel, .project-media, #theme-light, #theme-dark, #log-toggle, .contact-strip a, .contact-strip button, #lightbox');
+  if (el) sfx.tick();
+}, true);
 
 setInterval(()=>document.getElementById('clock').innerText = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), 1000);
 
