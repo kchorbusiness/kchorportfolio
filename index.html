@@ -22,13 +22,14 @@
   --col-width: 680px;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+/* --- GLOBAL PIXEL ENFORCEMENT --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'VT323', monospace; }
+input, textarea, button, select { font-family: 'VT323', monospace !important; }
 
 body {
   background-color: var(--bg-main);
   background-image: radial-gradient(#adb5bd 1.5px, transparent 1.5px);
   background-size: 28px 28px;
-  font-family: 'VT323', monospace;
   height: 100vh;
   overflow: hidden;
 }
@@ -92,15 +93,15 @@ body {
 }
 .sys-item:hover { background:var(--win-yellow); transform:translate(-1px,-1px); box-shadow:3px 3px 0 #000; }
 
-/* --- PORTFOLIO --- */
+/* --- PORTFOLIO (FIXED) --- */
 .project-card { border:2px solid #000; background:#fff; box-shadow:5px 5px 0 #000; margin:12px; overflow:hidden; }
 .project-header { padding:8px 12px; border-bottom:2px solid #000; display:flex; justify-content:space-between; background:#f5f0e8; }
-.project-body { padding:15px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.project-media { border:2px solid #000; overflow:hidden; cursor:pointer; position:relative; background:#111; height:110px; }
-.project-media video, .project-media img { width:100%; height:100%; object-fit:cover; }
+.project-body { padding:15px; display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.project-media { border:2px solid #000; overflow:hidden; cursor:pointer; position:relative; background:#111; height:115px; }
+.project-media video, .project-media img { width:100%; height:100%; object-fit:cover; display: block; }
 .media-label { position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.8); color:#fff; font-size:10px; padding:3px 8px; font-family:'Share Tech Mono'; }
 
-/* --- THE NEW CYBER INSPECTOR DRAWER --- */
+/* --- CYBER INSPECTOR --- */
 #inspector-drawer {
   position: fixed; top: 10px; right: 10px;
   width: 400px; height: calc(100vh - 60px);
@@ -142,6 +143,8 @@ body {
   background:var(--win-gray);border-top:3px solid #000;
   display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px;
 }
+.btn-pixel { border:2px solid #000; padding:4px 10px; background:#fff; cursor:pointer; box-shadow:2px 2px 0 #000; }
+.btn-pixel:active { box-shadow:0 0 0 #000; transform:translate(2px,2px); }
 
 #activity-log { background:#000; color:#0f0; font-family:'Share Tech Mono'; font-size:10px; height:0; transition: 0.3s; overflow-y:auto; }
 #activity-log.open { height:100px; padding:8px; border-top:2px solid #333; }
@@ -159,7 +162,7 @@ body {
   <div class="login-box">
     <h2 style="font-size:32px;">KCHOR_OS v2.1 <span class="blink">_</span></h2>
     <p style="font-family:'Share Tech Mono'; font-size:12px; color:#555;">&gt; ACCESSED BY: EXTERNAL_VISITOR</p>
-    <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-family:inherit;font-size:20px;margin:15px 0;" placeholder="Enter name...">
+    <input type="text" id="username-input" style="width:100%;padding:10px;border:3px solid #000;font-size:20px;margin:15px 0;" placeholder="Enter name...">
     <div style="display:flex;gap:10px;">
       <button class="btn-pixel" onclick="randomizeName()">RANDOM</button>
       <button class="btn-pixel" style="background:var(--win-green);flex-grow:1;" onclick="login()">▶ INITIALIZE</button>
@@ -193,13 +196,10 @@ body {
   <div id="det-content-scroll">
     <div class="info-label">Active Module</div>
     <h2 id="det-title">SYSTEM</h2>
-
     <div class="info-label">Technical Overview</div>
-    <p id="det-desc">Initialize a system to view documentation.</p>
-
+    <div id="det-desc">Initialize a system to view documentation.</div>
     <div class="info-label">Classifications</div>
     <div id="det-tags" style="margin-top:8px; display:flex; gap:5px; flex-wrap:wrap;"></div>
-
     <div class="info-label">Environment Metrics</div>
     <div class="tech-sheet">
       <div class="tech-item"><strong>Uptime:</strong> 100%</div>
@@ -256,20 +256,33 @@ body {
       <div class="project-card">
         <div class="project-header">
           <span style="font-weight:bold; font-size:18px;">🌉 Build A Bridge</span>
-          <span class="project-tag wip" style="border:2px solid #000; padding:0 5px; font-size:12px;">PROTOTYPE</span>
+          <span class="project-tag wip" style="border:2px solid #000; padding:0 5px; font-size:12px; background:var(--win-orange);">PROTOTYPE</span>
         </div>
         <div class="project-body">
           <p style="grid-column:span 2; font-family:'Share Tech Mono'; font-size:12px;">
             A sophisticated construction physics game. Players compete to build the most stable bridges while managing resources and real-time physics stressors.
           </p>
+          
+          <div class="project-media" onclick="openLightbox('videos/image.png', 'Environment Architecture')">
+            <img src="videos/image.png" alt="Bridge Overlook">
+            <div class="media-label">MAP_PREVIEW.PNG</div>
+          </div>
+          
+          <div class="project-media" onclick="openLightbox('videos/image1.png', 'Modular System UI')">
+            <img src="videos/image1.png" alt="System UI">
+            <div class="media-label">INTERFACE_DESIGN.PNG</div>
+          </div>
+
           <div class="project-media" onclick="playInspector('videos/bridge_demo1.mp4','Build A Bridge')">
             <video muted loop onmouseover="this.play()" onmouseout="this.pause()"><source src="videos/bridge_demo1.mp4"></video>
-            <div class="media-label">VIEW_GAMEPLAY</div>
+            <div class="media-label">VIEW_GAMEPLAY.MP4</div>
           </div>
+          
           <div class="project-media" onclick="playInspector('videos/Testing1.mp4','System Logic')">
             <video muted loop onmouseover="this.play()" onmouseout="this.pause()"><source src="videos/Testing1.mp4"></video>
-            <div class="media-label">VIEW_LOGIC</div>
+            <div class="media-label">VIEW_LOGIC.MP4</div>
           </div>
+
           <div style="grid-column:span 2; display:flex; gap:5px;">
             <span class="stat-chip" style="background:var(--win-blue); color:#000;">PHYSICS</span>
             <span class="stat-chip" style="background:var(--win-purple); color:#fff;">TWEENING</span>
@@ -285,7 +298,7 @@ body {
         <div id="star-rating" style="font-size:30px; cursor:pointer; color:#ccc; margin-bottom:8px;">
           <span data-value="1">☆</span><span data-value="2">☆</span><span data-value="3">☆</span><span data-value="4">☆</span><span data-value="5">☆</span>
         </div>
-        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; font-family:'Share Tech Mono'; font-size:12px; resize:none;" placeholder="Type your message to KCHOR..."></textarea>
+        <textarea id="rev-text" style="width:100%; height:60px; border:3px solid #000; padding:8px; font-size:14px; resize:none;" placeholder="Type your message to KCHOR..."></textarea>
         
         <div id="preview-wrap" style="display:none; margin:8px 0; align-items:center; gap:10px;">
           <img id="img-preview" style="width:50px; height:50px; border:2px solid #000;">
@@ -308,17 +321,16 @@ body {
   <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;">START</button>
   <div style="width:2px; height:20px; background:#aaa;"></div>
   <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px;">SYSTEM_OFFLINE</div>
-  <div class="contact-strip">
-    <a href="https://www.roblox.com/users/228376618/profile" target="_blank">🕹️ ROBLOX</a>
-    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank">💬 DISCORD</a>
-    <button onclick="copyEmail()">📧 EMAIL</button>
+  <div class="contact-strip" style="display:flex; gap:10px;">
+    <a href="https://www.roblox.com/users/228376618/profile" target="_blank" style="text-decoration:none; color:#000;">🕹️ ROBLOX</a>
+    <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;">💬 DISCORD</a>
+    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer;">📧 EMAIL</button>
   </div>
   <div style="width:2px; height:20px; background:#aaa;"></div>
   <div id="clock" style="font-family:'Share Tech Mono'; font-size:13px;">00:00</div>
 </div>
 
 <script>
-// --- SYSTEM DATABASE ---
 const systems = [
   {name:"Round System",icon:"🔄",desc:"A robust server-authoritative loop managing intermissions, map cycling, player teleportation, and persistent round-state respawn mechanics.",tags:["Server-Side","Loop"]},
   {name:"Flower Gen",icon:"🌸",desc:"Advanced procedural generation algorithm creating natural variety in flower sizes, offsets, and rarities throughout the environment.",tags:["Math","Procedural"]},
@@ -350,7 +362,6 @@ const skills = [
 
 let currentUser="Guest", currentRating=0, currentImageData="";
 
-// --- CORE FUNCTIONS ---
 (function boot(){
   const el = document.getElementById('boot-log');
   const logs = ["KCHOR_OS v2.1 booting...", "Mounting modular_systems...", "Connecting to DataStore...", "Interface initialized."];
@@ -399,7 +410,6 @@ function buildSysGrid(){
 function openDrawer(s){
   const drawer = document.getElementById('inspector-drawer');
   drawer.classList.add('open');
-  
   const content = document.getElementById('det-content-scroll');
   content.style.opacity = 0;
   
@@ -420,7 +430,6 @@ function openDrawer(s){
   } else {
     v.style.display = 'none'; ns.style.display = 'flex';
   }
-  log("Inspecting: " + s.name);
 }
 
 function closeDrawer(){ document.getElementById('inspector-drawer').classList.remove('open'); }
@@ -429,7 +438,6 @@ function playInspector(vid, title) {
   openDrawer({ name: title, desc: "Visual data feed from project archives.", vid: vid, tags: ["Visual","Feed"] });
 }
 
-// --- FEEDBACK & UTILS ---
 document.querySelectorAll('#star-rating span').forEach(s=>{
   s.onclick=()=>{
     currentRating = s.dataset.value;
@@ -461,7 +469,7 @@ function submitReview(){
   reviews.push({ user: currentUser, rate: currentRating, msg: text, img: currentImageData });
   localStorage.setItem('kchor_reviews', JSON.stringify(reviews));
   document.getElementById('rev-text').value = "";
-  removeImage(); loadReviews(); log("Feedback log written.");
+  removeImage(); loadReviews();
 }
 
 function loadReviews(){
