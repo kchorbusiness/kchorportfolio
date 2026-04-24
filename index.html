@@ -434,6 +434,8 @@ function applyTheme(){
     document.body.classList.add('dark-mode');
     document.body.style.backgroundColor = '#0d0d1a';
     document.body.style.backgroundImage = 'radial-gradient(#1e1e3a 1.5px, transparent 1.5px)';
+    document.documentElement.style.setProperty('--sys-bg', '#12122a');
+    document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
   }
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
