@@ -22,27 +22,42 @@
   --col-width: 680px;
 }
   
-/* Fix for the "Gray" Profile Bio text */
-body.dark-mode .profile-body p {
-    color: #88c0d8 !important; /* Soft blue for readability */
+/* 1. Fix the main window backgrounds */
+body.dark-mode .window {
+    background-color: #1a1a2e !important;
+    color: #c9e8ff !important;
 }
 
-/* Fix for the "White" System Inspector background */
+/* 2. Fix the "Gray" Bio Text (targets the inline #444 color) */
+body.dark-mode .profile-body p {
+    color: #88c0d8 !important;
+}
+
+/* 3. Fix the System Inspector Drawer background */
 body.dark-mode #inspector-drawer {
     background: #12122a !important;
-    border-color: #445 !important;
+    border-left: 4px solid #000;
 }
 
-/* Fix for the white documentation box inside the inspector */
+/* 4. Fix the white documentation box inside the inspector */
 body.dark-mode #det-desc {
     background: #0d0d1a !important;
     color: #c9e8ff !important;
-    border-left: 5px solid #88c0d8 !important;
+    border-color: #88c0d8 !important;
 }
 
+/* 5. Fix the Skills background area */
+body.dark-mode .skills-grid {
+    background: #1a1a2e !important;
+}
 
-body.dark-mode #det-content-scroll div {
-    color: #556 !important; 
+/* 6. Fix the Library background area */
+body.dark-mode #win-sysdir {
+    background: #1a1a2e !important;
+}
+
+body.dark-mode .system-grid {
+    background: #0d0d1a !important;
 }
 
   
@@ -401,9 +416,10 @@ function pickTheme(mode) {
 }
 
 function applyTheme(){
-  if(selectedTheme === 'dark') {
+  const isDark = (selectedTheme === 'dark');
+  
+  if(isDark) {
     document.body.classList.add('dark-mode');
-    // These update the system grid items specifically
     document.documentElement.style.setProperty('--sys-bg', '#12122a');
     document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
   } else {
@@ -411,18 +427,19 @@ function applyTheme(){
     document.documentElement.style.setProperty('--sys-bg', '#fff');
     document.documentElement.style.setProperty('--sys-color', '#000');
   }
-  
-  // Transition to Main UI
+
+  // Basic UI setup
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
   document.getElementById('main-ui').style.display = 'block';
   document.getElementById('sidebar').style.display = 'flex';
-  
+
+  // Force rebuild of grids to ensure they pick up the new CSS variables
   buildSkills(); 
   buildSysGrid(); 
   loadReviews();
 
-  log("Theme initialized: " + selectedTheme.toUpperCase());
+  log("System Theme: " + selectedTheme.toUpperCase() + " applied.");
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
