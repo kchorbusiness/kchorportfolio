@@ -22,46 +22,30 @@
   --col-width: 680px;
 }
   
-/* Optimized Dark Mode Overrides */
-body.dark-mode {
-    background-color: #0d0d1a !important;
-    background-image: radial-gradient(#1e1e3a 1.5px, transparent 1.5px) !important;
+/* Fix for the "Gray" Profile Bio text */
+body.dark-mode .profile-body p {
+    color: #88c0d8 !important; /* Soft blue for readability */
 }
 
-body.dark-mode .window, 
-body.dark-mode .project-card,
-body.dark-mode .sys-item {
+/* Fix for the "White" System Inspector background */
+body.dark-mode #inspector-drawer {
     background: #12122a !important;
-    color: #c9e8ff !important;
     border-color: #445 !important;
 }
 
-body.dark-mode .title-bar {
-    background: #1e1e3a !important;
-    color: #88c0d8 !important;
-    border-bottom: 3px solid #445 !important;
-}
-
-body.dark-mode .system-grid {
-    background: #0d0d1a !important;
-}
-
-body.dark-mode #rev-text {
+/* Fix for the white documentation box inside the inspector */
+body.dark-mode #det-desc {
     background: #0d0d1a !important;
     color: #c9e8ff !important;
-    border-color: #445 !important;
+    border-left: 5px solid #88c0d8 !important;
 }
 
-body.dark-mode .project-header {
-    background: #1e1e3a !important;
-    color: #c9e8ff !important;
+
+body.dark-mode #det-content-scroll div {
+    color: #556 !important; 
 }
 
-body.dark-mode #sidebar {
-    background: rgba(18, 18, 42, 0.8) !important;
-    border-color: #445 !important;
-}
-/* --- ORIGINAL ANIMATIONS --- */
+  
 .boot-note {
   margin-top: 10px;
   background: rgba(255,255,255,0.08);
@@ -416,33 +400,29 @@ function pickTheme(mode) {
   }
 }
 
-function applyTheme() {
-    const body = document.body;
-    
-    if (selectedTheme === 'dark') {
-        body.classList.add('dark-mode');
-        // Set CSS variables for elements using them
-        document.documentElement.style.setProperty('--sys-bg', '#12122a');
-        document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
-    } else {
-        body.classList.remove('dark-mode');
-        // Reset CSS variables
-        document.documentElement.style.setProperty('--sys-bg', '#fff');
-        document.documentElement.style.setProperty('--sys-color', '#000');
-    }
+function applyTheme(){
+  if(selectedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    // These update the system grid items specifically
+    document.documentElement.style.setProperty('--sys-bg', '#12122a');
+    document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
+  } else {
+    document.body.classList.remove('dark-mode');
+    document.documentElement.style.setProperty('--sys-bg', '#fff');
+    document.documentElement.style.setProperty('--sys-color', '#000');
+  }
+  
+  // Transition to Main UI
+  document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
+  document.getElementById('boot-screen').style.display = 'none';
+  document.getElementById('main-ui').style.display = 'block';
+  document.getElementById('sidebar').style.display = 'flex';
+  
+  buildSkills(); 
+  buildSysGrid(); 
+  loadReviews();
 
-    // Update UI elements
-    document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
-    document.getElementById('boot-screen').style.display = 'none';
-    document.getElementById('main-ui').style.display = 'block';
-    document.getElementById('sidebar').style.display = 'flex';
-    
-    // Initialize components
-    buildSkills(); 
-    buildSysGrid(); 
-    loadReviews();
-
-    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  log("Theme initialized: " + selectedTheme.toUpperCase());
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
