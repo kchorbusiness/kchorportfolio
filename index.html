@@ -20,47 +20,78 @@
   --win-orange: #e8a87c;
   --win-chrome: #cfd8dc;
   --col-width: 680px;
-}
-  
-/* 1. Fix the main window backgrounds */
-body.dark-mode .window {
-    background-color: #1a1a2e !important;
-    color: #c9e8ff !important;
+  --sys-bg: #fff;
+  --sys-color: #000;
 }
 
-/* 2. Fix the "Gray" Bio Text (targets the inline #444 color) */
-body.dark-mode .profile-body p {
-    color: #88c0d8 !important;
+/* --- DARK MODE OVERRIDES --- */
+body.dark-mode {
+  --bg-main: #0d0d1a;
+  background-color: #0d0d1a !important;
+  background-image: radial-gradient(#1e1e3a 1.5px, transparent 1.5px) !important;
 }
 
-/* 3. Fix the System Inspector Drawer background */
+body.dark-mode .window, 
+body.dark-mode .project-card, 
+body.dark-mode .login-box {
+  background: #12122a !important;
+  color: #c9e8ff !important;
+  border-color: #445 !important;
+  box-shadow: var(--shadow-block) var(--shadow-block) 0 #000 !important;
+}
+
+body.dark-mode .title-bar {
+  background: #1e1e3a !important;
+  color: #88c0d8 !important;
+  border-bottom: var(--border-thick) solid #445 !important;
+}
+
+body.dark-mode .profile-body p, 
+body.dark-mode .profile-info p {
+  color: #88c0d8 !important; /* Fix for the gray text */
+}
+
 body.dark-mode #inspector-drawer {
-    background: #12122a !important;
-    border-left: 4px solid #000;
+  background: rgba(18, 18, 42, 0.98) !important;
+  color: #c9e8ff !important;
+  border-color: #000 !important;
 }
 
-/* 4. Fix the white documentation box inside the inspector */
 body.dark-mode #det-desc {
-    background: #0d0d1a !important;
-    color: #c9e8ff !important;
-    border-color: #88c0d8 !important;
+  background: #0d0d1a !important;
+  color: #c9e8ff !important;
+  border-left: 5px solid #88c0d8 !important;
 }
 
-/* 5. Fix the Skills background area */
+body.dark-mode .system-grid, 
 body.dark-mode .skills-grid {
-    background: #1a1a2e !important;
+  background: #0d0d1a !important;
 }
 
-/* 6. Fix the Library background area */
-body.dark-mode #win-sysdir {
-    background: #1a1a2e !important;
+body.dark-mode #taskbar {
+  background: #12122a !important;
+  border-top-color: #445 !important;
 }
 
-body.dark-mode .system-grid {
-    background: #0d0d1a !important;
+body.dark-mode #taskbar-user, 
+body.dark-mode #clock, 
+body.dark-mode .contact-strip a, 
+body.dark-mode .contact-strip button {
+  color: #c9e8ff !important;
 }
 
-  
+body.dark-mode .btn-pixel {
+  background: #1e1e3a !important;
+  color: #c9e8ff !important;
+  border-color: #445 !important;
+}
+
+body.dark-mode #sidebar {
+  background: rgba(18, 18, 42, 0.8) !important;
+  border-color: #000 !important;
+}
+
+/* --- ORIGINAL ANIMATIONS --- */
 .boot-note {
   margin-top: 10px;
   background: rgba(255,255,255,0.08);
@@ -135,7 +166,7 @@ body {
 .profile-info h1 { font-size:45px; line-height:0.8; }
 .status-badge { display:inline-block;background:var(--win-green);border:2px solid #000;padding:2px 10px;font-size:14px;margin-top:8px; }
 .stat-chip { background:#000;color:#fff;padding:2px 8px;font-size:13px; }
-.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px; }
+.skills-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px; background:#fff; }
 .skill-bar { height:16px; border:2px solid #000; background:#eee; margin-top:4px; }
 .skill-fill { height:100%; transition:1.5s cubic-bezier(.4,0,.2,1); }
 
@@ -145,7 +176,7 @@ body {
   border:2px solid #000; padding:10px; text-align:center; background:var(--sys-bg, #fff); color:var(--sys-color, #000);
   cursor:pointer; font-size:14px; transition:0.1s; display:flex; flex-direction:column; align-items:center; gap:5px;
 }
-.sys-item strong { color: var(--sys-color, #000); }
+.sys-item strong { color: inherit; }
 .sys-item:hover { background:var(--win-yellow); transform:translate(-1px,-1px); box-shadow:3px 3px 0 #000; }
 
 /* --- PORTFOLIO --- */
@@ -222,7 +253,7 @@ body {
     <p style="font-family:'Share Tech Mono'; font-size:11px; color:#555; margin-bottom:16px;">&gt; CHOOSE DISPLAY_MODE BEFORE INITIALIZATION</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
 
-      <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative;">
+      <div id="theme-light" onclick="pickTheme('light')" style="border:4px solid #000; padding:18px 12px; text-align:center; cursor:pointer; background:#fff8e7; box-shadow:5px 5px 0 #f1c37d; outline:4px solid #f1c37d; position:relative; color:#000;">
         <div style="font-family:'Share Tech Mono'; font-size:9px; background:#000; color:#fff; padding:2px 6px; position:absolute; top:-12px; left:50%; transform:translateX(-50%); white-space:nowrap;">★ DEFAULT</div>
         <div style="font-size:48px; line-height:1; margin-bottom:8px;">☀️</div>
         <div style="font-size:22px;">LIGHT</div>
@@ -287,7 +318,7 @@ body {
                 <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue); font-size:12px; text-decoration:none; color:#000; padding:2px 8px; margin-top:8px; display:inline-block;">ROBLOX PROFILE</a>
             </div>
         </div>
-        <p style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Hi, I’m kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I’m also a versatile developer capable of working on UI design specially Pixel Art, animation, and building.
+        <p class="bio-text" style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Hi, I’m kchor. I have 2 years of experience in Roblox Studio as a developer, I specialize in building Roblox systems with a focus on optimization and modular code structure I’m also a versatile developer capable of working on UI design specially Pixel Art, animation, and building.
        (Note: I do not work with sound design.)</p>
       </div>
     </div>
@@ -343,7 +374,7 @@ body {
   <div id="taskbar-user" style="flex-grow:1; font-family:'Share Tech Mono'; font-size:12px;">SYSTEM_OFFLINE</div>
   <div class="contact-strip" style="display:flex; gap:10px;">
     <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" style="text-decoration:none; color:#000;">💬 DISCORD</a>
-    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer;">📧 EMAIL</button>
+    <button onclick="copyEmail()" style="border:none; background:none; cursor:pointer; color:#000;">📧 EMAIL</button>
   </div>
   <div style="width:2px; height:20px; background:#aaa;"></div>
   <div id="clock" style="font-family:'Share Tech Mono'; font-size:13px;">00:00</div>
@@ -416,9 +447,7 @@ function pickTheme(mode) {
 }
 
 function applyTheme(){
-  const isDark = (selectedTheme === 'dark');
-  
-  if(isDark) {
+  if(selectedTheme === 'dark') {
     document.body.classList.add('dark-mode');
     document.documentElement.style.setProperty('--sys-bg', '#12122a');
     document.documentElement.style.setProperty('--sys-color', '#c9e8ff');
@@ -427,19 +456,17 @@ function applyTheme(){
     document.documentElement.style.setProperty('--sys-bg', '#fff');
     document.documentElement.style.setProperty('--sys-color', '#000');
   }
-
-  // Basic UI setup
+  
   document.getElementById('taskbar-user').innerText = "USER: " + currentUser.toUpperCase();
   document.getElementById('boot-screen').style.display = 'none';
   document.getElementById('main-ui').style.display = 'block';
   document.getElementById('sidebar').style.display = 'flex';
-
-  // Force rebuild of grids to ensure they pick up the new CSS variables
+  
   buildSkills(); 
   buildSysGrid(); 
   loadReviews();
 
-  log("System Theme: " + selectedTheme.toUpperCase() + " applied.");
+  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
 }
 
 function randomizeName(){ document.getElementById('username-input').value = "Visitor" + Math.floor(Math.random()*999); }
