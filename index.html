@@ -835,6 +835,30 @@ body {
 
 <audio id="bg-music" src="videos/musicbackground.mp3" loop></audio>
 
+<div id="intro-screen" style="
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0d0d1a;
+  display: none;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity 1.2s ease;
+  opacity: 0;
+">
+  <p id="intro-text" style="
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 18px;
+    color: #c9e8ff;
+    text-align: center;
+    max-width: 480px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    padding: 0 24px;
+  "></p>
+  <div style="margin-top: 40px; width: 40px; height: 1px; background: #445;"></div>
+</div>
+
 <div id="taskbar">
 
   <button class="btn-pixel" style="background:var(--win-red); font-weight:bold;" onclick="sfx.click()">START</button>
@@ -1107,23 +1131,19 @@ function applyTheme(){
 
   document.getElementById('boot-screen').style.display = 'none';
 
-  document.getElementById('main-ui').style.display = 'block';
+  // Start music immediately
+  startMusic();
 
-  document.getElementById('sidebar').style.display = 'flex';
-
-  
-
-  buildSkills(); 
-
-  buildSysGrid(); 
-
-  loadReviews();
-
-  
-  // Boot chime plays after a short delay so it lands after the screen transition
-  setTimeout(() => { sfx.boot(); startMusic(); }, 80);
-
-  log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  // Run intro, then reveal OS after
+  runIntro(() => {
+    document.getElementById('main-ui').style.display = 'block';
+    document.getElementById('sidebar').style.display = 'flex';
+    buildSkills();
+    buildSysGrid();
+    loadReviews();
+    setTimeout(() => sfx.boot(), 80);
+    log("Theme: " + selectedTheme.toUpperCase() + " | Session started for " + currentUser);
+  });
 
 }
 
@@ -1319,6 +1339,53 @@ function jumpTo(id){ document.getElementById(id).scrollIntoView({behavior:'smoot
 function openLightbox(src, cap){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-caption').innerText=cap; document.getElementById('lightbox').style.display='flex'; }
 
 function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+
+/* =========================================================
+   INTRO SEQUENCE
+   ========================================================= */
+const introLines = [
+  "Hello there.\nIt's kchor's workshop \nthank you for stopping by.",
+  "Everything you're about to see\nis my journey inside Roblox Studio.\nEvery system, built from scratch.",
+  "I hope this brings you even a little bit of what it felt like to build it. Enjoy."
+];
+
+function runIntro(onDone) {
+  const screen = document.getElementById('intro-screen');
+  const text   = document.getElementById('intro-text');
+
+  screen.style.display = 'flex';
+  // Fade screen in
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { screen.style.opacity = '1'; });
+  });
+
+  let i = 0;
+  function showLine() {
+    if (i >= introLines.length) {
+      // Fade whole screen out then launch OS
+      screen.style.opacity = '0';
+      setTimeout(() => {
+        screen.style.display = 'none';
+        onDone();
+      }, 1300);
+      return;
+    }
+    text.style.opacity = '0';
+    setTimeout(() => {
+      text.innerText = introLines[i];
+      text.style.opacity = '1';
+      i++;
+      // Hold for reading, then fade out and show next
+      setTimeout(() => {
+        text.style.opacity = '0';
+        setTimeout(showLine, 1000);
+      }, 3200);
+    }, 200);
+  }
+
+  // Small delay so the screen fade-in lands first
+  setTimeout(showLine, 600);
+}
 
 /* =========================================================
    BACKGROUND MUSIC
