@@ -224,10 +224,20 @@ body {
       </div>
     </div>
 
+    <!-- SYSTEM DIRECTORY -->
+    <div class="window">
+      <div class="title-bar" style="background: var(--win-yellow);">
+        <span>SYSTEM_DIRECTORY</span>
+      </div>
+      <div class="sys-dir-container">
+        <div class="system-grid" id="sysGrid"></div>
+      </div>
+    </div>
+
     <!-- PORTFOLIO WINDOW -->
     <div class="window">
       <div class="title-bar" style="background: var(--win-orange);">
-        <span>PORTFOLIO.DIR — 2 PROJECT(S)</span>
+        <span>PORTFOLIO.DIR — 1 PROJECT(S)</span>
         <div class="title-bar-dots">
           <div class="dot" style="background:var(--win-yellow)"></div>
           <div class="dot" style="background:var(--win-green)"></div>
@@ -285,50 +295,6 @@ body {
           </div>
         </div>
 
-        <!-- PROJECT 2: GENERAL SYSTEMS -->
-        <div class="project-card">
-          <div class="project-header" style="background:#e8f0f5;">
-            <span style="font-size:22px; font-weight:bold;">⚙️ Core Systems Library</span>
-            <span class="project-tag done">✓ SHIPPED</span>
-          </div>
-          <div class="project-body">
-            <p class="project-desc">
-              A reusable collection of Roblox game systems — round management, combat, weather, and data persistence — built to be dropped into any project. Click a module in SYSTEM_DIRECTORY below to inspect it.
-            </p>
-
-            <!-- VIDEO 3 -->
-            <div class="project-media" onclick="playInspector('videos/Testing1.mp4', 'Round System — Live Preview')">
-              <video muted loop preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()">
-                <source src="videos/Testing1.mp4" type="video/mp4">
-              </video>
-              <div class="media-label">▶ Round System Preview</div>
-            </div>
-
-            <!-- IMAGE 3 -->
-            <div class="project-media" onclick="openLightbox('images/combat_showcase.png', 'Combat System — Hitbox Visualization')">
-              <img src="images/combat_showcase.png" alt="Combat showcase" onerror="this.src=''; this.parentElement.innerHTML='<div style=\'height:130px;display:flex;align-items:center;justify-content:center;color:#888;font-size:16px;\'>combat_showcase.png</div>'">
-              <div class="media-label">⚔ Combat Hitboxes</div>
-            </div>
-
-            <div class="project-specs">
-              <span class="spec-pill">ProfileService</span>
-              <span class="spec-pill">Raycast</span>
-              <span class="spec-pill">Dynamic Lighting</span>
-              <span class="spec-pill">Voting</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- SYSTEM DIRECTORY -->
-    <div class="window">
-      <div class="title-bar" style="background: var(--win-yellow);">
-        <span>SYSTEM_DIRECTORY</span>
-      </div>
-      <div class="sys-dir-container">
-        <div class="system-grid" id="sysGrid"></div>
       </div>
     </div>
 
@@ -338,10 +304,10 @@ body {
         <span>CONTACT.EXE</span>
       </div>
       <div class="contact-grid">
-        <a href="#" class="contact-btn" style="background: var(--win-yellow);">🕹 Roblox Profile</a>
-        <a href="#" class="contact-btn" style="background: var(--win-blue);">💬 Discord</a>
-        <a href="#" class="contact-btn" style="background: var(--win-green);">🐦 Twitter / X</a>
-        <a href="#" class="contact-btn" style="background: var(--win-pink);">📧 Email</a>
+        <a href="https://www.roblox.com/users/228376618/profile" target="_blank" class="contact-btn" style="background: var(--win-yellow);">🕹 Roblox Profile</a>
+        <a href="https://discord.gg/6Zs6NcbPWu" target="_blank" class="contact-btn" style="background: var(--win-blue);">💬 Discord</a>
+        <button onclick="copyEmail()" class="contact-btn" style="background: var(--win-pink); border: 3px solid #000; width:100%; grid-column: span 2;">📧 Email — Click to Copy</button>
+        <div id="email-toast" style="display:none; grid-column:span 2; background:#000; color:#fff; text-align:center; padding:6px; font-size:17px;">✓ mandzkie65@gmail.com copied!</div>
       </div>
     </div>
 
@@ -434,11 +400,20 @@ const skills = [
   { name: "Game Architecture", pct: 80, color: "var(--win-purple)" },
   { name: "Studio / Building", pct: 70, color: "var(--win-yellow)" },
   { name: "UI Design", pct: 65, color: "var(--win-pink)" },
-  { name: "DataStore / Backend", pct: 75, color: "var(--win-green)" },
-  { name: "Physics / Constraints", pct: 60, color: "var(--win-orange)" },
 ];
 
 let currentUser = "Guest", currentRating = 0, currentImageData = "";
+
+function copyEmail() {
+  navigator.clipboard.writeText('mandzkie65@gmail.com').then(() => {
+    const toast = document.getElementById('email-toast');
+    toast.style.display = 'block';
+    log("Email copied to clipboard");
+    setTimeout(() => toast.style.display = 'none', 2500);
+  }).catch(() => {
+    prompt("Copy this email:", "mandzkie65@gmail.com");
+  });
+}
 
 /* ═══════════════════════════════════════
    BOOT / LOGIN
