@@ -131,7 +131,6 @@ body {
 }
 #inspector-drawer.open { transform: translateX(0); }
 #drawer-titlebar { background: #000; color: #fff; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; }
-#drawer-close { background:var(--win-red); border:2px solid #fff; color:#fff; width:24px; height:24px; cursor:pointer; }
 
 #player-wrap { 
   position: relative; background: #000; margin: 15px; 
@@ -193,7 +192,7 @@ body {
 </div>
 
 <div id="inspector-drawer">
-  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()">✕</button></div>
+  <div id="drawer-titlebar"><span>SYSTEM_INSPECTOR_V2.0</span><button id="drawer-close" onclick="closeDrawer()" style="background:var(--win-red); color:#fff; border:2px solid #fff; width:24px; cursor:pointer;">✕</button></div>
   <div id="player-wrap">
     <video id="main-player" controls autoplay muted loop></video>
     <div id="no-signal"><div style="font-size:30px;">📡</div><p style="font-family:'Share Tech Mono'; font-size:11px;">FEED_UNAVAILABLE</p></div>
@@ -218,7 +217,14 @@ body {
       <div class="title-bar"><span>USER_IDENTITY.INF</span></div>
       <div class="profile-body">
         <div class="profile-avatar">K</div>
-        <div class="profile-info"><h1>KCHOR</h1><p style="font-family:'Share Tech Mono'; font-size:12px;">Systems Architect & Backend Lead</p><span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span></div>
+        <div class="profile-info">
+            <h1>KCHOR</h1>
+            <p style="font-family:'Share Tech Mono'; font-size:12px;">Systems Architect & Backend Lead</p>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <span class="status-badge">● STATUS: READY_FOR_COMMISSIONS</span>
+                <a href="https://www.roblox.com/users/2208076632/profile" target="_blank" class="btn-pixel" style="background:var(--win-blue); font-size:12px; text-decoration:none; color:#000; padding:2px 8px; margin-top:8px; display:inline-block;">ROBLOX PROFILE</a>
+            </div>
+        </div>
         <p style="width:100%; font-family:'Share Tech Mono'; font-size:12px; line-height:1.6; margin-top:10px; color:#444;">Expert in building high-performance Roblox systems. Specializing in optimized, modular code structures.</p>
       </div>
     </div>
